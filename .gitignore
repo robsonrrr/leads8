@@ -1,0 +1,37 @@
+# Vendor directory
+vendor/
+leads6/vendor/
+
+# Composer files
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+logs/
+*.log
+
+# Cache files
+cache/
+tmp/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+
+# Configuration files with secrets
+config/database.php
+config/auth.php

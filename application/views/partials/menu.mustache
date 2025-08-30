@@ -1,0 +1,164 @@
+<div class="container-fluid">
+    <div class="row">
+        <ul class="col-12">
+            <li class="list-group-item list-group-item-dark p-2 order-2 rounded-0">
+                <p class="p-0 pb-1 m-0"><img width="20" src="{{CONTAINER}}img/icons8-services-40.png"> Logística:</p>
+            </li>
+            <li class="list-group-item p-2 order-6 rounded-0 d-none">
+                <span class=""><i class="fas fa-building"></i> Emitente: <i class="fas text-danger fa-question-circle" data-poload="{{CONTAINER}}helper/unity/?clienteID={{clientePOID}}"></i></span>
+                <select class="form-control input-sm select2-ajax" data-recalculate="true" data-field="unidadeEmitentePOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/emit/">
+                    {{#Emitente}}<option value="{{emitenteFantasia}}" selected="selected">{{emitenteFantasia}}</option>{{/Emitente}}
+                </select>
+            </li>
+            <li class="list-group-item p-2 rounded-0">
+                <p class="p-1 m-0"><i class="fas fa-truck"></i> Coleta: <i class="fas text-danger fa-question-circle" data-poload="{{CONTAINER}}helper/transporter/?clienteID={{clientePOID}}"></i></p>
+                <select class="form-control form-control-sm select2-ajax" data-recalculate="false" data-field="transportadoraPOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/auto/transporter_{{Emitente.emitenteUF}}/">
+                    {{#Transportadora}}<option value="{{transportadoraNome}}" selected="selected">{{transportadoraNome}} - {{transportadoraCidade}} - {{transportadoraEstado}}</option>{{/Transportadora}}
+                </select>
+                <span class="font11">
+                    <a href="#" class="color-primary" data-toggle="modal" data-title="Simulador Correios" data-target="#remoteModal"
+                       data-remote="/crm/servicos/correio/simular?origem={{unidadeEmitentePOID}}&destino={{Cliente.clienteCep}}&peso={{Total.peso}}&valor={{Total.bruto}}">
+                        Simulador correio
+                    </a>
+                </span>
+                {{#distance}}
+                <div class="pt-2">
+                    <p class="p-0 m-0">
+                        <strong>Distância do Cliente:</strong>
+                    </p>
+                    {{#distance_from_0370}}<p class="font11"> Loja: {{distance_from_0370}} </p>{{/distance_from_0370}}
+                    {{#distance_from_0885}}<p class="font11"> Barra Funda: {{distance_from_0885}} </p>{{/distance_from_0885}}
+                    {{#distance_from_0109}}<p class="font11"> Matriz: {{distance_from_0109}} </p>{{/distance_from_0109}}
+                    {{#distance_from_0613}}<p class="font11"> Blumenau: {{distance_from_0613}} </p>{{/distance_from_0613}}
+                </div>
+                {{/distance}}
+            </li>
+
+            <li class="list-group-item p-2 order-6 rounded-0">
+                <span class="">Tipo Frete:</span>
+                <select class="form-control input-sm update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="tipoFrete">
+                    <option value="1" {{#FOB}}selected="selected"{{/FOB}} >FOB (por conta do cliente)</option>
+                    <option value="2" {{#CIF}}selected="selected"{{/CIF}}>CIF ( conta da Rolemak)</option>
+                </select>
+            </li>
+        </ul>
+        <ul class="col-12">
+            <li class="list-group-item list-group-item-dark p-2 order-2 rounded-0">
+                <p class="p-0 pb-1 m-0"><img width="20" src="{{CONTAINER}}img/icons8-services-40.png"> Operação:</p>
+            </li>
+            <li class="list-group-item p-2 rounded-0">
+                <p class="p-1 m-0"><i class="far fa-calendar-alt"></i> Data Criado</p>
+                {{dataEmissaoFormatado}} - {{dataEmissaoDias}} dia(s)
+            </li>
+            <li class="list-group-item p-2 rounded-0">
+                <p class="p-1 m-0"><i class="far fa-calendar-alt"></i> Data p/ Entrega</p>
+                <input type="date" class="form-control form-control-sm font-weight-bold update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="dataEntrega" value="{{dataEntregaFormatado}}" />
+            </li>
+            {{#machines}}
+            <li class="list-group-item p-2 order-5 rounded-0">
+                <span class=""><i class="fas fa-sitemap"></i> Operação <small class="text-muted">(NOP)</small>:</span>
+                <select class="form-control input-sm select2-ajax" data-recalculate="true" data-field="naturezaOperacaoPOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/nop/">
+                    {{#Natureza}}<option value="{{naturezaOperacao}}" selected="selected">{{naturezaOperacao}}</option>{{/Natureza}}
+                </select>
+            </li>
+            {{/machines}}
+        </ul>
+        <ul class="col-12">
+            <li class="list-group-item list-group-item-dark p-2 order-2 rounded-0">
+                <p class="p-0 pb-1 m-0"><img width="20" src="{{CONTAINER}}img/icons8-services-40.png"> Prazo e Pagamento:</p>
+            </li>
+
+            <li class="list-group-item p-2 order-7 rounded-0">
+                <span class=""><i class="fas fa-money-bill-alt"></i> Pagamento: <i class="fas text-danger fa-question-circle" data-poload="{{CONTAINER}}helper/payment/?clienteID={{clientePOID}}"></i></span>
+                <select class="form-control input-sm select2-ajax" data-recalculate="true" data-field="tipoPagamentoPOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/fp/">
+                    {{#TipoPagamento}}<option value="{{pagamentoDescricao}}" selected="selected">{{pagamentoDescricao}}</option>{{/TipoPagamento}}
+                </select>
+            </li>
+            <li class="list-group-item p-2 order-8 rounded-0">
+                <span class=""><i class="fas fa-business-time"></i> Prazo: <i class="fas text-danger fa-question-circle" data-poload="{{CONTAINER}}helper/terms/?clienteID={{clientePOID}}"></i></span>
+                <select class="form-control input-sm select2-ajax" data-recalculate="false" data-field="prazoPagamentoVezes" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/prazo/{{Lead.segmentoPOID}}">
+                    {{#Prazo}}<option value="{{PrazoTermos}}" selected="selected">{{PrazoTermos}}</option>{{/Prazo}}
+                </select>
+            </li>
+            {{#SESSION.acessoGerencial}}
+            <li class="list-group-item p-2 order-2 rounded-0">
+                <p class="p-0 m-0 text-danger" data-toggle="tooltip" data-placement="left" title="ID:{{Vendedor.id}}"><i class="fas fa-user"></i> Vendedor:</p>
+                <select class="form-control form-control-sm select2-ajax" data-recalculate="false" data-field="vendedorPOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/vd/">
+                    <option value="{{Vendedor.UsuarioNomeCurto}}" selected="selected">{{Vendedor.UsuarioNomeCurto}}</option>
+                </select>
+            </li>
+            {{/SESSION.acessoGerencial}}
+        </ul>
+        <ul class="col-12">
+            <li class="list-group-item list-group-item-dark p-2 order-2 rounded-0">
+                <p class="p-0 pb-1 m-0"><img width="20" src="{{CONTAINER}}img/icons8-cash-in-hand-40.png"> Desconto Cliente:</p>
+            </li>
+            <li class="list-group-item p-2 order-3 rounded-0">
+                {{#Cliente}}
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Desconto</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteDesconto}}%</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Desconto Autopeças</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteDescontoMakAutomotive}}%</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Sobretaxa</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteSobretaxa}}%</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Juros</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteJuros}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Desconto por Pedido</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteDescontoPedido}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {{/Cliente}}
+            </li>
+        </ul>
+        <ul class="col-12">
+            <li class="list-group-item list-group-item-dark p-2 order-2 rounded-0">
+                <p class="p-0 pb-1 m-0"><img width="20" src="{{CONTAINER}}img/icons8-cash-in-hand-40.png"> Situação Fiscal:</p>
+            </li>
+            <li class="list-group-item p-2 order-3 rounded-0">
+                {{#Cliente}}
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Isento ST</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteIsentoSt}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Isento IPI</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteIsentoIPI}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Tipo Pessoa</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteTipoPessoa}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Regime Fiscal</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteRegimeFiscal}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">ICMSST Especial</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteICMSSTEspecial}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="" class="border-bottom bg-light font11 align-middle">Suframa</td>
+                            <td class="border-bottom font-weight-bold text-right">{{clienteSuframa}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {{/Cliente}}
+            </li>
+        </ul>
+
+    </div>
+</div>

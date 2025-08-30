@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {{> partials/header}}
+    </head>
+    <body>
+        <div class="container">
+            <h1>
+                Lead número: {{leadID}}
+            </h1>
+            <p>
+                Escolha qual a finalidade do seu pedido.
+            </p>
+            <div class="row">
+                {{#SESSION}}
+                {{#acessoPecas}}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-pecas.jpg"><div class="card-body">
+                        <p class="card-text">Peças e Acessórios</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="/leads4/{{leadID}}/3" class="btn btn-sm btn-outline-primary">Emitir</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-maquinas.jpg">
+                        <div class="card-body">
+                            <p class="card-text">Máquina de Costura</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/leads4/{{leadID}}/1" class="btn btn-sm btn-outline-primary">Emitir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/acessoPecas}}
+
+                {{#acessoMaquinas}}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-pecas.jpg"><div class="card-body">
+                        <p class="card-text">Peças e Acessórios</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="/leads4/{{leadID}}/3" class="btn btn-sm btn-outline-primary">Emitir</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-maquinas.jpg">
+                        <div class="card-body">
+                            <p class="card-text">Máquina de Costura</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/leads4/{{leadID}}/1" class="btn btn-sm btn-outline-primary">Emitir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/acessoMaquinas}}
+
+                {{#acessoMotopecas}}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text">Motopeças</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/leads4/{{leadID}}/6" class="btn btn-sm btn-outline-primary">Emitir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/acessoMotopecas}}
+
+                {{#acessoAutopecas}}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text">Autopeças</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/leads4/{{leadID}}/5" class="btn btn-sm btn-outline-primary">Emitir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/acessoAutopecas}}
+
+                {{#acessoRolamentos}}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-rolamentos.jpg">
+                            <p class="card-text">Rolamentos</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/leads4/{{leadID}}/6" class="btn btn-sm btn-outline-primary">Emitir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/acessoRolamentos}}
+                {{/SESSION}}
+            </div>
+        </div>
+    </body>
+</html>
+
+
+

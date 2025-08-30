@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Nota Fiscal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <style>
+
+            table{
+                width: 800px;
+                max-width: 800px;
+                border-collapse: separate !important;
+                border-spacing: 0;
+            }
+
+            th, td {
+                border: 1px solid #575757;
+            }
+
+            td {
+                border-bottom: 1px dashed #dee2e6;
+                border-top: 0px dashed #dee2e6;
+                font-size: 11px;
+            }
+
+            table tr:last-child td{
+                border-bottom: 1px solid #575757;
+            }
+
+            .col-05{
+                -webkit-box-flex:0;
+                -ms-flex:0 0 4.166666%;
+                flex:0 0 4.166666%;
+                max-width:4.166666%
+            }
+
+            table tr th {
+                background: #eee;
+                text-align: center;
+            }
+
+            /* top-left border-radius*/
+            table tr:first-child th:first-child {
+                border-top-left-radius: 6px;
+            }
+
+            /* top-right border-radius */
+            table tr:first-child th:last-child {
+                border-top-right-radius: 6px;
+            }
+
+            /* bottom-left border-radius*/
+            table tr:last-child td:first-child {
+                border-bottom-left-radius: 6px;
+            }
+
+            /* bottom-right border-radius*/
+            table tr:last-child td:last-child {
+                border-bottom-right-radius: 6px;
+            }
+
+
+
+            hr.dashed {
+                border-top: 2px dashed #c3c7ca;
+            }
+
+            .border{
+                border: 2px solid #575757 !important;
+                border-radius: 3px;
+            }
+
+            .border-sm{
+                border: 1px solid #575757 !important;
+                border-radius: 3px;
+            }
+
+            .line-sm{
+                line-height: 85%;
+            }
+
+            .font_13{
+                font-size: 13.1px;
+                font-weight: bold;
+            }
+
+            .font_09{
+                font-size: 9px;
+                font-weight: bold;
+            }
+
+            .font_10{
+                font-size: 10px;
+            }
+
+            .font_10b{
+                font-size: 10px;
+                font-weight: bolder;
+            }
+
+            .font_08{
+                font-size: 8px;
+            }
+
+            .font_07{
+                font-size: 7px;
+            }
+            .font_17{
+                font-size: 17px;
+                font-weight: bold;
+            }
+
+            .font_15{
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+
+        </style>
+    </head>
+
+    <body>
+        {{#Lead}}
+        <div class="container mt-4" style="width: 800px; height: 1131px;">
+            <div class="row">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col border">
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 border">
+                            <br>
+                            <br>
+                        </div>
+                        <div class="col border">
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="col border">
+                    <br>
+                </div>
+            </div>
+            <hr class="dashed">
+
+            <div class="row">
+                <div class="col-5 border text-center">
+                    <p class="font_08 mb-2" style="font-style: italic;">IDENTIFICAÇÃO DO EMITENTE</p>
+                    <!--<img class="mb-2" src="{{ENV.cdn}}media/rolemak-preto.png" width="270" height="40">//-->
+
+                    <p class="font_17 mb-0 pt-5">{{Cliente.clienteNome}}</p>
+                    <p class="font_10 mb-0">{{Cliente.clienteEndereco}}, {{Cliente.clienteNumero}}</p>
+                    <p class="font_10 mb-0">{{Cliente.clienteBairro}} - {{Cliente.clienteCep}}</p>
+                    <p class="font_10 mb-0">{{Cliente.clienteCidade}} - {{Cliente.clienteBairro}}</p>
+                </div>
+                <div class="col-2 border">
+                    <div class="row mb-3">
+                        <div class="col line-sm p-0 pl-1">
+                            <p class="text-center font_15 p-0 pl-1 mb-0">DANFE</p>
+                            <p class="text-center font_10 mb-0">Documento Auxiliar da Nota</p>
+                            <p class="text-center font_10 mb-0">Fiscal Eletrônica</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-8 line-sm p-0 pl-1">
+                            <p class="text-left font_10 mb-0">0 - ENTRADA</p>
+                            <p class="text-left font_10 mb-0">1 - SAÍDA</p>
+                        </div>
+                        <div class="col-2">
+                            <span class="border font_17 p-1">1</span>
+                        </div>
+                    </div>
+                    <div class="row mb-0">
+                        <div class="col line-sm mb-0 p-0 pl-1">
+                            <p class="text-center font_13 mb-0">Nº. xxx.xxx.xxx</p>
+                            <p class="text-center font_13 mb-0">Série 001</p>
+                            <p class="text-center font_10 mb-0" style="font-style: italic;">Folha 1/1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col border">
+                            <img src="https://static.vecteezy.com/system/resources/previews/001/199/360/non_2x/barcode-png.png" width="300" height="80">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border p-0 pl-1">
+                            <p class="text-left font_08 mb-0">CHAVE DE ACESSO</p>
+                            <p class="text-center font_10b mb-0">&nbsp;</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border">
+                            <p class="text-center font_10 mb-0">Consulta de autenticidade no portal nacional da NF-e</p>
+                            <p class="text-center font_10 mb-0"><a href="www.nfe.fazenda.gov.br/portal">www.nfe.fazenda.gov.br/portal</a> ou no site da Sefaz Autorizadora</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">NATUREZA DA OPERAÇÃO</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Natureza.naturezaOperacaoNotaFiscaL}}</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">PROTOCOLO DE AUTORIZAÇÃO DE USO</p>
+                    <p class="text-left  font_13 mb-0"></p>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">INSCRIÇÃO ESTADUAL</p>
+                    <p class="text-left font_13 mb-0">{{Cliente.clienteInscricaoEstadual}}</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">INSCRIÇÃO ESTADUAL DO SUBST. TRIBUT.</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">CNPJ / CPF</p>
+                    <p class="text-left font_13 mb-0">{{Cliente.clienteCnpj}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <span class="font_10b text-left p-0 pl-1">DESTINATÁRIO / REMETENTE</span>
+            </div>
+            <div class="row">
+                <div class="col-7 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">NOME / RAZÃO SOCIAL</p>
+                    <p class="text-left text-danger font_13 mb-0">Rolemak Comercial Ltda</p>
+                </div>
+                <div class="col-3 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">CNPJ / CPF</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteCnpj}}</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">DATA DA EMISSÃO</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">ENDEREÇO</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteLogradouro}}</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">BAIRRO / DISTRITO</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteBairro}}</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">CEP</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteCEP}}</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">DATA DA SAÍDA/ENTRADA</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-6 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">MUNICÍPIO</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteMunicipio}}</p>
+                </div>
+                <div class="col-05 border">
+                    <p class="text-left  font_08 mb-0">UF</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteUF}}</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">FONE / FAX</p>
+                    <p class="text-left text-danger font_13 mb-0"></p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">INSCRIÇÃO ESTADUAL</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Emitente.emitenteIE}}</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">HORA DA SAÍDA/ENTRADA</p>
+                    <p class="text-left text-danger font_13 mb-0"></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <span class="font_10b text-left p-0 pl-1">CÁLCULO DO IMPOSTO</span>
+            </div>
+            <div class="row">  
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_07 mb-0">BASE DE CÁLC. DO ICMS</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.produto}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">VALOR DO ICMS</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.icms}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_07 mb-0">BASE DE CÁLC. ICMS S.T.</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.icms_st}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_07 mb-0">VALOR DO ICMS SUBST.</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.st}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. IMP. IMPORTAÇÃO</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. ICMS UF REMET.</p>
+                    <p class="text-left  font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">VALOR DO FCP</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">VALOR DO PIS</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. TOTAL PRODUTOS</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.produto}}</p>
+                </div>          
+            </div>
+            <div class="row mb-1">  
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">VALOR DO FRETE</p>
+                    <p class="text-left font_13 mb-0">{{Total.frete}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">VALOR DO SEGURO</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">DESCONTO</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">OUTRAS DESPESAS</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">VALOR TOTAL IPI</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.ipi}}</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. ICMS UF DEST.</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. TOT. TRIB.</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">VALOR DA COFINS</p>
+                    <p class="text-left font_13 mb-0">0,00</p>
+                </div>          
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">V. TOTAL DA NOTA</p>
+                    <p class="text-left text-danger font_13 mb-0">{{Total.pedido}}</p>
+                </div>          
+            </div>
+
+            <div class="row">
+                <span class="font_10b text-left p-0 pl-1">TRANSPORTADOR / VOLUMES TRANSPORTADOS</span>
+            </div>
+            <div class="row">
+                <div class="col-4 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">NOME / RAZÃO SOCIAL</p>
+                    <p class="text-left font_13 mb-0">ENTREGA</p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">FRETE</p>
+                    <p class="text-left font_09 mb-0">3-Próprio por conta do Rem</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">CÓDIGO ANTT</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">PLACA DO VEÍCULO</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col-05 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">UF</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">CNPJ / CPF</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-6 border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">ENDEREÇO</p>
+                    <p class="text-left font_13 mb-0">-</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left  font_08 mb-0">MUNICÍPIO</p>
+                    <p class="text-left font_13 mb-0">-</p>
+                </div>
+                <div class="col-05 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">UF</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">INSCRIÇÃO ESTADUAL</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+
+            </div>
+            <div class="row mb-1">
+                <div class="col-1 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">QUANTIDADE</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col-2 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">ESPÉCIE</p>
+                    <p class="text-left font_13 mb-0">caixa</p>
+                </div>
+                <div class="col-3 border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">MARCA</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">NUMERAÇÃO</p>
+                    <p class="text-left font_13 mb-0"></p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">PESO BRUTO</p>
+                    <p class="text-left font_13 mb-0">{{Total.peso}}</p>
+                </div>
+                <div class="col border p-0 pl-1">
+                    <p class="text-left font_08 mb-0">PESO LÍQUIDO</p>
+                    <p class="text-left font_13 mb-0">{{Total.peso}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <span class="font_10b text-left p-0 pl-1">DADOS DOS PRODUTOS / SERVIÇOS</span>
+            </div>
+            <div class="row" style="max-width: 800px; min-height:200px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="p-0 pl-1" style="width: 10%;"><span class="font_07 text-center p-0 pl-1">CÓDIGO PRODUTO</span></th>
+                            <th class="p-0 pl-1" style="width: 20%;"><span class="font_07 text-center p-0 pl-1">DESCRIÇÃO DO PRODUTO / SERVIÇO</span></th>
+                            <th class="p-0 pl-1" style="width: 10%;"><span class="font_07 text-center p-0 pl-1">NCM/SH</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">O/CST</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">CFOP</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">UN</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">QUANT</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">VALOR UNIT</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">VALOR TOTAL</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">B.CALC. ICMS</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">VALOR ICMS</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">VALOR IPI</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">ALÍQ. ICMS</span></th>
+                            <th class="p-0 pl-1"><span class="font_07 text-center p-0 pl-1">ALÍQ. IPI</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Produtos}}
+                        {{#.}}
+                        <tr>
+                            <td class="text-danger">{{POID}}</td>
+                            <td class="text-danger">{{solr.produtoModelo}}</td>
+                            <td class="text-danger">{{solr.produtoNCM}}</td>
+                            <td></td>
+                            <td class="text-danger"> {{cfop}}{{Natureza.naturezaOperacaoCFOP}}</td>
+                            <td>unid</td>
+                            <td>{{produtoQuantidade}}</td>
+                            <td>{{produtoValor}}</td>
+                            <td>{{produtoValorSubtotal}}</td>
+                            <td>{{produtoValorSubtotal}}</td>
+                            <td>{{Impostos.valor_subtotal_icms_proprio}}</td>
+                            <td>{{produtoIPISubtotal}}</td>
+                            <td>{{Impostos.aliquota_icms}}</td>
+                            <td>{{Impostos.aliquota_ipi}}</td>
+
+                        </tr>
+                        {{/.}}
+                        {{/Produtos}}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <span class="font_10b text-left p-0 pl-1">DADOS ADICIONAIS</span>
+            </div>
+            <div class="row" >
+                <div class="col-9 border p-0 pl-1" style="height: 130px;">
+                    <p class="text-left font_10b mb-2">INFORMAÇÕES COMPLEMENTARES</p>
+                    <p class="text-left text-danger font_10b mb-0">Devolução parcial da Nf xxxx de xx/xx/xxxx</p>
+                    <p class="text-left text-danger font_10b mb-0">Base de Calculo ICMS/ST: R$ {{Total.icms_st}}</p>
+                    <p class="text-left text-danger font_10b mb-0">Valor ICMS/ST: R$ {{Total.st}}</p>
+                    <p class="text-left text-danger font_10b mb-0">Valor do IPI: R$ {{Total.ipi}}</p>
+                </div>
+                <div class="col border p-0 pl-1" style="height: 130px;">
+
+                </div>
+
+            </div>
+
+        </div>
+        {{/Lead}}
+    </body>
+</html>

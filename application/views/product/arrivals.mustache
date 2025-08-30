@@ -1,0 +1,47 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <!--<th scope="col">data</th>//-->
+            <th scope="col">Processo</th>
+            <th scope="col">Invoice</th>
+            <th scope="col">Data</th>
+            <th scope="col">modelo</th>
+            <th scope="col">Previsão</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Pré-venda</th>
+            <th scope="col">saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#response}}
+        {{#check}}
+        <tr>
+            <th scope="row">{{count}}</th>
+            <!--<td>{{data}}</td>//-->
+            <td>{{invoice}}</td>
+            <td>{{shipmentID}}</td>
+            <td>{{arrival}}</td>
+            <td>{{modelo}}</td>
+            <td>{{Dias}} dia(s)</td>
+            <td>{{quant}}</td>
+            <td>{{PreSale}}</td>
+            <td>{{saldo}}</td>
+        </tr>
+        {{/check}}
+        {{/response}}
+        {{^response}}
+        <tr>
+            <td colspan="9">Sem Historico desse item</td>
+        </tr>
+        {{/response}}
+    </tbody>
+    {{#total}}
+    <tfoot>
+        <tr>
+            <td colspan="8">Total</td>
+            <td class="font-20 lead font-weight-bolder">{{total}}</td>
+        </tr>
+    </tfoot>
+    {{/total}}
+</table>

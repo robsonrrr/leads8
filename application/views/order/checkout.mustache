@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {{> partials/header}}
+    </head>
+    <body>
+        {{#Lead}}
+        <input type="hidden" value="{{id}}" name="leadID" id="leadID" />
+        <input type="hidden" value="{{segmentoPOID}}" name="segmentoPOID" id="segmentoPOID" />
+
+        {{> partials/fixed-top}}
+
+        <div class="container-fluid">
+
+            <div class="col-12">
+                <h1 class="m-0 p-0">
+                    Confirmação do Lead para Emissão do Pedido
+                </h1>
+            </div>
+
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}">Voltar</a></li>
+                    <li class="breadcrumb-item active">Confirmação</li>
+                </ol>
+            </nav>
+
+            <div class="row">
+
+                {{#error}}
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Verificar Erro!</h4>
+                        {{#error_1}}
+                        <p>Favor Verificar o <strong>limite disponível</strong>. Valor do pedido é maior que o limite.</p>
+                        <hr>
+                        <p class="mb-0">Entrar em contato com seu gerente para resolver ou financeiro.</p>
+                        {{/error_1}}
+                        {{#error_2}}
+                        <p>Favor Verificar os <strong>Produtos sem estoque</strong>.</p>
+                        <hr>
+                        <p class="mb-0">para prosseguir com o pedido é necessário remover os produtos na tela anterior. <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}">clique aqui para voltar</a></p>
+                        {{/error_2}}
+                        {{#error_3}}
+                        <p>Favor Verificar a <strong>Data de Entrega</strong>.</p>
+                        <hr>
+                        <p class="mb-0">O Valor não pode ser menor que hoje <trong>{{today}}</trong>.</p>
+                        {{/error_3}}
+                        {{#error_3}}
+                        <p>Favor Verificar a <strong>Produto com Quantidade 0 no seu Lead</strong>.</p>
+                        <hr>
+                        <p class="mb-0">O Valor não pode ser menor que 1, volte para a página inicial do Lead e faça as correções.</p>
+                        {{/error_3}}
+                        {{#error_4}}
+                        <p>Favor Verificar a <strong>esse Lead já foi usado.</strong>.</p>
+                        <hr>
+                        <p class="mb-0">Se deseja gerar outro pedido, favor criar outro LEAD.</p>
+                        {{/error_4}}
+                        {{#error_5}}
+                        <p>Favor Verificar a forma de coleta <strong>valor abaixo do estipulado</strong>.</p>
+                        <hr>
+                        <p class="mb-0">Valor para entrega tem que acima de R$ 800,00 em produtos</p>
+                        {{/error_5}}
+                        {{#error_6}}
+                        <p>Favor Natureza de Operação</p>
+                        {{/error_6}}
+                        {{#error_7}}
+                        <p>Cliente só pode comprar à vista</p>
+                        {{/error_7}}
+                        {{#error_8}}
+                        <p>Produto de venda para o Cliente do Cliente está zerado</p>
+                        {{/error_8}}
+
+                        {{#error_9}}
+                        <p>Operação de Pagamento não permitida para Prazo Mesmo do Pedido</p>
+                        {{/error_9}}
+
+                        {{#error_10}}
+                        <p>Operação de Pagamento não permitida para Boleto</p>
+                        {{/error_10}}
+
+                        {{#error_11}}
+                        <p>Operação de Pagamento não permitida para máquinas</p>
+                        {{/error_11}}
+
+                        {{#error_12}}
+                        <p>Operação de Pagamento (Prazo) não permitida para Dinheiro, PIX e Cartão</p>
+                        {{/error_12}}
+
+                        {{#error_13}}
+                        <p>Operação de Pagamento não permitida para Dinheiro com produto Parcelado</p>
+                        {{/error_13}}
+
+                        {{#error_14}}
+                        <p>Operação de Pagamento não permitida, com produto parcelado</p>
+                        {{/error_14}}
+
+                        {{#error_15}}
+                        <p>Operação de Pagamento não permitida, com produto a vista</p>
+                        {{/error_15}}
+
+                        {{#error_15}}
+                        <p>Operação de Pagamento não permitida, com produto a prazo para pagamento a vista</p>
+                        {{/error_15}}
+
+                        {{#error_17}}
+                        <p>Operação de Pré-venda não permitido, verificar unidade logistica. Somente Barra Funda ou Blumenau (unidades 6 ou 8) Pré-venda</p>
+                        {{/error_17}}
+
+                        {{#error_20}}
+                        <p>Produto de venda para o Cliente do Cliente está zerado</p>
+                        {{/error_20}}
+
+                        {{#error_21}}
+                        <p>Produto de venda para o Cliente do Cliente está zerado</p>
+                        {{/error_21}}
+                    </div>
+                </div>
+                {{/error}}
+            </div>
+        </div>
+
+
+        <div class="d-flex">
+            <div class="leadMenu" id="leadMenu">
+                {{> partials/menu}}
+            </div>
+
+            <div class="w-100">
+                <div class="">
+                    <!--
+                    ┌──────────────────────────────────────────────────────────────────────────────┐
+                    │ Produtos do Pedido:                                                          │
+                    └──────────────────────────────────────────────────────────────────────────────┘
+                    //-->
+                    <div class="col-xs-12 col-lg-12">
+                        <table class="table table-sm table-bordered table-striped" id="">
+                            <thead class="thead-custom">
+                                <tr>
+                                    <th width="1%" class="align-middle text-center" scope="col">#</th>
+                                    <th class="align-middle" scope="col">IMG</th>
+                                    <th class="align-middle" scope="col">Produto</th>
+                                    <th class="align-middle" scope="col">Marca</th>
+                                    <th class="align-middle text-center" scope="col">Peso</th>
+                                    <th class="align-middle text-center" scope="col">Qtd.</th>
+                                    <th class="align-middle text-center" scope="col">Vezes.</th>
+                                    <th class="align-middle text-right" scope="col">Valor Venda</th>
+                                    <th class="align-middle text-right" scope="col">ST</th>
+                                    <th class="align-middle text-right" scope="col">IPI</th>
+                                    <th class="align-middle text-right">Desconto %</th>
+                                    <th class="align-middle text-right">Frete</th>
+                                    <th class="align-middle text-right">Subtotal R$</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#Produtos}}
+                                <tr id="colunm_{{POID}}" class="{{#produtoIndisponivel}}table-danger{{/produtoIndisponivel}}">
+                                    <th class="align-middle text-center" width="1%" scope="row">{{produtoContagem}}</th>
+                                    <td class="align-middle text-center" width="1%">
+                                        <span data-placement="right" data-toggle="popover" data-delay="500" data-trigger="hover" title="{{produtoModelo}}"
+                                              data-content="<img src='{{ENV.img}}id/w400/{{produtoPOID}}.jpg?version={{version}}'>" data-html="true">
+                                            <img src="{{ENV.img}}id/w60/{{produtoPOID}}.jpg?version={{VERSION}}">
+                                        </span>
+                                    </td>
+                                    <td class="align-middle font12" width="20%">
+                                        <p class="p-0 m-0"><strong><a class="color-primary" href="{{CONTAINER}}{{id}}?q={{Detalhe.produtoModelo}}">{{Detalhe.produtoModelo}} </a> </strong></p>
+                                        <p class="p-0 m-0">{{Detalhe.produtoNome}} </p>
+                                        <p class="p-0 m-0">{{Detalhe.produtoPeso}} {{#solr.produtoEmbalagem}}- {{solr.produtoEmbalagem}} {{/solr.produtoEmbalagem}}</p>
+                                    </td>
+                                    <td class="align-middle" width="5%"><img width="50" src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}"/></td>
+                                    <td class="align-middle text-center" width="1%">{{Detalhe.produtoPeso}}</td>
+                                    <td class="align-middle text-center" width="8%">{{produtoQuantidade}} </td>
+                                    <td class="align-middle text-center" width="8%">{{produtoVezes}} </td>
+                                    <td class="align-middle text-right" width="10%">{{produtoValorSubtotal}} <small class="text-muted">( {{produtoValor}} unit.)</small></td>
+                                    <td class="align-middle text-right" width="10%">{{produtoSTSubtotal}} <small class="text-muted">({{produtoST}} unit.)</small></td>
+                                    <td class="align-middle text-right" width="10%">{{produtoIPISubtotal}} <small class="text-muted">({{produtoIPI}} unit.)</small></td>
+                                    <td class="align-middle text-right" width="6%">{{produtoDescontoPorcentagem}}</td>
+                                    <td class="align-middle text-right" width="10%">{{produtoFrete}}</td>
+                                    <td class="align-middle text-right" width="10%"><span class="">{{produtoValorSubtotalComImpostos}}</span> <small class="text-muted">({{produtoValorUnitarioComImpostos}} unit.)</small></td>
+
+                                </tr>
+                                {{/Produtos}}
+                                {{^Produtos}}
+                                <tr>
+                                    <td colspan="15" class="text-center my-5 p-5">
+                                        <p>
+                                            <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="300" />
+                                        </p>
+                                        <p class="h4 text-muted">Seu Carrinho está vazio!</p>
+                                    </td>
+                                </tr>
+                                {{/Produtos}}
+                            </tbody>
+                            {{#Total}}
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Subtotal Produto</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{produto}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Subtotal IPI</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{ipi}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Subtotal ST</td>
+                                    <td colspan="1" class="align-middle text-right font-weight-bold lead p-2">{{st}}</td>
+                                </tr>
+                                {{#Cliente.clienteDifal}}
+                                <tr>
+                                    <td colspan="10"></td>s
+                                    <td colspan="2" class="align-middle text-right">Subtotal Difal</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{difal}}</td>
+                                </tr>
+                                {{/Cliente.clienteDifal}}
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Frete</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{frete}}</td>
+                                </tr>
+
+                                {{#machines}}
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Valor de Comissão para<br> Revendedor de Máquina</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{comissao}}</td>
+                                </tr>
+                                {{/machines}}
+
+                                <tr>
+                                    <td colspan="10"></td>
+                                    <td colspan="2" class="align-middle text-right">Total Pedido</td>
+                                    <td colspan="" class="align-middle text-right font-weight-bold lead p-2">{{pedido}}</td>
+                                </tr>
+                            </tfoot>
+                            {{/Total}}
+                        </table>
+
+                        <div class="">
+                            <a type="_self" href="{{CONTAINER}}order/generate/{{id}}/{{segmentoPOID}}" class="btn btn-block btn-lg btn-custom btn-primary font-weight-bold mt-1 addOrder">
+                                <i class="fas fa-caret-right"></i> Concluir Pedido
+                            </a>
+                        </div>
+
+                        <!--<form id="formOrder">
+                        <input type="hidden" name="cOrder" value="teste">
+                        <button onclick="window.location.href='{{CONTAINER}}order/generate/{{id}}/{{segmentoPOID}}'" type="submit" class="btn btn-block btn-lg btn-custom btn-success font-weight-bold mt-1 addOrder">
+                        <i class="fas fa-lg fa-clipboard-check"></i> Concluir Pedido
+                        </button>
+                        </form>//-->
+
+                    </div>
+
+
+                    <div class="col-xs-12 col-lg-12">
+                        <div class="row">
+                            <!--
+                            ┌──────────────────────────────────────────────────────────────────────────────┐
+                            │ Detalhes de Cliente do Pedido                                                │
+                            └──────────────────────────────────────────────────────────────────────────────┘
+                            //-->
+                            <ul class="col-12 my-2">
+                                <li class="list-group-item p-2 order-2 rounded-0">
+                                    <p class="p-0 pb-1 m-0 lead"><img width="20" src="{{CONTAINER}}img/icons8-manager-40.png"> Detalhes do Cliente do Pedido:</p>
+                                </li>
+                                <li class="list-group-item p-2 order-3 rounded-0">
+                                    {{#Cliente}}
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12 align-middle">Nome:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteNome}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">CNPJ:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteCnpj}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Endereço de Entrega:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteEndereco}}, {{clienteNumero}} - {{clienteBairro}} - {{clienteCidade}} - {{clienteEstado}}</td>
+                                        </tr>
+                                    </table>
+                                    {{/Cliente}}
+                                </li>
+                            </ul>
+
+                            {{#ClienteDoCliente}}
+                            <ul class="col-12 my-2">
+                                <li class="list-group-item p-2 order-2 rounded-0">
+                                    <p class="p-0 pb-1 m-0 lead"><img width="20" src="{{CONTAINER}}img/icons8-manager-40.png"> Detalhes do Cliente do Cliente do Pedido:</p>
+                                </li>
+                                <li class="list-group-item p-2 order-3 rounded-0">
+
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12 align-middle">Nome:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteNome}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">CNPJ / CPF :</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteCnpj}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Endereço de Entrega:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{clienteEndereco}}, {{clienteNumero}} - {{clienteBairro}} - {{clienteCidade}} - {{clienteEstado}}</td>
+                                        </tr>
+                                    </table>
+                                </li>
+                            </ul>
+                            {{/ClienteDoCliente}}
+
+
+                            <!--
+                            ┌──────────────────────────────────────────────────────────────────────────────┐
+                            │ Detalhes sobre Pedido:                                                       │
+                            └──────────────────────────────────────────────────────────────────────────────┘
+                            //-->
+                            <ul class="col-4 my-2">
+                                <li class="list-group-item p-2 order-2 rounded-0">
+                                    <p class="p-0 pb-1 m-0 lead"><img width="20" src="{{CONTAINER}}img/icons8-purchase-order-40.png"> Detalhes sobre Pedido:</p>
+                                </li>
+                                <li class="list-group-item p-2 order-3 rounded-0">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12">Criado em</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{dataEmissaoFormatado}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Vendedor:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Cliente.Gerente.UsuarioNomeCurto}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Emissor:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{SESSION.MM_Nick}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Peso (estimado):</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Total.peso}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Total peças:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Total.quantidade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Volume:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Total.variedade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Margem Desconto:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Total.mdpedido}}%</td>
+                                        </tr>
+                                        <!--<tr>
+<td scope="" class="border-bottom bg-light font12 align-middle">Minha Comissão será:</td>
+<td class="border-bottom font-weight-bold text-right text-danger">{{Vendedor.Comissao}}% ( {{Vendedor.Ganhos}} )</td>
+</tr>//-->
+                                        <!--<tr>
+<td scope="" class="border-bottom bg-light font12 align-middle">Observação interna do Pedido: (em teste)</td>
+<td class="border-bottom font-weight-bold text-right">
+<textarea class="form-control update" data-url="/leads3/lead/update/Leads/{{id}}" name="observacaoInterna" id="observacaoInterna" rows="3">{{observacaoInterna}}</textarea>
+</td>
+</tr>//-->
+                                    </table>
+                                </li>
+                            </ul>
+
+                            <!--
+                            ┌──────────────────────────────────────────────────────────────────────────────┐
+                            │ Detalhes de Pagamento do Pedido                                              │
+                            └──────────────────────────────────────────────────────────────────────────────┘
+                            //-->
+                            <ul class="col-4 my-2">
+                                <li class="list-group-item p-2 order-2 rounded-0">
+                                    <p class="p-0 pb-1 m-0 lead"><img width="20" src="{{CONTAINER}}img/icons8-cash-in-hand-40.png"> Detalhes de Pagamento do Pedido:</p>
+                                </li>
+                                <li class="list-group-item p-2 order-3 rounded-0">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12">Limite Total</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Financeiro.limite}}</td>
+                                        </tr>
+                                        {{#Financeiro}}
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12">Limite Disponível</td>
+                                            <td class="border-bottom font-weight-bold text-right {{#autorizado}}text-success{{/autorizado}}{{^autorizado}}text-danger{{/autorizado}}">
+                                                {{disponivel}}
+                                            </td>
+                                        </tr>
+                                        {{/Financeiro}}
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12">Pagamento</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{TipoPagamento.pagamentoDescricao}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Prazo</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Prazo.PrazoTermos}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12 align-middle">Observação p/ financeiro:</td>
+                                            <td class="border-bottom font-weight-bold text-right">
+                                                <textarea class="form-control update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="observacaoFinaceiro" id="observacaoFinaceiro" rows="3">{{observacaoFinaceiro}}</textarea>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </li>
+                            </ul>
+
+                            <!--
+                            ┌──────────────────────────────────────────────────────────────────────────────┐
+                            │ Detalhes de Transporte do Pedido                                             │
+                            └──────────────────────────────────────────────────────────────────────────────┘
+                            //-->
+                            <ul class="col-4 my-2">
+                                <li class="list-group-item p-2 order-2 rounded-0">
+                                    <p class="p-0 pb-1 m-0 lead"><img width="20" src="{{CONTAINER}}img/icons8-truck-40.png"> Detalhes de Transporte do Pedido:</p>
+                                </li>
+                                <li class="list-group-item p-2 order-3 rounded-0">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td width="40%" scope="" class="border-bottom bg-light font12 align-middle">Unidade logística:</td>
+                                            <td class="border-bottom font-weight-bold text-right">{{Emitente.emitenteFantasia}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12">Transporte:</td>
+                                            <td class="border-bottom font-weight-bold text-right">
+                                                {{Transportadora.transportadoraNome}}<br>
+                                                {{Transportadora.transportadoraCnpj}}<br>
+                                                {{Transportadora.transportadoraTelefone}}
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+<td scope="" class="border-bottom bg-light font12 align-middle">Data para entrega:</td>
+<td class="border-bottom font-weight-bold text-right"><input type="date" class="form-control form-control-sm text-right font-weight-bold" name="dataEntrega" value="{{dataEntregaFormatado}}" /></td>
+</tr>//-->
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12 align-middle">Observação p/ logística:</td>
+                                            <td class="border-bottom font-weight-bold text-right">
+                                                <textarea class="form-control update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="observacaoLogistica" id="observacaoLogistica" rows="3">{{observacaoLogistica}}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12 align-middle">Ordem de Compra:</td>
+                                            <td class="border-bottom font-weight-bold text-left"><input type="text" class="form-control form-control-sm text-right font-weight-bold update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="ordemDeCompra" value="{{ordemDeCompra}}" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12 align-middle">Nome Comprador</td>
+                                            <td class="border-bottom font-weight-bold text-left"><input type="text" class="form-control form-control-sm text-right font-weight-bold update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="nomeComprador" value="{{nomeComprador}}" /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td scope="" class="border-bottom bg-light font12 align-middle">Número da Invoice</td>
+                                            <td class="border-bottom font-weight-bold text-left"><input type="text" class="form-control form-control-sm text-right font-weight-bold update" data-url="/leads/leads5/lead/update/Leads/{{id}}" name="observacaoNotaFiscal" value="{{observacaoNotaFiscal}}" /></td>
+                                        </tr>
+                                    </table>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{/Lead}}
+
+        <!-- remoteModal -->
+        <div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="remoteModalLabel"> teste </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{> partials/footer}}
+
+    </body>
+</html>

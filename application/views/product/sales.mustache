@@ -1,0 +1,49 @@
+<table class="table table-bordered table-striped tablesorter">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">data</th>
+            <th scope="col">modelo</th>
+            <th scope="col">cliente</th>
+            <th scope="col">segmento</th>
+            <th scope="col">estado</th>
+            <th scope="col">rfm</th>
+            <th scope="col">pedido</th>
+            <th scope="col">Emitente</th>
+            <th scope="col">quant</th>
+            <th scope="col">valor</th>
+            <th scope="col">valor_base</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#response}}
+        <tr>
+            <th scope="row">{{count}}</th>
+            <td>{{data}}</td>
+            <td>{{modelo}}</td>
+            <td>{{cliente}}</td>
+            <td>{{clientes_novo_segmento}}</td>
+            <td>{{estado}}</td>
+            <td>{{rfm}}</td>
+            <td>{{pedido}}</td>
+            <td>{{Fantasia}}</td>
+            <td>{{quant}}</td>
+            <td>{{valor_base}}</td>
+            <td>{{valor}}</td>
+        </tr>
+        {{/response}}
+        {{^response}}
+        <tr>
+            <td colspan="7">Sem Historico desse item</td>
+        </tr>
+        {{/response}}
+    </tbody>
+</table>
+
+<script>
+
+    $(function () {
+        $(".tablesorter").tablesorter();
+    });
+
+</script>

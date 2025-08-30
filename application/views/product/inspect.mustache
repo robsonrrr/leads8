@@ -1,0 +1,44 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark font12">
+        <tr>
+            <th scope="col">#</th>
+            <th>Data de inspeção</th>
+            <th>Gravação do item</th>
+            <th>Gravação da marca</th>
+            <th>Proteção</th>
+            <th>Cor da proteção</th>
+            <th>Separador / Gaiola</th>
+            <th>Embalagem</th>
+            <th>Marca da embalagem</th>
+            <th>Qtd por caixa</th>
+            <th>Qtd do lote</th>
+            <th>Obs:</th>
+            <th class="text-center">Volume Estimado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#response}}
+        <tr>
+            <td>{{count}}</td>
+            <td>{{si_date_end_f}}</td>
+            <td>{{si_product_print_check}}-{{si_product_print_name}}</td>
+            <td>{{si_brand_check}}-{{si_brand_name}}-{{si_brand_location}}</td>
+            <td>{{si_protection_type}}</td>
+            <td>{{si_protection_color}}</td>
+            <td>{{si_separator}}</td>
+            <td>{{si_packing_name}}</td>
+            <td>{{si_packing_brand}}</td>
+            <td>{{si_quantity_per_carton}}</td>
+            <td>{{si_quantity}}</td>
+            <td>{{si_obs}}</td>
+            <td class="table-primary fon-weight text-center">{{volume_estimado}}</td>
+        </tr>
+        {{/response}}
+        {{^response}}
+        <tr>
+            <td colspan="9">Sem Inspeção desse item</td>
+        </tr>
+        {{/response}}
+    </tbody>
+
+</table>

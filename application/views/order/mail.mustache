@@ -1,0 +1,221 @@
+<table width="980" cellpadding="1" cellspacing="0" align="center" style="border:1px solid #222121; font-size:14px; color:#414141; margin-left:auto; margin-right:auto; font-family:Arial, Helvetica, sans-serif; border-collapse: collapse; ">
+    <!------------------------------------------------------------------------------------------
+Lead Confirmado Header
+------------------------------------------------------------------------------------------->
+    <tr style="height:80px; background-color:#222121; border-bottom:4px solid {{Mail.color}}; color:#FFF;">
+        <td width="2%">&nbsp;</td>
+        <td width="43%"><img src="{{Mail.logo}}" width="" height="" alt="{{Mail.title}}" title="{{Mail.title}}"></td>
+        <td width="43%" align="right" style="font-size:11px; font-style: italic;">via sistema</td>
+        <td width="2%">&nbsp;</td>
+    </tr>
+
+    <!------------------------------------------------------------------------------------------
+Número Lead
+------------------------------------------------------------------------------------------->
+    <tr style="height:50px; margin:0; padding:0; font-size:16px; vertical-align:middle">
+        <td>&nbsp;</td>
+        <td align="left">Número Pedido: <strong style="color:{{Mail.color}}">{{id}}</strong></td>
+        <td align="right">pedido realizado em <strong>{{dataEmissaoFormatado}}</strong></td>
+        <td>&nbsp;</td>
+    </tr> 
+
+    {{#Natureza.76}}
+    <tr style="height:30px; margin:0; padding:0; vertical-align:top; color:#ff2626 ">
+        <td>&nbsp;</td>
+        <td align="left" colspan="2">Pedido sujeito a conferência dos itens.</td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/Natureza.76}}
+
+    <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+    <tr style="height:1px; margin:0; padding:0; border:0;">
+        <td>&nbsp;</td>
+        <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+
+
+    <!------------------------------------------------------------------------------------------
+MSG Lead Concluído com Sucesso
+------------------------------------------------------------------------------------------->
+    {{#Cliente}}
+    <tr style=" margin:0; padding:0; vertical-align:middle;">
+        <td>&nbsp;</td>
+        <td align="left" colspan="2">Prezado, <strong style=" font-size:16px;">{{clienteNome}}</strong></td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/Cliente}}
+
+    <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+    <tr style="height:10px; margin:0; padding:0;">
+        <td width="100%"colspan="4"></td>
+    </tr>
+
+    <!------------------------------------------------------------------------------------------
+Itens Do Lead 
+------------------------------------------------------------------------------------------->
+
+    {{#segmentoPedido}}
+    {{#2}}
+    {{> order/mail/products-bearings}}
+    {{/2}}
+
+    {{#5}}
+    {{> order/mail/products-auto}}
+    {{/5}}
+
+    {{#1}}
+    {{> order/mail/products-machines}}
+    {{/1}}
+
+    {{#3}}
+    {{> order/mail/products-parts}}
+    {{/3}}
+
+    {{#6}}
+    {{> order/mail/products-moto}}
+    {{/6}}
+
+    {{#4}}
+    {{> order/mail/products-faucets}}
+    {{/4}}
+
+    {{/segmentoPedido}}
+
+
+    {{#pedidoInfoAdicional}}
+    <tr style="height:50px; margin:0; padding:0; font-size:14px; vertical-align:middle">
+        <td>&nbsp;</td>
+        <td align="left" colspan="2" style="border-top:1px solid #CCC">{{pedidoInfoAdicional}}</td>
+        <td>&nbsp;</td>
+    </tr> 
+    {{/pedidoInfoAdicional}}
+
+    <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+    <tr style="height:1px; margin:0; padding:0; border:0;">
+        <td>&nbsp;</td>
+        <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+
+    {{#TipoPagamento.Deposito}}
+    <!------------------------------------------------------------------------------------------
+Dados Bancários
+------------------------------------------------------------------------------------------->
+    <tr style="height:180px; margin:0; padding:0; vertical-align:top; ">
+        <td>&nbsp;</td>
+        <td align="left" colspan="2">
+            <p style="padding:5px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados Bancários:</strong></p>
+            <p style="font-size:10px">
+                {{{dadosBancarios}}}
+            </p>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+
+    <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+    <tr style="height:1px; margin:0; padding:0; border:0;">
+        <td>&nbsp;</td>
+        <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/TipoPagamento.Deposito}}
+    <!------------------------------------------------------------------------------------------
+Dados Cliente para Entrega e Cadastrais
+------------------------------------------------------------------------------------------->
+    {{#Cliente}}
+    <tr style="height:100px; margin:0; padding:0; vertical-align:top; font-size:12px">
+        <td>&nbsp;</td>
+        <td>
+            <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados de Cadastro:</strong></p>
+            <p style="padding:2px 0; margin:0">
+                E-mail Principal:
+                {{#clienteEmail}}<strong>{{clienteEmail}}</strong> {{/clienteEmail}}
+                {{^clienteEmail}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmail}}
+            </p> 
+            <p style="padding:2px 0; margin:0">
+                E-mail para envio de NF-e:
+                {{#clienteEmailNFE}}<strong>{{clienteEmailNFE}}</strong> {{/clienteEmailNFE}}
+                {{^clienteEmailNFE}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmailNFE}}
+            </p> 
+            <p style="padding:2px 0; margin:0">
+                E-mail para envio de Boletos:
+                {{#clienteEmailFinanceiro}}<strong>{{clienteEmailFinanceiro}}</strong> {{/clienteEmailFinanceiro}}
+                {{^clienteEmailFinanceiro}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmailFinanceiro}}
+            </p> 
+            <p style="padding:2px 0; margin:0">
+                Telefone: 
+                {{#clienteTelefone}}({{clienteDdd}}) {{clienteTelefone}}{{/clienteTelefone}}
+            </p> 
+        </td>
+        <td align="left">
+            <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados para Entrega:</strong></p>
+            <p style="padding:2px 0; margin:0">{{clienteNome}}</p>
+            <p style="padding:2px 0; margin:0">{{clienteEndereco}}, {{clienteNumero}} - {{clienteBairro}} - {{clienteCidade}} - {{clienteEstado}}</p>
+            <p style="padding:2px 0; margin:0">CEP: {{clienteCep}}</p>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/Cliente}}
+    
+    <!------------------------------------------------------------------------------------------
+Dados Cliente para Entrega e Cadastrais
+------------------------------------------------------------------------------------------->
+    {{#clienteDeCliente.id}}
+    {{#clienteDeCliente}}
+    <tr style="height:1px; margin:0; padding:0; border:0;">
+        <td>&nbsp;</td>
+        <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr style="height:100px; margin:0; padding:0; vertical-align:top; font-size:12px">
+        <td>&nbsp;</td>
+        <td colspan="2" align="left">
+            <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Faturado para:</strong></p>
+            <p style="padding:2px 0; margin:0">{{clienteNome}}</p>
+            <p style="padding:2px 0; margin:0">{{clienteEndereco}}, {{clienteNumero}} - {{clienteBairro}} - {{clienteCidade}} - {{clienteEstado}}</p>
+            <p style="padding:2px 0; margin:0">CEP: {{clienteCep}}</p>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/clienteDeCliente}}
+    {{/clienteDeCliente.id}}
+
+    <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+    <tr style="height:1px; margin:0; padding:0; border:0;">
+        <td>&nbsp;</td>
+        <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <!------------------------------------------------------------------------------------------
+Dados Cliente para Entrega e Cadastrais
+------------------------------------------------------------------------------------------->
+    {{#Transportadora.RETIRA}}
+    {{#Emitente}}
+    <tr style="height:80px; margin:0; padding:0; vertical-align:top; font-size:12px">
+        <td>&nbsp;</td>
+        <td align="left" colspan='2'>
+            <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados para Retira {{emitenteFantasia}}:</strong></p>
+            <p style="padding:2px 0; margin:0">{{emitenteLogradouro}}, {{emitenteNumero}} - {{emitenteBairro}} - {{emitenteMunicipio}} - {{emitenteUF}}</p>
+            <p style="padding:2px 0; margin:0">CEP: {{emitenteCEP}}</p>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    {{/Emitente}}
+    {{/Transportadora.RETIRA}}
+
+</table>
+
+<div style="text-align:center;font-size:11px; font-family:Arial, Helvetica, sans-serif; padding:10px 0; color:#999; height:10px;">
+    Este é um e-mail automático da Rolemak, não é necessário respondê-lo (leads5).
+</div>

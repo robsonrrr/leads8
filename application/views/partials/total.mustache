@@ -1,0 +1,55 @@
+{{#Total}}
+<div class="container-fluid">
+    <div class="row w-100 pt-1">
+        <!--  <div class="col-sm">
+<p class="m-0 p-0">Peso (kg):</p>
+<p class="m-0 p-0 font-title">{{peso}}</p>
+</div>//-->
+        <!--<div class="col-sm">
+<p class="m-0 p-0">Itens:</p>
+<p class="m-0 p-0 font-title">{{quantidade}}</p>
+</div>//-->
+        <div class="col-sm">
+            <p class="m-0 p-0">Produto: <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Valor base de todos produtos sem impostos"></i></p>
+            <p class="m-0 p-0 font-title text-primary">
+                <span class=""><b class="text-primary">{{base}} / {{produto}}</b></span>
+            </p>
+        </div>
+
+        {{#bearings}}
+        <div class="col-sm">
+            <p class="m-0 p-0">Impostos: <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="IPI {{ipi}} + ST {{st}}= Impostos"></i></p>
+            <p class="m-0 p-0 font-title">{{impostos}}</p>
+        </div>
+        <div class="col-sm">
+            <p class="m-0 p-0">Frete: <small>( <i class="fas fa-edit"></i> Editável )</small></p>
+            <p class="m-0 p-0 font-title"><a href="#" class="jeditable-recalculate text-white" name="valorFrete" data-url="{{CONTAINER}}lead/update/Leads/{{id}}">{{valorFrete}}</a></p>
+        </div>
+        <div class="col-sm">
+            <p class="m-0 p-0">Desconto: <small>( <i class="fas fa-edit"></i> Editável )</small></p>
+            <p class="m-0 p-0 font-title"><a href="#" class="jeditable-discount text-white" name="" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a></p>
+        </div>
+        {{/bearings}}
+
+        {{#machines}}
+        <div class="col-sm">
+            <p class="m-0 p-0">Comissão:</p>
+            <p class="m-0 p-0 font-title">{{comissao}}</p>
+        </div>
+        {{/machines}}
+
+        <div class="col-sm">
+            <p class="m-0 p-0">Valor do Pedido: <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Produto + Impostos + Frete = Valor do Pedido"></i>
+            <p class="m-0 p-0 font-title text-primary">{{pedido}}</p>
+        </div>
+        {{#existProducts}}
+        <div class="col-sm text-right">
+            <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
+               class="btn btn-custom btn-primary btn-block font-weight-bold mt-1 {{^SESSION.check}}btn-light disabled{{/SESSION.check}} {{#existPendencies}}btn-light disabled{{/existPendencies}} {{#multiple}}btn-light disabled{{/multiple}}">
+                <i class="fas fa-caret-right"></i> ir para Confirmação
+            </a>
+        </div>
+        {{/existProducts}}
+    </div>
+</div>
+{{/Total}}

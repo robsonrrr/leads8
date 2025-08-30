@@ -1,0 +1,58 @@
+<!------------------------------------------------------------------------------------------
+Itens Do Lead 
+------------------------------------------------------------------------------------------->
+<tr style="height:auto; margin:0; padding:0;">
+    <td></td>
+    <td colspan="2">
+        <table width="100%" border="0" cellspacing="0" cellpadding="4"  bgcolor="#FFFFFF" align="center" style="border:1px solid #222121">
+            <tr style=" background-color:#222121; color:#f8f8f8; height:20px; line-height:20px; font-size:10px;">
+                <td width="3%" align="left">#</td>
+                <td width="35%" align="left">Item(s) do Orçamento do Estoque <strong>{{Emitente.emitenteFantasia}}</strong></td>
+                <td width="8%"  align="center">Qtd.</td>
+                <td width="10%" align="center">Valor Unit.</td>
+                <td width="10%"  align="center">Unit. IPI</td>
+                <td width="10%"  align="center">Unit. ST</td>
+                <td width="12%"  align="center">Unit. c/ impostos</td>
+                <td width="12%" align="right">Subtotal c/ impostos</td>
+            </tr>
+            {{#Produtos}}
+            {{#produtoDisponivel}}
+            <tr style=" height:30px; font-size:12px;color:#000; vertical-align:middle ">
+                <td align="center"  style="border-bottom:1px solid #CCC" bgcolor="#f8f8f8"> {{produtoContagem}} </td>
+                <td align="left" valign="middle"   style="border-bottom:1px solid #CCC; color:#000; font-size:10px; vertical-align:middle">
+                    <img align="left" style="padding-right:5px" src="{{ENV.img}}id/h40/{{produtoPOID}}.jpg" width="40">
+                    <a target="_new" href="{{URI_PRODUCT}}{{produtoSEO}}" style="color:{{Mail.color}};font-size:12px; font-weight:bolder">{{Detalhe.produtoModelo}}</a> 
+                    <br>   {{Detalhe.produtoNome}} <br>
+                    {{#Detalhe.produtoMarca}}<em style="text-transform:uppercase; font-style:normal">{{Detalhe.produtoMarca}}</em>{{/Detalhe.produtoMarca}}
+                    - Peso: {{Detalhe.produtoPeso}} 
+                    - Emb:{{solr.produtoEmbalagem}}
+                </td>
+                <td align="center" style="border-bottom:1px solid #CCC" bgcolor="#f8f8f8"> {{produtoQuantidade}}  unid.</td>
+                <td align="right"  style="border-bottom:1px solid #CCC"><strong>R$ {{produtoValor}}</strong></td>
+                <td align="right"  style="border-bottom:1px solid #CCC" bgcolor="#f8f8f8" >R$ {{produtoIPI}} </td>
+                <td align="right"  style="border-bottom:1px solid #CCC">R$ {{produtoST}}</td>
+                <td align="right"  style="border-bottom:1px solid #CCC;" bgcolor="#f8f8f8" ><strong>R$ {{produtoValorUnitarioComImpostos}}</strong></td>
+                <td align="right"  style="border-bottom:1px solid #CCC;"><strong>R$ {{produtoValorSubtotalComImpostos}}</strong></td>
+            </tr>
+            {{/produtoDisponivel}}
+            {{^produtoDisponivel}}
+            <tr style=" height:30px; font-size:12px; vertical-align:middle " >
+                <td  align="center"  style="border-bottom:1px solid #CCC" bgcolor="#f8f8f8"> {{produtoContagem}} </td>
+                <td align="left" valign="middle"   style="border-bottom:1px solid #CCC; color:#000; font-size:10px; vertical-align:middle">
+                    <img align="left" style="padding-right:5px" src="{{ENV.img}}id/h50/{{produtoPOID}}.jpg" width="50">
+                    <a target="_new" href="https://www.rolemak.com.br/{{solr.segmentoSEO}}/produto/{{solr.produtoSEO}}" style="color:{{Mail.color}};font-size:12px; font-weight:bolder">{{Detalhe.produtoModelo}}</a> 
+                    <p class="" style="margin:0; padding:0; font-weight:bolder">
+                        {{Detalhe.produtoNome}}
+                    </p>
+                    {{#Detalhe.produtoMarca}}<em style="text-transform:uppercase; font-style:normal">{{Detalhe.produtoMarca}}</em>{{/Detalhe.produtoMarca}}
+                    - Peso: {{Detalhe.produtoPeso}} 
+                    - Emb:{{solr.produtoEmbalagem}}
+                </td>
+                <td align="center" colspan="4" class="text-muted"> <em>Produto Indisponível </em></td>
+            </tr>
+            {{/produtoDisponivel}}
+            {{/Produtos}}
+        </table>
+    </td>
+    <td></td>
+</tr>

@@ -1,0 +1,90 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">date</th>
+            <th scope="col">modelo</th>
+            <th scope="col">produto</th>
+            <th scope="col">quantity</th>
+            <th scope="col">Fantasia</th>
+            <th scope="col">cliente</th>
+            <th scope="col">derrubar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#response}}
+        <tr>
+            <th scope="row">{{count}}</th>
+            <td>{{date}}</td>
+            <td>{{modelo}}</td>
+            <td>{{produto}}</td>
+            <td>{{quantity}}</td>
+            <td>{{Fantasia}}</td>
+            <td>{{cliente}}</td>
+            {{#SESSION.acessoGerencial}}
+            <td><a href="#" class="cart-remove-ecommerce" data-cart-id="{{cart_id}}" id="" data-name="{{produto}}" data-service="{{CONTAINER}}service/delete_cart/{{cart_id}}"><i class="fas fa-trash text-danger"></i></a></td>
+            {{/SESSION.acessoGerencial}}
+            {{^SESSION.acessoGerencial}}
+            <td></td>
+            {{/SESSION.acessoGerencial}}
+        </tr>
+        {{/response}}
+        {{^response}}
+        <tr>
+            <td colspan="8">Sem Histórico desse item</td>
+        </tr>
+        {{/response}}
+    </tbody>
+</table>
+
+<script>
+    $(document).on('click','.cart-remove-ecommerce', function() {
+
+        var elem  = $(this);
+
+        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+
+        $.confirm({
+            title: 'Deseja derrubar o Carrinho ?',
+            content: 'Após a confirmação, essa ação não tem volta ...',
+
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    //btnClass: 'btn-blue',
+                    action: function () {
+                        elem.html(' <i class="far fa-trash-alt text-muted" aria-hidden="true"></i>');
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: elem.attr('data-service'),
+                            //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                            dataType:"json",  
+                            success: function(data) {
+                                console.log('success delete');
+                                // window.location.reload(true);
+                                //colunm_363733
+                                //elem.html('<i class="fa fa-trash" aria-hidden="true"></i>');
+
+                                location.reload();
+
+                            },
+                            error: function (data) 
+                            {
+                                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                console.log('error delete');
+                                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                            }
+                        });
+                    }
+                },
+            }
+        });
+    });
+
+</script>

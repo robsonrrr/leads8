@@ -1,0 +1,113 @@
+<div class="w-100">
+    <table class="table table-sm table-bordered table-hover table-striped p-0 m-0" id="searchTable">
+        <thead class="thead-custom">
+            <tr>
+                <th class="align-middle h4 color-primary" scope="col" colspan="16"><i class="fas fa-search"></i> Resultado da Busca <small class="text-secondary font12">( Limite máximo da busca é 20 produtos )</small></th>
+            </tr>
+            <tr>
+                <th class="align-middle text-center" scope="col">#</th>
+                <th class="align-middle" scope="col">IMG</th>
+                <th class="align-middle" scope="col">Produto</th>
+                <th class="align-middle" scope="col">Marca</th>
+                <th class="align-middle text-center" scope="col">Emb.</th>
+                <!--<th class="align-middle text-center" scope="col">Peso</th>//-->
+                <th class="align-middle text-center" scope="col">Estoque</th>
+                <th class="align-middle text-center" scope="col">Última venda</th>
+                <th class="align-middle text-center" scope="col">Previsão</th>
+                <!--<th class="align-middle text-center" scope="col">Pré-venda</th>//-->
+                <th class="align-middle text-center" scope="col">Qtd.</th>
+                <th class="align-middle text-center" scope="col"></th>
+                <th class="align-middle text-right" scope="col">Valor Base</th>
+                <th class="align-middle text-right" scope="col">IPI</th>
+                <th class="align-middle text-right" scope="col">ST</th>
+                <th class="align-middle text-right" scope="col">Difal</th>
+                <th class="align-middle text-right" scope="col">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#Busca}}
+            <tr class="contentSearchHighlight" id="colunm_{{produtoPOID}}">
+                <th class="align-middle text-center py-4" width="1%" scope="row">{{item}}</th>
+                <td class="align-middle text-center" width="1%">
+                    <a tabindex="-1" href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
+                       data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}">
+                        <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}">
+                    </a>
+                </td>
+                <td class="align-middle font12" width="32%">
+                    <div class="p-0 m-0">
+                        <strong><a tabindex="-1" class="color-primary" href="#">{{produtoModelo}}</a></strong>
+                    </div>
+                    <div class="p-0 m-0">
+                        {{produtoNome}} <span class="p-0 m-0 font10 text-muted"> {{produtoMedida}} </span> <span class="p-0 m-0 font10 text-muted"> {{produtoPeso}} </span>
+                    </div>
+                </td>
+                <td class="align-middle" width="5%">
+                    <img width="50" src="{{ENV.cdn}}svg/marca/{{marcaSeo}}.svg?version={{VERSION}}" title="{{produtoMarca}}" alt="{{produtoMarca}}"/>
+                </td>
+                <td class="align-middle text-center font10" width="5%">
+                    {{#produtoEmbalagem}}
+                    <img width="35" src="{{ENV.cdn}}svg/icones/emb-{{produtoEmbalagem}}-{{marcaSeo}}.svg?version={{VERSION}}" title="{{packing}}" alt="{{packing}}"/>
+                    {{/produtoEmbalagem}}
+                </td>
+                <td class="align-middle text-center" width="10%">
+                    <span class="p-0 m-0 font15 font-weight-bold {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
+                        {{estoqueSelecionado}} {{unidade}} <small>({{estoqueEstado}})</small>
+                        <i class="fas text-info fa-question-circle" data-toggle="tooltip" data-placement="top"
+                           title="Matriz:{{estoqueSaoPaulo}} - Loja:{{estoqueSaoPauloLoja}} - Barra Funda:{{estoqueSaoPauloBarraFunda}} - Blumenau:{{estoqueBlumenau}} - Reservado:{{estoqueReservado}}"></i>
+                    </span>
+                </td>
+                <td class="align-middle text-center" width="5%">
+                    <span class="p-0 m-0">{{LastDaysSales}} dia(s)</span>
+                </td>
+                <td class="align-middle text-center" width="5%">
+                    <span class="p-0 m-0">
+                        {{#Next}} 
+                            <a href="#" class="color-primary font-weight-bold {{#NextDaysActive}}text-success{{/NextDaysActive}}" data-toggle="modal" data-title="Importação do Produto" 
+                             data-target="#remoteModal" data-remote="{{CONTAINER}}product/arrival/{{produtoPOID}}">Sim</a> 
+                        {{/Next}}
+                        {{^Next}} Não {{/Next}}
+                    </span>
+                </td><!--
+<td class="align-middle text-center" width="5%">
+<span class="p-0 m-0">{{PreSale}}</span>
+</td>//-->
+                <td class="align-middle text-center" width="5%">
+                    <input type="text" class="form-control form-control-sm text-center rounded-0 trigger-add-to-cart mask-qty" autocomplete="off"
+                           data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}" data-service="/services/cart/add"
+                           id="qty_search_{{produtoPOID}}" value="1" name="produtoQuantidade">
+                </td>
+                <td class="align-middle text-center" width="1%">
+                    <a tabindex="-1" href="javascript:void(0)" id="search-add-to-cart-{{produtoPOID}}" data-produtoPOID="{{produtoPOID}}" data-segment="{{segmentoPOID}}" data-leadPOID="{{leadID}}"
+                       data-service="/services/cart/add" class="search-add-to-cart btn btn-sm btn-primary">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
+                </td>
+                <td class="align-middle text-right" width="5%"><span class="">{{Impostos.valor_subtotal_produto}}</span> <!--<small>({{Preco.calc.produtoDescontoPromocaoPorcentagem}}%)</small>//--></td>
+                <td class="align-middle text-right" width="5%">
+                    <span class="">{{Impostos.valor_ipi_f}} <small>({{Impostos.aliquota_ipi}}%)</small></span>
+                </td>
+                <td class="align-middle text-right" width="5%">
+                    <span class="">{{Impostos.valor_icms_st_f}}</span>
+                    <i class="fas text-danger fa-question-circle" data-toggle="tooltip" data-placement="top"
+                       title="aliquota_st {{Impostos.aliquota_st}}% - aliquota_indice_st {{Impostos.aliquota_indice_st}}% aliquota_icms {{Impostos.aliquota_icms}}% aliquota_indice_st_mva {{Impostos.aliquota_indice_st_mva}}% bc_st {{Impostos.bc_st}} ipi {{Impostos.valor_ipi}} st {{Impostos.valor_icms_st}}"></i>
+                </td>
+                <td class="align-middle text-right" width="5%">
+                    <span class="">{{Impostos.valor_subtotal_difal_f}}</span>
+                </td>
+                <td class="align-middle text-right font-weight-bold" width="10%">
+                    <span class="p-0 m-0 font18 font-weight-bold color-primary">{{Impostos.valor_subtotal_produto_com_impostos}}</span>
+                </td>
+            </tr>
+            {{/Busca}}
+            {{^Busca}}
+            <tr>
+                <td colspan="16" class="text-center my-5 p-5">
+                    <p class="h4">Nenhum resultado encontrado com a pesquisa {{query}} </p>
+                    <p class="">{{error}}</p>
+                </td>
+            </tr>
+            {{/Busca}}
+        </tbody>
+    </table>
+</div>

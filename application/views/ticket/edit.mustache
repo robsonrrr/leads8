@@ -1,0 +1,109 @@
+{{#response}}
+<!--<form id="formTicketAdd" class="formTicket" data-url="/crm/v3/tickets/update/">//-->
+    <div class="form-group">
+        <label for="ticketStatusId">Consulta</label>
+        <input type="text" readonly class="form-control" name="ticketConsultaId" id="ticketConsultaId" value="{{consulta_id}}">
+        <input type="hidden" class="form-control" name="ticketPedidoId" id="ticketPedidoId" value="">
+        <input type="hidden" class="form-control" name="id" id="" value="{{id}}">
+    </div>
+    <div class="form-group">
+        <label for="ticketStatusId">Cliente</label>
+        <input type="text" readonly class="form-control" name="ticketClienteId" id="ticketClienteId" value="{{cliente_id}}">
+    </div>
+    <div class="form-group">
+        <label for="ticketStatusId">Status</label>
+        <select class="form-control" id="ticketStatusId" name="ticketStatusId">
+            <option></option>
+            {{#status}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+            {{/status}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketProcessoId">Processo</label>
+        <select class="form-control" id="ticketProcessoId" name="ticketProcessoId">
+            <option></option>
+            {{#processo}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+            {{/processo}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketOrigemId">Origem</label>
+        <select class="form-control" id="ticketOrigemId" name="ticketOrigemId">
+            <option></option>
+            {{#origem}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+            {{/origem}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketCanalId">Canal de comunicação</label>
+        <select class="form-control" id="ticketCanalId" name="ticketCanalId">
+            <option></option>
+            {{#canal}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+            {{/canal}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketEventoId">Evento</label>
+        <select class="form-control" id="ticketEventoId" name="ticketEventoId">
+            <option></option>
+            {{#evento}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+            {{/evento}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ticketDataRetorno">Programar retorno: (obrigatório)</label>
+        <input type="date" name="ticketDataRetorno" id="ticketDataRetorno" min="2019-09-06" max="2030-12-31" class="col-md-4 form-control" value="{{data_retorno}}">
+    </div>
+    <div class="form-group">
+        <label for="ticketDetalhes" class="font-weight-bold">Detalhes: <small>(detalhar ticket)</small></label>
+        <textarea class="form-control" id="ticketDetalhes" rows="4" maxlength="355" name="ticketDetalhes">{{detalhes}}</textarea>
+    </div>
+    <button type="button" class="btn btn-primary UpdateTicket">Submit</button>
+<!--</form>//-->
+{{/response}}
+
+<script>
+    $(function(){
+        $('.UpdateTicket').on('click', function() {
+
+            console.log('teste');
+
+            var $form   = $('#formTicketAdd');
+
+            var $ticketEventoId = $('#ticketEventoId');
+
+            if( $ticketEventoId.val() == 0 || $ticketEventoId.val() == null ) {
+                $ticketEventoId.css('border-color', 'red');
+                return false;
+            }
+            $ticketEventoId.css('border-color', '#ced4da');
+
+            var $elem = $(this);
+            var $data = $form.serialize();
+
+            $elem.attr("disabled", true);
+            $elem.html('<i class="fas fa-spin fa-sync"></i> Editando');
+            // console.log('teste');
+
+            $.post( $form.data('url'), { data : $data }, function(response){
+                setTimeout(function(){
+                    $elem.attr("disabled", false);
+                    $elem.html('Editar');
+                    $('#remoteModal').modal('hide');
+                }, 10);
+
+            }, 'json').fail(function( response ) {
+                console.log(response);
+                alert( "Erro ao Gerar Ticket Tentar Novamente, se o erro persistir informar ao TI." +response.responseText );
+                $elem.attr("disabled", false);
+                $elem.html('<i class="fas fa-save"></i> Tentar Novamente');
+            });
+
+        });
+    });
+</script>

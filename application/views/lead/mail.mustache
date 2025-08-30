@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--<link rel="icon" href="../../../../favicon.ico">//-->
+        <title>Orçamento nº {{Lead.id}}</title>
+    </head>
+    <body>
+        {{#Lead}}
+        <table width="980" cellpadding="1" cellspacing="0" align="center" style="border:1px solid #222121; font-size:14px; color:#414141; margin-left:auto; margin-right:auto; font-family:Arial, Helvetica, sans-serif; border-collapse: collapse; ">
+            <!------------------------------------------------------------------------------------------
+Lead Confirmado Header
+------------------------------------------------------------------------------------------->
+            <tr style="height:80px; background-color:#222121; border-bottom:4px solid {{Mail.color}}; color:#FFF;">
+                <td width="2%">&nbsp;</td>
+                <td width="43%"><img src="{{Mail.logo}}" width="" height="" alt="{{Mail.title}}" title="{{Mail.title}}"></td>
+                <td width="43%" align="right" style="font-size:16px"></td>
+                <td width="2%">&nbsp;</td>
+            </tr>
+
+            <!------------------------------------------------------------------------------------------
+Número Lead
+------------------------------------------------------------------------------------------->
+            <tr style="height:50px; margin:0; padding:0; font-size:16px; vertical-align:middle">
+                <td>&nbsp;</td>
+                <td align="left">Orçamento nº: <strong style="color:{{Mail.color}}">{{id}}</strong></td>
+                <td align="right"><!--Lead realizado em <strong>{{dataEmissaoFormatado}}</strong>//--></td>
+                <td>&nbsp;</td>
+            </tr> 
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+
+
+            <!------------------------------------------------------------------------------------------
+MSG Lead Concluído com Sucesso
+------------------------------------------------------------------------------------------->
+            {{#Cliente}}
+            <tr style=" margin:0; padding:0; vertical-align:middle;">
+                <td>&nbsp;</td>
+                <td align="left" colspan="2">Prezado, <strong style=" font-size:16px;">{{clienteNome}}</strong><br>Lembramos que esse Orçamento não é garantia de estoque.</td>
+                <td>&nbsp;</td>
+            </tr>
+            {{/Cliente}}
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:10px; margin:0; padding:0;">
+                <td width="100%"colspan="4"></td>
+            </tr>
+
+            {{#bearings}}
+            {{> lead/mail/products-bearings}}
+            {{/bearings}}
+
+            {{#auto}}
+            {{> lead/mail/products-auto}}
+            {{/auto}}
+
+            {{#machines}}
+            {{> lead/mail/products-machines}}
+            {{/machines}}
+
+            {{#parts}}
+            {{> lead/mail/products-parts}}
+            {{/parts}}
+
+            {{#moto}}
+            {{> lead/mail/products-moto}}
+            {{/moto}}
+
+            {{#faucets}}
+            {{> lead/mail/products-faucets}}
+            {{/faucets}}
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2"></td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <!------------------------------------------------------------------------------------------
+Check List e Total Lead
+------------------------------------------------------------------------------------------->
+            <tr style="height:150px">
+                <td>&nbsp;</td>
+                <td valign="top">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3"  bgcolor="#FFFFFF" align="left">
+                        {{#Emitente}}
+                        <tr style=" height:15px; line-height:15px; font-size:12px;color:#000; vertical-align:middle ">
+                            <td align="left">Emitente: <strong>{{emitenteFantasia}}</strong></td>
+                        </tr>
+                        {{/Emitente}}
+                        <tr style=" height:20px; line-height:20px; font-size:13px;color:#000; vertical-align:middle ">
+                            <td align="left">Peso: <strong>{{Total.peso}} Kg</strong></td>
+                        </tr>
+                        
+                        {{#bearings}}
+                         <tr style=" height:20px; line-height:20px; font-size:13px;color:#000; vertical-align:middle ">
+                            <td align="left">Pagamento {{TipoPagamento.pagamentoDescricao}}: <strong>{{Prazo.PrazoTermos}}</strong></td>
+                        </tr>
+                        {{/bearings}}
+                    </table>
+                </td>
+                {{#Total}}
+                <td valign="top">
+                    <table width="75%" border="0" cellspacing="0" cellpadding="5"  bgcolor="#FFFFFF" align="right" style=" border:0;" >
+                        <tr style=" height:15px; line-height:15px; font-size:12px;color:#000; vertical-align:top ">
+                            <td align="right" style="" >Total em Produtos</td>
+                            <td align="right" style=" border-left:2px solid #f8f8f8">
+                                <strong>{{produto}}</strong>
+                            </td>
+                        </tr>
+                        <tr style=" height:15px; line-height:15px; font-size:12px;color:#000; vertical-align:top ">
+                            <td align="right"   style="" >Total de IPI</td>
+                            <td align="right"   style=" border-left:2px solid #f8f8f8" ><strong>R$ {{ipi}}</strong></td>
+                        </tr>
+                        <tr style=" height:15px; line-height:15px; font-size:12px;color:#000; vertical-align:top ">
+                            <td align="right"   style="" >Total de ST</td>
+                            <td align="right"   style=" border-left:2px solid #f8f8f8" ><strong>R$ {{st}}</strong></td>
+                        </tr>
+                        {{#valorFrete}}
+                        <tr style=" height:15px; line-height:15px; font-size:12px;color:#000; vertical-align:top ">
+                            <td align="right" style="" >Frete</td>
+                            <td align="right" style=" border-left:2px solid #f8f8f8" ><strong>R$ {{frete}}</strong></td>
+                        </tr>
+                        {{/valorFrete}}
+                        <tr style=" height:15px; line-height:15px; font-size:14px;color:#000; vertical-align:top; background-color:{{Mail.color}}; color:#000; font-weight:bolder ">
+                            <td align="right" >Total do Orçamento </td>
+                            <td align="right" ><strong>R$ {{pedido}}</strong></td>
+                        </tr>
+                    </table>
+                </td>
+                {{/Total}}
+                <td>&nbsp;</td>
+            </tr>
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            {{#Prazo.A Vista}}
+            <!------------------------------------------------------------------------------------------
+Dados Bancários
+------------------------------------------------------------------------------------------->
+            <tr style="height:180px; margin:0; padding:0; vertical-align:top; ">
+                <td>&nbsp;</td>
+                <td align="left" colspan="2">
+                    <p style="padding:5px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados Bancários:</strong></p>
+                    <p style="font-size:10px">
+                        {{{dadosBancarios}}}
+                    </p>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            {{/Prazo.A Vista}}
+
+
+            <!------------------------------------------------------------------------------------------
+Dados Cliente para Entrega e Cadastrais
+------------------------------------------------------------------------------------------->
+            {{#Cliente}}
+            <tr style="height:100px; margin:0; padding:0; vertical-align:top; font-size:12px">
+                <td>&nbsp;</td>
+                <td>
+                    <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados de Cadastro:</strong></p>
+                    <p style="padding:2px 0; margin:0">
+                        E-mail principal:
+                        {{#clienteEmail}}<strong>{{clienteEmail}}</strong> {{/clienteEmail}}
+                        {{^clienteEmail}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmail}}
+                    </p> 
+                    <p style="padding:2px 0; margin:0">
+                        E-mail para envio de NF-e:
+                        {{#clienteEmailNFE}}<strong>{{clienteEmailNFE}}</strong> {{/clienteEmailNFE}}
+                        {{^clienteEmailNFE}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmailNFE}}
+                    </p> 
+                    <p style="padding:2px 0; margin:0">
+                        E-mail para envio de Boletos:
+                        {{#clienteEmailFinanceiro}}<strong>{{clienteEmailFinanceiro}}</strong> {{/clienteEmailFinanceiro}}
+                        {{^clienteEmailFinanceiro}}<em style="color:#F00"> não cadastrado </em> {{/clienteEmailFinanceiro}}
+                    </p> 
+                    <p style="padding:2px 0; margin:0">
+                        Telefone: 
+                        {{#clienteTelefone}}({{clienteDdd}}) {{clienteTelefone}}{{/clienteTelefone}}
+                    </p> 
+                </td>
+                <td align="left">
+                    <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados para Entrega:</strong></p>
+                    <p style="padding:2px 0; margin:0">{{clienteNome}}</p>
+                    <p style="padding:2px 0; margin:0">{{clienteEndereco}}, {{clienteNumero}} - {{clienteBairro}} - {{clienteCidade}} - {{clienteEstado}}</p>
+                    <p style="padding:2px 0; margin:0">CEP: {{clienteCep}}</p>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            {{/Cliente}}
+            
+            
+              <!------------------------------------------------------------------------------------------
+Dados Emitente
+------------------------------------------------------------------------------------------->
+            {{#Emitente}}
+             <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr style="height:100px; margin:0; padding:0; vertical-align:top; font-size:12px">
+                <td>&nbsp;</td>
+                   <td align="left" colspan="2">
+                    <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Dados Emitente:</strong></p>
+                     <p style="padding:2px 0; margin:0">{{emitenteRazao}} - {{emitenteCnpjFormatado}}</p>
+                    <p style="padding:2px 0; margin:0">{{emitenteLogradouro}}, {{emitenteNumero}} - {{emitenteBairro}} - {{emitenteMunicipio}} - {{emitenteUF}}</p>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            {{/Emitente}}
+
+            <!------------------------------------------------------------------------------------------
+Espaçamento
+------------------------------------------------------------------------------------------->
+            <tr style="height:1px; margin:0; padding:0; border:0;">
+                <td>&nbsp;</td>
+                <td width="100%"colspan="2" style="border-top:1px solid #CCC">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr style="height:100px; margin:0; padding:0; vertical-align:top; font-size:12px">
+                <td>&nbsp;</td>
+                <td align="left">
+                    <p style="padding:2px 0; margin:0"><strong style="color:#000; font-size:16px;">Validade do Orçamento:</strong></p>
+                    <p style="padding:2px 0; margin:0">Este orçamento tem validade de 7 (sete) dias corridos, contados a partir da data de sua emissão.</p>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+
+        </table>
+
+        <div style="text-align:center;font-size:11px; font-family:Arial, Helvetica, sans-serif; padding:10px 0; color:#999; height:10px;">
+            Este é um e-mail automático da Rolemak, não é necessário respondê-lo .<br/> Em caso desacordo do pedido, favor entrar em contato com o departamento comercial.
+        </div>
+        {{/Lead}}
+    </body>
+</html>

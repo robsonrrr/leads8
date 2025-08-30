@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+          <div class="col-10">
+            <h2 class="p-0 m-0">{{produtoModelo}}</h2>
+            <h2 class="p-0 m-0">
+                {{#ecommerce_name}}
+                  {{ecommerce_name}} {{ecommerce_resume}} {{ecommerce_complement}}
+                {{/ecommerce_name}}
+                {{^ecommerce_name}}
+                  {{produtoNome}}
+                {{/ecommerce_name}}
+            </h2>
+          </div>
+          <div class="col-2">
+            <button
+                class="btn btn-success mt-3"
+                id="btnEnviarProduto"
+                data-produto="{{produtoPOID}}"
+                data-segmento="{{segmentoPOID}}"
+                data-vendedor="{{SESSION.MM_Userid}}">
+                WhatsApp
+            </button>
+          </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <hr>
+    </div>
+    <div class="col-6">
+        <img class="img-fluid" src="{{ENV.img}}id/h480/{{produtoPOID}}.jpg?version={{VERSION}}">
+    </div>
+    <div class="col-6">
+        <table class="table table-condesend table-striped table-bordered">
+            <tr>
+                <td>Descrição</td>
+                <td>{{ecommerce_dealer}}</td>
+            </tr>
+            <tr>
+                <td>Marca</td>
+                <td>{{produtoMarca}}</td>
+            </tr>
+             <tr>
+                <td>Funções</td>
+                <td>{{#functions}}{{name}}, {{/functions}}</td>
+            </tr>
+              <tr>
+                <td>ideal para produzir</td>
+                <td>{{#applications}}{{name}}, {{/applications}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    {{#ecommerce_document}}<a class="" href="{{ecommerce_document}}" target="_blank">Manual Usuário</button>{{/ecommerce_document}}
+                    {{#ecommerce_video}}   <a class="" href="{{ecommerce_video}}" target="_blank">Vídeo de Apresentação</button>{{/ecommerce_video}}
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <div class="col-12">
+        <table class="table table-condesend table-striped table-bordered">
+            {{#features}}
+            <tr>
+                <td width="20%">{{feature_name}}</td>
+                <td width="10%">{{attribute_name}}</td>
+                <td width="70%"><small>{{feature_description}}</small></td>
+
+            </tr>
+            {{/features}}
+         </table>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#btnEnviarProduto").on("click", function() {
+        let produtoID  = $(this).data("produto");
+        let vendedorID = $(this).data("vendedor");
+        let segmentoID = $(this).data("segmento");
+
+        $.ajax({
+            url: '{{CONTAINER}}lead/whatsapp',
+            method: "POST",
+            data: {
+                segmento_id: segmentoID,
+                produto_id: produtoID,
+                vendedor_id: vendedorID,
+            },
+            success: function(response) {
+                alert("Produto enviado com sucesso!");
+                console.log(response);
+            },
+            error: function(xhr) {
+                alert("Erro ao enviar produto!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+</script>

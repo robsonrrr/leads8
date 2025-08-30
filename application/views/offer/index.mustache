@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en">
+    <head id="head">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--<link rel="icon" href="../../../../favicon.ico">//-->
+        <title>Lead nº {{Lead.id}}</title>
+        
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="/leads/leads4/src/output.css" rel="stylesheet">
+        
+        <!-- Alpine Plugins -->
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+        
+        <!-- Alpine -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        
+        <!-- Htmx -->
+        <script src="/cdn/scripts/htmx.min.1.9.6.js"></script>
+        <script src="/cdn/scripts/client-side-templates.js"></script>
+        
+        <!-- Mustache -->
+        <script defer src="/cdn/scripts/mustache.4.2.js"></script>
+
+        <!-- Fonte Roboto Flex -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+        
+        <style>
+        
+            [x-cloak] {
+            display: none !important;
+            }
+            .htmx-indicator{
+            display: none;
+            transition: opacity 500ms ease-in;
+            }
+            .htmx-request .htmx-indicator{
+            display: block;
+            }
+            .htmx-request.htmx-indicator{
+            display: block;
+            }
+            
+        </style>
+
+    </head>
+    
+    <body hx-ext="client-side-templates" class="text-neutral-700 bg-slate-200 font-['Roboto_Flex']">
+    {{#Lead}}
+    
+        <!-- Container -->
+        <div x-data="{ showForm: '{{params.enviar}}' === 'true' ? false : true,
+                       params: new URLSearchParams(window.location.search),
+                       removeParams: ['enviar', 'canal', 'nome_cliente', 'email_cliente', 'titulo_email', 'whatsapp_cliente'],
+                }" 
+                x-init="removeParams.forEach(index => params.delete(index))"
+                class="flex justify-center items-start">
+            
+            <template x-cloak x-if="showForm">
+                
+                <!-- Formulário -->
+                <div x-data="{
+                        enviar: false,
+                        btn_send: true,
+                        device_connected: '{{device.status}}' === '2' ? true : false,
+                        usuario_conectado: '{{device.nome}} / {{device.name}}',
+                        produto_destaque: '{{params.produto_destaque}}',
+                        oferta_destaque: '{{params.oferta_destaque}}', 
+                        categoria_destaque: '{{params.categoria_destaque}}',
+                        channel: '',
+                        nome_cliente: '{{Cliente.clienteNome}}',
+                        email_cliente: '{{params.email_cliente}}',
+                        titulo_email: {{#params.titulo_email}} '{{params.titulo_email}}' {{/params.titulo_email}}
+                                      {{^params.titulo_email}} 'Olá! Segue oferta de {{Cliente.Segmento.segmentoNome}} Nº {{id}}' {{/params.titulo_email}},
+                        whatsapp_cliente: '{{params.whatsapp_cliente}}'
+                        }"
+                     x-init="document.addEventListener('visibilitychange', 
+                             () => { 
+                                 if (!document.hidden) {
+                                     htmx.trigger('#email_cliente', 'getEmailTrigger');
+                                     htmx.trigger('#whatsapp_cliente', 'getWhatsappTrigger');
+                                     htmx.trigger('#device_connected', 'getDeviceTrigger');
+                                 }
+                             })"
+                     class="shrink-0 text-slate-700 sticky top-0 left-0 w-[400px] h-screen">
+                    
+                    <form method="get" class="shadow-xl overflow-auto h-full flex flex-col gap-y-8 bg-slate-100 rounded-2xl border border-slate-300 p-8" style="scrollbar-gutter: stable">
+                        
+                        <!-- Layout -->
+                        <div class="space-y-8">
+                            
+                            <!-- Lead original -->
+                            <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_blank" class="px-3 py-1.5 rounded-md text-xs outline outline-1 outline-sky-500">Oferta do <span class="text-sky-500">Lead {{id}}</span>
+                            </a>
+                            
+                            <!-- Seção -->
+                            <div class="flex flex-wrap gap-4">
+                                <span class="basis-auto leading-3 font-bold">Seções do Email</span>
+                                <span class="flex-1 border-b border-slate-300"></span>
+                                <p class="basis-full text-slate-400 text-xs">Configure as seções de destaque no layout</p>
+                            </div>
+                            
+                            <!-- Campos -->
+                            <div class="flex flex-col gap-y-5 pl-4">
+                                
+                                <!-- Produto em destaque -->
+                                <div class="flex flex-col gap-y-1 text-sm">
+                                    <label for="produto_destaque" class="font-bold">Produto em Destaque</label>
+                                    <select name="produto_destaque" id="produto_destaque" class="border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+                                        <option value="">Nenhum</option>
+                                        {{#Produtos}}
+                                        {{#produtoDisponivel}}
+                                        <option value="{{produtoPOID}}" :selected="produto_destaque === '{{produtoPOID}}'">
+                                            {{Detalhe.produtoModelo}}
+                                        </option>
+                                        {{/produtoDisponivel}}
+                                        {{/Produtos}}
+                                    </select>
+                                </div>
+                                
+                                <!-- Oferta em destaque -->
+                                <div class="flex flex-col gap-y-1 text-sm">
+                                    <label for="oferta_destaque" class="font-bold">Oferta em Destaque</label>
+                                    <select name="oferta_destaque" id="oferta_destaque" class="border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+                                        <option value="">Nenhuma</option>
+                                        {{#Produtos}}
+                                        {{#produtoPrecoAjustado}}
+                                        {{#produtoDisponivel}}
+                                        <option value="{{produtoPOID}}" :selected="oferta_destaque === '{{produtoPOID}}'">
+                                            {{Detalhe.produtoModelo}} 
+                                        </option>
+                                        {{/produtoDisponivel}}
+                                        {{/produtoPrecoAjustado}}
+                                        {{/Produtos}}
+                                    </select>
+                                </div>
+                                
+                                <!-- Categoria em destaque -->
+                                <div class="flex flex-col gap-y-1 text-sm">
+                                    <label for="categoria_destaque" class="font-bold">Categoria em Destaque</label>
+                                    <select name="categoria_destaque" id="categoria_destaque" class="border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+                                        <option value="">Nenhuma</option>
+                                        {{#categories}}
+                                        <option value="{{categoriaID}}" :selected="categoria_destaque === '{{categoriaID}}'">
+                                            {{categoriaNome}}
+                                        </option>
+                                        {{/categories}}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Preço -->
+                        <div class="space-y-8">
+                            
+                            <!-- Seção -->
+                            <div class="flex flex-wrap gap-4">
+                                <span class="basis-auto leading-3 font-bold">Preços</span>
+                                <span class="flex-1 border-b border-slate-300"></span>
+                                <p class="basis-full text-slate-400 text-xs">Configure o preço a ser exibido</p>
+                            </div>
+                            
+                            <!-- Campos -->
+                            <div class="flex flex-col gap-y-3 pl-4">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="flex items-center gap-x-2">
+                                        <input x-cloak type="radio" id="sem_impostos" name="impostos" value="0"
+                                        :checked="{{#params}}'{{impostos}}' !== ''{{/params}}{{^params}}true{{/params}}"
+                                        
+                                        class="w-4 h-4">
+                                        <label for="sem_impostos" class="text-sm">Sem Impostos</label>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <input x-cloak type="radio" id="com_impostos" name="impostos" value="1"
+                                        :checked="{{#params}}'{{impostos}}' !== '0'{{/params}}{{^params}}false{{/params}}"
+                                        class="w-4 h-4">
+                                        <label for="com_impostos" class="text-sm">Com Impostos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Canais -->
+                        <div class="space-y-8">
+                            
+                            <!-- Seção -->
+                            <div class="flex flex-wrap gap-4">
+                                <span class="basis-auto leading-3 font-bold">Canais</span>
+                                <span class="flex-1 border-b border-slate-300"></span>
+                                <p class="basis-full text-slate-400 text-xs">Escolha o canal a ser enviada a oferta</p>
+                            </div>
+                            
+                            <!-- Campos -->
+                            <div class="flex flex-col gap-y-3 pl-4">
+                                
+                                <!-- Checkbox enviar -->
+                                <div class="flex items-center gap-x-2">
+                                    <input @click="enviar = !enviar" @click.once="channel = 'email'" type="checkbox" id="enviar" name="enviar" value="true"
+                                    class="w-4 h-4">
+                                    <label for="enviar" class="text-sm">Enviar</label>
+                                </div>
+                                
+                                <!-- Canal selecionado -->
+                                <div class="flex items-center gap-x-4 mt-2">
+                                    <div class="flex items-center gap-x-2">
+                                        <input @click="channel = 'email'" :checked="enviar" type="radio" id="send_email" name="canal" value="email"
+                                        class="w-4 h-4" :disabled="!enviar">
+                                        <label for="send_email" class="text-sm">Email</label>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <input @click="channel = 'whatsapp'" type="radio" id="send_whatsapp" name="canal" value="whatsapp"
+                                        class="w-4 h-4" :disabled="!enviar">
+                                        <label for="send_whatsapp" class="text-sm">WhatsApp <img x-show="enviar && !device_connected" src="{{ENV.cdn}}media/lead-offer/alerta.png" width="20" height="auto" alt="WhatsApp não conectado" title="WhatsApp não conectado" class="inline-block ml-0.5 align-top"/></label>
+                                        
+                                    </div>
+                                </div>
+                                
+                                <!-- Opção selecionada -->
+                                <div x-cloak 
+                                     x-show="enviar"
+                                     x-transition:enter="transition-all ease-in-out duration-[400ms]"
+                                     x-transition:enter-start=" max-h-0"
+                                     x-transition:enter-end="max-h-60"
+                                     x-transition:leave="transition-all ease-in-out duration-300"
+                                     x-transition:leave-start=" max-h-60"
+                                     x-transition:leave-end="max-h-0"
+                                     class="flex flex-col gap-y-3 overflow-hidden">
+    
+                                    <!-- Configuração do email -->
+                                    <div x-cloak 
+                                         x-show="channel === 'email'"
+                                         class="flex flex-col gap-y-5">
+                                        <div class="flex flex-col gap-y-1 text-sm">
+                                            <label for="nome_cliente" class="font-bold">Nome do Cliente</label>
+                                            <input disabled type="text" id="nome_cliente" name="nome_cliente" x-model="nome_cliente" class="appearance-none border border-slate-300 rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline disabled:bg-slate-200 disabled:text-slate-500">
+                                        </div>
+                                        <div x-data="{ contato_email: '' }" class="flex flex-col gap-y-1 text-sm">
+                                            <label for="email_cliente" class="font-bold">Email do Cliente <span class="text-slate-400 text-xs font-normal"> (integrado ao CRM / Agendor)</span>
+                                            </label>
+                                            <select x-model="contato_email"
+                                                    hx-get="/agendor/contatos/?cliente_id={{Cliente.clienteID}}&format=json"
+                                                    hx-swap="innerHTML"
+                                                    hx-trigger="load, getEmailTrigger"
+                                                    hx-target="#email_cliente"
+                                                    mustache-template="template_contato_email"
+                                                    :disabled="!enviar || channel !== 'email'" 
+                                                    @change="if (event.target.value === 'agendor') 
+                                                            { 
+                                                                window.open('/agendor/minha-carteira/?q={{Cliente.clienteID}}&modal_contato=true', '_blank'); 
+                                                                document.getElementById('email_cliente').selectedIndex = '0'; 
+                                                            }"
+                                                    id="email_cliente" 
+                                                    name="email_cliente" 
+                                                    class="border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+                                                <option>Carregando...</option>
+                                            </select>
+                                            
+                                            <!-- Lista de emails cadastrados do Agendor -->
+                                            {{=[[ ]]=}}
+                                            <template id="template_contato_email">
+                                                {{#linhas}}
+                                                <option x-init="btn_send = true" value="{{contato_email}}" :selected="contato_email === '{{contato_email}}'">
+                                                    {{contato_email}}
+                                                </option>   
+                                                {{/linhas}}
+                                                {{^linhas}}
+                                                <option x-init="btn_send = false">Selecione um contato</option>
+                                                {{/linhas}}
+                                                <optgroup label="--------------------------------">
+                                                    <option value="agendor">
+                                                        Adicionar contato no Agendor
+                                                    </option>
+                                                </optgroup>
+                                            </template>
+                                            [[={{ }}=]]
+                                                 
+                                        </div>
+                                        <div class="flex flex-col gap-y-1 text-sm">
+                                            <label for="titulo_email" class="font-bold">Título do Email</label>
+                                            <input :disabled="!enviar || channel !== 'email'" type="text" id="titulo_email" name="titulo_email" x-model="titulo_email" class="appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Configuração do whatsapp -->
+                                    <div x-cloak 
+                                         x-show="channel === 'whatsapp'"
+                                         hx-get="{{CONTAINER}}lead/offer/{{leadID}}/{{segmentID}}?format=json"
+                                         hx-swap="innerHTML"
+                                         hx-trigger="load, getDeviceTrigger"
+                                         hx-target="#target_get_device"
+                                         mustache-template="template_get_device"
+                                         id="device_connected"
+                                         class="flex flex-col gap-y-3">
+                                        
+                                        <div x-data="{ contato_whatsapp: '' }" class="flex flex-col gap-y-1 text-sm">
+                                            <label for="whatsapp_cliente" class="font-bold">Número do Cliente <span class="text-slate-400 text-xs font-normal"> (integrado ao CRM / Agendor)</span></label>
+                                            
+                                            <select x-model="contato_whatsapp"
+                                                    hx-get="/agendor/contatos/?cliente_id={{Cliente.clienteID}}&format=json"
+                                                    hx-swap="innerHTML"
+                                                    hx-trigger="load, getWhatsappTrigger"
+                                                    hx-target="#whatsapp_cliente"
+                                                    mustache-template="template_contato_wpp"
+                                                    :disabled="!enviar || channel !== 'whatsapp' || !device_connected" 
+                                                    @change="if (event.target.value === 'agendor') 
+                                                            { 
+                                                                window.open('/agendor/minha-carteira/?q={{Cliente.clienteID}}&modal_contato=true', '_blank'); 
+                                                                document.getElementById('email_cliente').selectedIndex = '0'; 
+                                                            }"
+                                                    id="whatsapp_cliente" 
+                                                    name="whatsapp_cliente" 
+                                                    class="border border-slate-300 rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline disabled:bg-slate-200 disabled:text-slate-500">
+                                                <option>Carregando...</option>
+                                            </select>
+                                            
+                                            {{=[[ ]]=}}
+                                            <template id="template_contato_wpp">
+                                                {{#linhas}}
+                                                <option value="{{contato_whatsapp_f}}" :selected="contato_whatsapp === '{{contato_whatsapp_f}}'">
+                                                    {{contato_whatsapp}}
+                                                </option>
+                                                {{/linhas}}
+                                                {{^linhas}}
+                                                <option>Selecione um contato</option>
+                                                {{/linhas}}
+                                                <optgroup label="--------------------------------">
+                                                    <option value="agendor">
+                                                        Adicionar contato no Agendor
+                                                    </option>
+                                                </optgroup>
+                                            </template>
+                                            [[={{ }}=]]
+                                            
+                                            <div x-show="device_connected" class="text-xs text-emerald-600">
+                                                Conectado como: <span x-text="usuario_conectado" class="font-bold"></span>
+                                            </div>
+                                            
+                                            <div x-show="!device_connected" class="text-center">
+                                                <p class="text-red-400">Você precisa estar conectado com o usuário <span class="font-bold">{{device.name}}</span> no <span class="font-bold">Zapbot!</span></p>
+                                                <p class="text-emerald-600">Para conectar, <a href="/zapbot" target="_blank" class="font-bold">clique aqui.</a></p>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <!-- Checando Valor da variável "Device" -->
+                                        <div class="hidden">
+                                            <div id="target_get_device"></div>
+                                            {{=[[ ]]=}}
+                                            <template id="template_get_device">
+                                                <div x-init="'{{device.status}}' === '2' ? device_connected = true : device_connected = false; usuario_conectado = '{{device.nome}} / {{device.name}}'"></div>
+                                            </template>
+                                            [[={{ }}=]]
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Botões -->
+                        <div class="flex items-center gap-x-2">
+                            <button x-cloak type="submit" :disabled="(!device_connected && channel == 'whatsapp') || (!btn_send && enviar)" x-text="enviar ? 'Enviar Oferta' : 'Atualizar Layout'" class="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:hover:bg-slate-300 disabled:bg-slate-300 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200">
+                            </button>
+                            <a href="{{CONTAINER}}lead/offer/{{leadID}}/{{segmentID}}" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200">Recomeçar
+                            </a>
+                        </div>
+                        
+                    </form>
+                </div>
+            </template>
+            
+            {{#params.enviar}}
+            <!-- Status do envio -->
+            <div class="absolute text-sm p-1.5 w-[850px] mt-3.5 text-center bg-emerald-500 rounded-lg text-white">
+                Oferta enviada com sucesso! Para voltar ao gerador, <a :href="'{{CONTAINER}}lead/offer/{{leadID}}/{{segmentID}}?' + params.toString()" class="font-bold underline">clique aqui.</a>
+            </div>
+            {{/params.enviar}}
+            
+            <!-- Preview do email -->
+            <div id="email" style="background-color: #e2e8f0; margin: 0 auto; padding: 60px 0; width: 100%; min-width: 970px; font-family: 'Roboto Flex', Arial, Helvetica, Verdana, sans-serif">
+                <table cellpadding="0" cellspacing="0" align="center" width="850" bgcolor="white" style="color: #404040; background-color: white; border-collapse: separate; border-spacing: 0; border-radius: 16px; border: 1px solid #cbd5e1; padding-bottom: 28px">
+    
+                    <!-- Topo -->
+                    <tr>
+                        <td>
+                            <table width="100%" border="0" cellpadding="28" cellspacing="0" bgcolor="#171717"
+                                   style="border-radius: 16px; background-color: #171717; table-layout: fixed">
+                                <tr>
+                                    <td align="center" width="240">
+                                        <img src="{{ENV.cdn}}media/rolemak-branco.png" width="240" height="auto" alt="{{Mail.title}}" title="{{Mail.title}}" style="display: block"/>
+                                    </td>
+                                    {{#auto}}
+                                    <td align="right" width="65%">
+                                        <img src="{{ENV.cdn}}media/r6/marcas-rolemak.png" width="400" height="auto" alt="Marcas Rolemak" title="Marcas Rolemak" style="display: block"/>
+                                    </td>
+                                    {{/auto}}
+                                    {{#bearings}}
+                                    <td align="right" width="65%">
+                                        <img src="{{ENV.cdn}}media/r6/marcas-rolemak.png" width="400" height="auto" alt="Marcas Rolemak" title="Marcas Rolemak" style="display: block"/>
+                                    </td>
+                                    {{/bearings}}
+                                    {{#moto}}
+                                    <td align="right" width="65%">
+                                        <img src="{{ENV.cdn}}media/r6/marcas-rolemak.png" width="400" height="auto" alt="Marcas Rolemak" title="Marcas Rolemak" style="display: block"/>
+                                    </td>
+                                    {{/moto}}
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="56"></td>
+                    </tr>
+                    
+                    {{#params}}
+                    
+                    {{#produto_destaque}}
+                    <!-- Produtos em destaque -->
+                    <tr>
+                        <td style="padding: 0 28px">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                
+                                <!-- Título -->
+                                <tr>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                    <td align="center" style="white-space: nowrap; font-size: 18px; padding:0 20px">Produto em <span style="font-weight: 700">Destaque</span></td>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td colspan="3" height="20"></td>
+                                </tr>
+                                
+                                {{#Produtos}}
+                                {{#produtoDestaque}}
+                                <!-- Topo dinâmico -->
+                                <tr>
+                                    <td colspan="3" height="20">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/{{Mail.topTableImg}}" style="display: block"/>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Destaque -->
+                                <tr>
+                                    <td colspan="3">
+                                        <table width="100%" height="auto" border="0" cellpadding="0" cellspacing="0" style="border-radius: 16px; border-collapse: separate">
+                                            <tr>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="{{Mail.mainColor}}" width="10" style="background-color: {{Mail.mainColor}}"></td>
+                                                <!-- Imagem -->
+                                                <td align="right" style="padding-left: 96px">
+                                                    <img width="240" height="240" src="https://img.rolemak.com.br/id/h240/{{produtoPOID}}.jpg?version=5.75" style="display: block; padding: 4px 0"/>
+                                                </td>
+                                                <!-- Produto -->
+                                                <td align="left" style="padding-left: 10px; padding-right: 96px">
+                                                    <table width="330" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <!-- Modelo -->
+                                                                <p style="color: #a3a3a3; font-size: 14px; line-height: 20px; margin-top: 0; margin-bottom: 4px">{{Detalhe.produtoModelo}}</p>
+                                                                
+                                                                <!-- Nome -->
+                                                                <p style="font-size: 20px; line-height: 28px; text-align: center; margin-top: 0; margin-bottom: 4px; font-weight: 600">{{Detalhe.produtoNome}}</p>
+                                                                
+                                                                <!-- Preço -->
+                                                                <div style="color: #0ea5e9; padding: 8px 0; font-size: 20px; line-height: 28px; text-align: center">
+                                                                    <span style="font-size: 20px; line-height: 28px; text-align: center">R$ </span>
+                                                                    <span style="font-size: 48px; line-height: 1; font-weight: 700; text-align: center">{{#params.impostos}}{{produtoValorUnitarioComImpostosSeparado.0}}{{/params.impostos}}{{^params.impostos}}{{produtoValorFormatadoSeparado.0}}{{/params.impostos}}</span><span style="font-weight: 700; font-size: 24px; line-height: 32px; vertical-align: top">,{{#params.impostos}}{{produtoValorUnitarioComImpostosSeparado.1}}{{/params.impostos}}{{^params.impostos}}{{produtoValorFormatadoSeparado.1}}{{/params.impostos}}</span>
+                                                                    <p style="color: #a3a3a3; font-size: 12px; line-height: 16px; margin-top: 0; margin-bottom: 0">
+                                                                        {{#params.impostos}}preço com impostos{{/params.impostos}}
+                                                                        {{^params.impostos}}preço base{{/params.impostos}}
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                                {{#produtoSOLR}}
+                                                                <!-- Botão -->
+                                                                <a href="https://www.rolemak.com.br/segmento/{{solr.segmentoSEO}}?q={{solr.produtoModelo}}&sort=sorterPriority" target="_blank" style="width: 70%; text-decoration: none; margin-top: 4px; display: block; text-align: center; background-color: {{Mail.mainColor}}; color: {{Mail.mainColorText}}; padding: 8px 0; border-radius: 12px; font-weight: 700; font-size: 14px; line-height: 20px">
+                                                                    Ver detalhes
+                                                                </a>
+                                                                {{/produtoSOLR}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="{{Mail.mainColor}}" width="10" style="background-color: {{Mail.mainColor}}"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Base dinâmica -->
+                                <tr>
+                                    <td colspan="3" height="20">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/{{Mail.bottomTableImg}}" style="display: block"/>
+                                    </td>
+                                </tr>
+                                {{/produtoDestaque}}
+                                {{/Produtos}}
+                            
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="56"></td>
+                    </tr>
+                    {{/produto_destaque}}
+                    
+                    {{#oferta_destaque}}
+                    <!-- Produtos em oferta -->
+                    <tr>
+                        <td style="padding: 0 28px">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                
+                                <!-- Título -->
+                                <tr>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                    <td align="center" style="white-space: nowrap; font-size: 18px; padding:0 20px">Produto em <span style="font-weight: 700">Oferta</span></td>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td colspan="3" height="20"></td>
+                                </tr>
+                                
+                                {{#Produtos}}
+                                {{#ofertaDestaque}}
+                                <!-- Topo dinâmico -->
+                                <tr>
+                                    <td colspan="3" height="20">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/{{Mail.topTableImg}}" style="display: block"/>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Destaque -->
+                                <tr>
+                                    <td colspan="3">
+                                        <table width="100%" height="auto" border="0" cellpadding="0" cellspacing="0" style="border-radius: 16px; border-collapse: separate">
+                                            <tr>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="{{Mail.mainColor}}" width="10" style="background-color: {{Mail.mainColor}}"></td>
+                                                <!-- Desconto -->
+                                                <td align="center" style="padding-left: 81px">
+                                                    <p style="margin-top: 0; margin-bottom: 4px; font-weight: 700; text-transform: uppercase">Produto com</p>
+                                                    <p style="width: 170px; margin-top: 0; margin-bottom: 4px; font-weight: 800; background-color: #404040; color: white; border-radius: 9999px; padding: 8px 0; font-size: 60px; line-height: 1; text-align: center">
+                                                        {{produtoDescontoPorcentagem}}<span style="font-weight: normal">%</span>
+                                                    </p>
+                                                    <p style="margin-top: 0; margin-bottom: 0; font-weight: 700; text-transform: uppercase;">de desconto</p>
+                                                </td>
+                                                <!-- Imagem -->
+                                                <td align="center" width="230">
+                                                    <img width="185" src="https://img.rolemak.com.br/id/h185/{{produtoPOID}}.jpg?version=5.75" style="display: block"/>
+                                                </td>
+                                                <!-- Produto -->
+                                                <td style="padding-right: 81px; padding-top: 4px; padding-bottom: 4px">
+                                                    <!-- Modelo -->
+                                                    <p style="margin-top: 0; margin-bottom: 4px; color: #a3a3a3; font-size: 12px; line-height: 16px">{{Detalhe.produtoModelo}}</p>
+                                                    <!-- Nome -->
+                                                    <p style="margin-top: 0; margin-bottom: 8px; font-size: 16px; line-height: 1.25; font-weight: 600; ">{{Detalhe.produtoNome}}</p>
+                                                    <!-- Preço -->
+                                                    <p style="color: #ef4444; font-size: 14px; line-height: 20px; margin-top: 0; margin-bottom: 0">
+                                                        de: <span style="text-decoration-line: line-through">R$ 
+                                                        {{#params.impostos}}{{produtoValorOriginalUnitarioComImpostos}}{{/params.impostos}}
+                                                        {{^params.impostos}}{{produtoValorOriginal}}{{/params.impostos}}
+                                                        </span>
+                                                    </p>
+                                                    <p style="color: #0ea5e9; margin-top: 0; margin-bottom: 0">
+                                                        <span style="font-size: 14px; line-height: 20px">por:</span>
+                                                        <span style="font-size: 16px; line-height: 24px">R$ </span><span style="font-size: 30px; line-height: 36px; font-weight: 700">{{#params.impostos}}{{produtoValorUnitarioComImpostosSeparado.0}}{{/params.impostos}}{{^params.impostos}}{{produtoValorFormatadoSeparado.0}}{{/params.impostos}}</span><span style="font-weight: 700; font-size: 16px; line-height: 24px; vertical-align: top">,{{#params.impostos}}{{produtoValorUnitarioComImpostosSeparado.1}}{{/params.impostos}}{{^params.impostos}}{{produtoValorFormatadoSeparado.1}}{{/params.impostos}}</span>
+                                                    </p>
+                                                    <p style="color: #a3a3a3; font-size: 12px; line-height: 16px; margin-top: 0; margin-bottom: 0">
+                                                        {{#params.impostos}}preço com impostos{{/params.impostos}}
+                                                        {{^params.impostos}}preço base sem impostos{{/params.impostos}}
+                                                    </p>
+                                                    
+                                                    {{#produtoSOLR}}
+                                                    <!-- Botão -->
+                                                    <p style="margin-top: 8px; margin-bottom: 0">
+                                                        <a href="https://www.rolemak.com.br/segmento/{{solr.segmentoSEO}}?q={{solr.produtoModelo}}&sort=sorterPriority" target="_blank" style="width: 130px; text-decoration: none; display: block; text-align: center; background-color: {{Mail.mainColor}}; color: {{Mail.mainColorText}}; padding: 8px 0; border-radius: 12px; font-weight: 700; font-size: 14px; line-height: 20px">
+                                                            Ver detalhes
+                                                        </a>
+                                                    </p>
+                                                    {{/produtoSOLR}}
+                                                </td>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="{{Mail.mainColor}}" width="10" style="background-color: {{Mail.mainColor}}"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Base dinâmica -->
+                                <tr>
+                                    <td colspan="3" height="20">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/{{Mail.bottomTableImg}}" style="display: block"/>
+                                    </td>
+                                </tr>
+                                {{/ofertaDestaque}}
+                                {{/Produtos}}
+                                
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="56"></td>
+                    </tr>
+                    {{/oferta_destaque}}
+                    
+                    {{/params}}
+                    
+                    <!-- Cotação solicitada -->
+                    <tr>
+                        <td>
+                            <table width="100%" border="0" cellpadding="40" cellspacing="0" bgcolor="#f0f9ff"
+                                   style="background-color: #f0f9ff">
+                                <tr>
+                                    <td>
+                                        <table align="center" style="border-collapse: separate; border-spacing: 16px 0">
+                                            <tr>
+                                                <!-- Ícone Lead -->
+                                                <td>
+                                                    <table cellpadding="0" bgcolor="#0ea5e9" style="height: 56px; width: 56px; border-radius: 9999px; background-color: #0ea5e9">
+                                                        <tr>
+                                                            <td align="center" valign="center">
+                                                                <img style="display: block" width="30" src="{{ENV.cdn}}media/lead.png" style="display: block"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <!-- Número da oferta -->
+                                                <td>
+                                                    <table cellpadding="0" style="color: #0ea5e9">
+                                                        <tr>
+                                                            <td align="center" style="text-align: center; font-size: 20px; line-height: 28px; font-weight: 600;">
+                                                                Oferta <span style="font-weight: 800">Nº {{id}}</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-size: 14px; line-height: 20px">
+                                                                Aqui está a lista de produtos em ofertas.
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="44"></td>
+                    </tr>
+                    
+                    <!-- Produtos cotados -->
+                    <tr>
+                        <td>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; border-spacing: 0 12px; padding: 0 28px; font-size: 12px; line-height: 16px; table-layout: fixed">
+                                
+                                {{#Produtos.0}}
+                                <!-- Produtos -->
+                                {{#Produtos}}
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; border-radius: 16px; border: 1px solid #d4d4d4; padding: 8px 24px">
+                                            <tr>
+                                                
+                                                <!-- Contagem / Imagem / Nome -->
+                                                <td>
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed">
+                                                        <tr>
+                                                            <!-- Imagem -->
+                                                            <td width="86">
+                                                                <img src="https://img.rolemak.com.br/id/h70/{{produtoPOID}}.jpg?version=5.75" style="display: block"/>
+                                                            </td>
+                                                            
+                                                            <!-- Nome -->
+                                                            <td width="215">
+                                                                {{#Detalhe}}
+                                                                <p style="font-size: 12px; color: #a3a3a3; margin-bottom: 2px; margin-top: 0">{{produtoModelo}}</p>
+                                                                <p style="color: #404040; font-size: 12px; font-weight: 700; margin-top: 0; margin-bottom: 0">{{produtoNome}}</p>
+                                                                
+                                                                {{#produtoMarca}}
+                                                                <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; margin-top: 2px; color: #a3a3a3; border-radius: 999px; background-color: #f5f5f5; padding: 2px 8px">
+                                                                    <tr>
+                                                                        <td style="font-size: 12px">{{produtoMarca}}</td>
+                                                                    </tr>
+                                                                </table>
+                                                                {{/produtoMarca}}
+                                                                
+                                                                {{/Detalhe}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                
+                                                <!-- Divider -->
+                                                <td width="1" style="padding: 0 24px">
+                                                    <p style="border-right: 1px solid #e5e5e5; height: 54px; margin-top: 0; margin-bottom: 0"></p>
+                                                </td>
+                                                
+                                                {{#produtoDisponivel}}
+                                                
+                                                <!-- Unidades -->
+                                                <td width="40%" align="center">
+                                                    <p style="font-size: 12px; color: #a3a3a3; margin-bottom: 2px; margin-top: 0">Qtde.</p>
+                                                    <p style="color: #404040; font-size: 12px; font-weight: 700; margin-top: 0; margin-bottom: 0">{{produtoQuantidade}}</p>
+                                                </td>
+                                                
+                                                <!-- Divider -->
+                                                <td width="1" style="padding: 0 24px">
+                                                    <p style="border-right: 1px solid #e5e5e5; height: 54px; margin-top: 0; margin-bottom: 0"></p>
+                                                </td>
+                                                
+                                                <!-- Preço -->
+                                                <td width="60%" align="center">
+                                                    <p style="font-size: 12px; color: #a3a3a3; margin-bottom: 2px; margin-top: 0">Subtotal</p>
+                                                    <p style="color: #404040; font-size: 12px; font-weight: 700; margin-top: 0; margin-bottom: 0">
+                                                        R$ {{#params.impostos}} {{produtoValorSubtotalComImpostos}} {{/params.impostos}}
+                                                           {{^params.impostos}} {{produtoValorSubtotal}} {{/params.impostos}}* 
+                                                    </p>
+                                                </td>
+                                                
+                                                <!-- Divider -->
+                                                <td width="1" style="padding: 0 24px">
+                                                    <p style="border-right: 1px solid #e5e5e5; height: 54px; margin-top: 0; margin-bottom: 0"></p>
+                                                </td>
+                                                
+                                                {{#produtoSOLR}}
+                                                <!-- Botão ver detalhes -->
+                                                <td>
+                                                    <table width="104" border="0" cellpadding="0" cellspacing="0" style="background-color: {{Mail.mainColor}}; border-collapse: separate; border-radius: 8px">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <a style="font-size: 12px; color: {{Mail.mainColorText}}; text-decoration: none; white-space: nowrap; display: block; padding: 6px 16px; font-weight: 700" href="https://www.rolemak.com.br/segmento/{{solr.segmentoSEO}}?q={{solr.produtoModelo}}&sort=sorterPriority" target="_blank">
+                                                                  Ver detalhes
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                {{/produtoSOLR}}
+                                                {{^produtoSOLR}}
+                                                
+                                                <!-- Botão ver detalhes -->
+                                                <td>
+                                                    <table width="104" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; color: #a3a3a3; border-collapse: separate; border-radius: 8px">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <p style="white-space: nowrap; display: block; padding: 6px 16px; font-weight: 700; font-size: 12px; margin-top: 0; margin-bottom: 0">
+                                                                  Ver detalhes
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                
+                                                {{/produtoSOLR}}
+                                                
+                                                {{/produtoDisponivel}}
+                                                {{^produtoDisponivel}}
+                                                
+                                                <!-- Produto indisponível -->
+                                                <td width="100%">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; border-radius: 8px; background-color: #fef2f2; color: #f87171; padding: 8px 16px">
+                                                        <tr>
+                                                            <td style="font-size: 12px">Produto Indisponível</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                {{/produtoDisponivel}}
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                {{/Produtos}}
+                                
+                                <!-- Legenda -->
+                                <tr>
+                                    <td align="center" style="font-size: 12px; color: #a3a3a3">
+                                        {{#params.impostos}}* Preço com impostos{{/params.impostos}}
+                                        {{^params.impostos}}* Preço base sem impostos{{/params.impostos}}
+                                    </td>
+                                </tr>
+                                {{/Produtos.0}}
+                                {{^Produtos.0}}
+                                <!-- Lead vazio -->
+                                <tr>
+                                    <td width="100%">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; border-radius: 8px; background-color: #fef2f2; color: #f87171; padding: 8px 16px">
+                                            <tr>
+                                                <td>Oferta sem nenhum produto!</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                {{/Produtos.0}}
+                                
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="56"></td>
+                    </tr>
+                    
+                    {{#params.categoria_destaque}}
+                    <!-- Sobre a categoria -->
+                    <tr>
+                        <td style="padding: 0 28px">
+                            {{#categories}}
+                            {{#categoriaSelecionado}}
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0"> 
+                                
+                                <!-- Título -->
+                                <tr>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                    <td align="center" style="white-space: nowrap; font-size: 18px; padding:0 20px">Linha de <span style="font-weight: 700">{{categoriaNome}}</span></td>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td colspan="3" height="20"></td>
+                                </tr>
+                                
+                                <!-- Topo dinâmico -->
+                                <tr>
+                                    <td colspan="3" width="10">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/top-categoria.png" style="display: block" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="background-color: #f5f5f5">
+                                        <table width="100%" height="auto" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate">
+                                            <tr>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="#d4d4d4" width="10" style="background-color: #d4d4d4"></td>
+                                                <!-- Imagem -->
+                                                <td align="right" style="padding-left: 80px">
+                                                    <img width="200" style="min-width: 200px; display: block; border-radius: 9999px; padding: 4px 0" src="https://img.rolemak.com.br/imagefly/h200/media/images/{{categoriaSEO}}.jpg?version=9.01" title="{{categoriaNome}}" alt="{{categoriaNome}}"/>
+                                                </td>
+                                                
+                                                <!-- CTA -->
+                                                <td align="left" style="padding-right: 80px; padding-left: 50px">
+                                                    <p style="font-size: 16px; margin-bottom: 2px; margin-top: 0">Conheça todos modelos da nossa linha de</p>
+                                                    <p style="text-transform: uppercase; font-size: 30px; line-height: 36px; font-weight: 900; margin-bottom: 18px; margin-top: 0">{{categoriaNome}}</p>
+                                                    <a href="https://www.rolemak.com.br/segmento/{{segmentoSEO}}/?q=*&fq=categoriaNome:&#34;{{categoriaNome}}&#34;" target="_blank" style="display: block; width: 200px; text-align: center; padding: 8px 36px; border-radius: 12px; background-color: #404040; font-weight: 700; font-size: 14px; color: white; text-decoration: none">Explorar Categoria</a>
+                                                </td>
+                                                <!-- Borda dinâmica -->
+                                                <td bgcolor="#d4d4d4" width="10" style="background-color: #d4d4d4"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- Base dinâmica -->
+                                <tr>
+                                    <td colspan="3" width="10">
+                                        <img width="792" height="20" src="{{ENV.cdn}}media/lead-offer/bottom-categoria.png" style="display: block" />
+                                    </td>
+                                </tr>
+                            </table>
+                            {{/categoriaSelecionado}}
+                            {{/categories}}
+                        </td>
+                    </tr>
+                    
+                    <!-- Separador -->
+                    <tr>
+                        <td height="56"></td>
+                    </tr>
+                    {{/params.categoria_destaque}}
+                    
+                    <!-- Contato -->
+                    <tr>
+                        <td style="padding: 0 28px">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                
+                                <!-- Título -->
+                                <tr>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                    <td align="center" style="white-space: nowrap; font-size: 18px; padding:0 20px">Dúvidas? <span style="font-weight: 700">Entre em contato!</span></td>
+                                    <td width="50%">
+                                        <table width="100%" height="6" border="0" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 9999px">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Dados de contato -->
+                                <tr>
+                                    <td colspan="3" style="padding-top: 20px; color: white">
+                                        <table width="100%" height="auto" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; background-color: #404040; border-radius: 16px; padding: 16px 40px">
+                                            
+                                            <!-- Vendedor -->
+                                            <tr>
+                                                <td valign="top">
+                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="color: white; border-collapse: separate; border-spacing: 0 5px; font-size: 14px">
+                                                        
+                                                        <!-- Nome -->
+                                                        <tr>
+                                                            <td height="44" valign="top" colspan="2" style="font-weight: 600; font-size: 24px; line-height: 32px">
+                                                                {{Vendedor.UsuarioNome}}
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        {{#Vendedor.UsuarioCelular}}
+                                                        <!-- Telefone -->
+                                                        <tr>
+                                                            <td height="22" width="25"><img width="20" src="{{ENV.cdn}}media/telefone.png" style="display: block"/></td>
+                                                            <td style="font-size: 14px; padding-left: 4px">{{Vendedor.UsuarioCelular}}</td>
+                                                        </tr>
+                                                        {{/Vendedor.UsuarioCelular}}
+                                                        
+                                                        {{#Vendedor.UsuarioCelular}}
+                                                        <!-- WhatsApp -->
+                                                        <tr>
+                                                            <td height="22" width="25"><img width="20" src="{{ENV.cdn}}media/whatsapp.png" style="display: block"/></td>
+                                                            <td style="font-size: 14px; padding-left: 4px">{{Vendedor.UsuarioCelular}}</td>
+                                                        </tr>
+                                                        {{/Vendedor.UsuarioCelular}}
+                                                        
+                                                        {{#Vendedor.UsuarioSkype}}
+                                                        <!-- Skype -->
+                                                        <tr>
+                                                            <td height="22" width="25"><img width="20" src="{{ENV.cdn}}media/skype.png" style="display: block"/></td>
+                                                            <td style="font-size: 14px; padding-left: 4px">{{Vendedor.UsuarioSkype}}</td>
+                                                        </tr>
+                                                        {{/Vendedor.UsuarioSkype}}
+                                                        
+                                                        {{#Vendedor.UsuarioEmail}}
+                                                        <!-- Email -->
+                                                        <tr>
+                                                            <td height="22" width="25"><img width="20" src="{{ENV.cdn}}media/email.png" style="display: block"/></td>
+                                                            <td style="font-size: 14px; padding-left: 4px"><a href="#" name="vendedor_email" style="color: white; text-decoration: none">{{Vendedor.UsuarioEmail}}</a></td>
+                                                        </tr>
+                                                        {{/Vendedor.UsuarioEmail}}
+                                                        
+                                                    </table>
+                                                </td>
+        
+                                                <!-- Divider -->
+                                                <td width="1" style="padding: 0 20px">
+                                                    <p style="border-right: 1px solid #737373; height: 160px; margin-top: 0; margin-bottom: 0"></p>
+                                                </td>
+        
+                                                <!-- Empresa -->
+                                                <td valign="top">
+                                                    <table align="right" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; border-spacing: 0 5px; font-size: 14px; color: #a3a3a3">
+                                                        
+                                                        <!-- Logo -->
+                                                        <tr>
+                                                            <td height="44" valign="top" align="right" colspan="2">
+                                                                <img width="200" src="{{ENV.cdn}}media/rolemak-rodape-oferta.png" style="display: block"/>
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        <!-- Razão -->
+                                                        <tr>
+                                                            <td height="22" align="right" style="font-size: 14px; padding-left: 8px">{{Emitente.emitenteRazao}}</td>
+                                                        </tr>
+                                                        
+                                                        <!-- CNPJ -->
+                                                        <tr>
+                                                            <td height="22" align="right" style="font-size: 14px; padding-left: 8px">{{Emitente.emitenteCnpjFormatado}}</td>
+                                                        </tr>
+                                                        
+                                                        <!-- Endereço -->
+                                                        <tr>
+                                                            <td height="22" align="right" style="font-size: 14px; padding-left: 8px">
+                                                                <a href="#" name="endereco" style="color: #a3a3a3; text-decoration: none">{{Emitente.emitenteLogradouro}}, {{Emitente.emitenteNumero}} - {{Emitente.emitenteBairro}} - {{Emitente.emitenteMunicipio}}/{{Emitente.emitenteUF}}</a></td>
+                                                        </tr>
+    
+                                                        <!-- CEP -->
+                                                        <tr>
+                                                            <td height="22" align="right" style="font-size: 14px; padding-left: 8px">
+                                                                <a href="#" name="cep" style="color: #a3a3a3; text-decoration: none">{{Emitente.emitenteCEP}}</a></td>
+                                                        </tr>
+                                                        
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+    {{/Lead}}
+    </body>
+</html>

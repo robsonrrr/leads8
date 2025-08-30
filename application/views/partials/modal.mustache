@@ -1,0 +1,109 @@
+<!-- Modal -->
+<div class="modal fade" id="obsModal" tabindex="-1" role="dialog" aria-labelledby="obsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="obsModalLabel">Coloque suas Obersações no Pedido / Cotação / Lead</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="{{CONTAINER}}lead/update/{{id}}">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="observacaoFinaceiro">observacaoFinanceiro</label>
+                        <textarea class="form-control" name="observacaoFinaceiro" id="observacaoFinaceiro" rows="3">{{observacaoFinaceiro}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacaoLogistica">observacaoLogistica</label>
+                        <textarea class="form-control" name="observacaoLogistica" id="observacaoLogistica" rows="3">{{observacaoLogistica}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacaoNotaFiscal">observacaoNotaFiscal</label>
+                        <textarea class="form-control" name="observacaoNotaFiscal" id="observacaoNotaFiscal" rows="3">{{observacaoNotaFiscal}}</textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary rounded-0">Gravar Edições</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- remoteModal Large -->
+<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="remoteModalLabel"> Title </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ticket -->
+<div class="modal fade" id="modalTicketAdd" class="modalTicket" tabindex="-1" role="dialog" aria-labelledby="titleModalTicket" aria-hidden="true" data-dismiss="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="remoteModalLabel2"> Title </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Importar Produtos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{CONTAINER}}lead/import" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Selecione de onde quer importar</label>
+                        <select class="form-control" id="recipient-type" name="type">
+                            <option value=""></option>
+                            <option value="ecommerce">Ecommerce</option>
+                            <option value="lead">Lead</option>
+                            <option value="order">Pedido</option>
+                            <option value="quote">Consulta</option>
+                            <option value="shipment">Importação</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Número <small>( Pedido, Lead ou Cotação )</small> ou Nome <small>( Ecommerce )</small>:</label>
+                        <input type="text" class="form-control" id="recipient-name" name="order" autocomplete="off">
+                        <input type="hidden" class="form-control" id="lead" name="lead" value="{{id}}">
+                        <input type="hidden" class="form-control" id="segmentoPOID" name="segmentoPOID" value="{{segmentoPOID}}">
+                        <input type="hidden" class="form-control" id="customer" name="customer" value="{{clientePOID}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Importar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

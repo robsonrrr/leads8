@@ -1,0 +1,35 @@
+<table class="table table-bordered table-striped tablesorter">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">RecordName</th>
+            <th scope="col">NewContent</th>
+            <th scope="col">UserId</th>
+            <th scope="col">Datetime</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#response}}
+        <tr>
+            <th scope="row">{{count}}</th>
+            <td>{{RecordName}}</td>
+            <td>{{NewContent}}</td>
+            <td>{{UserId}}</td>
+            <td>{{Datetime}}</td>
+        </tr>
+        {{/response}}
+        {{^response}}
+        <tr>
+            <td colspan="5">Sem Historico desse item</td>
+        </tr>
+        {{/response}}
+    </tbody>
+</table>
+
+<script>
+
+    $(function () {
+        $(".tablesorter").tablesorter();
+    });
+
+</script>

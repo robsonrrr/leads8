@@ -1,0 +1,82 @@
+{{#Lead}}
+<div id="mainContent">
+    <!-------------------------------------------------------------
+HEADER
+-------------------------------------------------------------->
+    <div style="margin:0 auto; background-color:#222121; height:80px; width:690px; font-family:Arial, Helvetica, sans-serif; border-bottom:5px solid #f08200; font-size:14px;">
+        <div style="float:left; padding:20px 0px 0 25px">
+            <img src="{{Mail.logo}}" width="325" height="41" alt="Rolemak" title="Rolemak">
+        </div>
+        <div style="float:right; padding:30px 25px 0 0; color:#FFF; font-size:18px;">Avise-me</div>
+    </div>
+
+    <!-------------------------------------------------------------
+BODY
+-------------------------------------------------------------->
+    <div style="margin:10px auto; padding:0 0 20px 0; margin-top:8px; background:#FFF url(http://cdn.rolemak.com.br/media/sir/bg-email.jpg) repeat-x; height:auto; width:690px; font-family:Arial, Helvetica, sans-serif; font-size:14px;">
+        <!-------------------------------------------------------------
+TITLE
+-------------------------------------------------------------->
+        <div style="color:#FFF; font-size:23px; text-align:center; width:550px; margin:0 auto; padding:15px 0 0 0; ">
+            <strong style="font-size:26px">{{Cliente.clienteNome}}</strong>,<br>o Produto de seu interesse chegou!
+        </div>
+        <div style="color:#FFF; font-size:14px; text-align:center; width:550px; margin:0 auto; padding:5px 0 10px 0;">
+            Entre em contato conosco, ligue já e garanta seu produto agora mesmo.
+        </div>
+        <!-------------------------------------------------------------
+PRODUCT
+-------------------------------------------------------------->
+
+        {{#Produtos}}
+        {{#solr}}
+        <div style="margin:0px auto; padding:10px 0 0 0; background-color:#FFF; height:300px; width:600px; font-family:Arial, Helvetica, sans-serif; font-size:13px;border:3px solid #ffead3; color:#333333 ">
+            <div style="float:left;  width:290px; margin-right:10px; ">
+                <img border="0" src="{{ENV.img}}id/h300/{{produtoPOID}}.jpg" height="290" width="290" alt="6580/6535" title="6580/6535">
+            </div>
+            <div style="float:left; width:300px; padding:20px 0 0 0;">
+                <div style="font-size:22px; padding:5px 0 0 0; color:#222121; font-weight:bold;">{{produtoModelo}}</div>
+
+                <div>
+                    <img src="{{ENV.cdn}}media/marcas/{{marcaSeo}}.png" width="60">
+                </div>
+
+                <div style="font-size:18px; color:#f08200; font-weight:bold; height:30px ; line-height:18px;">{{produtoNome}}</div>
+
+                <div style="padding:5px 0; float:left; width:80px; "><strong> Peso </strong><br> {{produtoPesoFormatado}}</div>
+
+                <div style="padding:5px 0; float:left; width:120px; border-left:1px solid #CCC; padding-left:15px;"><strong> Embalagem </strong><br> {{produtoEmbalagem}}</div>
+                <div style="clear:both; width:100%"></div>
+
+                {{#produtoMedida}}
+                <div style="padding:4px 0"><strong> Medidas (mm):</strong><br> D:{{produtoMedidaDiametro}} x d:{{produtoMedidaFuro}} x B:{{produtoMedidaLargura}}</div>
+                {{/produtoMedida}}
+            </div>
+        </div>
+        {{/solr}}
+        {{/Produtos}}
+
+        <!-------------------------------------------------------------
+SALE
+-------------------------------------------------------------->
+        <div style="margin:10px auto; text-align:center; padding:5px 0 0 0;  height:30px; width:600px; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:18px; color:#000000">
+            Os itens de seu interesse em breve estarão disponíveis em estoque pelo site. Entre em contato antes que sejam disponibilizados para os demais Clientes.
+        </div>
+
+        <div style="margin:35px 0 0 0; height:2px; width:600px; border-bottom:1px solid #FFF; border-top:1px solid #ffbd83"> &nbsp;  </div>
+        <div style="margin:10px auto;  height:20px; width:600px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; text-align:center">
+            <div style="font-size:15px; padding:10px 0 0 0">* Este e-mail não garante a reserva exclusiva do(s) produto(s) acima.</div>
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------
+FOOTER
+-------------------------------------------------------------->
+    <div style="margin:0 auto; background-color:#222121; height:80px; width:690px; font-family:Arial, Helvetica, sans-serif; border-top:5px solid #a7a6a6; font-size:12px; text-align:center; color:#FFF">
+        <div style="width:100%; padding:15px 0 3px 0; font-size:18px;">Rolemak Comercial Ltda | www.rolemak.com.br</div>
+        <div style="width:100%; padding:0px 0">Unidade Matriz - Rolamentos, Produtos e Equipamentos Industriais</div>
+        <div style="width:100%; padding:0px 0">R. Pedro Bellegarde, 350 - Tatuapé - São Paulo - SP</div>
+    </div>
+
+    <center><p style="font-size:10px; color:#999999; font-family:Verdana, Geneva, sans-serif;">Sistema de e-mail automático. Por favor, não responda.</p></center>
+</div>
+{{/Lead}}

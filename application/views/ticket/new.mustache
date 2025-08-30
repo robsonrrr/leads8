@@ -1,0 +1,117 @@
+<form id="formTicketAdd" class="formTicket" data-url="/crm/v3/tickets/add/">
+
+    <input type="hidden" class="form-control" name="ticketConsultaId" id="ticketConsultaId" value="{{consulta_id}}">
+    <input type="hidden" class="form-control" name="ticketPedidoId" id="ticketPedidoId" value="">
+    <input type="hidden" class="form-control" name="ticketClienteId" id="ticketClienteId" value="{{cliente_id}}">
+
+    <input type="hidden" class="form-control ticketProcessoId" id="ticketProcessoIdAdd" name="ticketProcessoId" value="">
+    <input type="hidden" class="form-control ticketStatusId" id="ticketStatusIdAdd" name="ticketStatusId" value="">
+
+    <div class="form-group">
+        <p>
+            <img src="{{ENV.cdn}}media/sir/processo_vendas_0.png" class="w-100 imgTicket" id="imgTicketAdd">
+        </p>
+    </div>
+    <div class="form-group">
+        <div class="alert alert-danger p-2 m-0 w-100" role="alert"><h6 class="countExistTickets p-0 m-0" id="countExistTickets"> </h6></div>
+    </div>
+    <div class="form-group">
+        <p class="p-0 m-0"><kbd>Origem</kbd> <small>(obrigatório)</small></p>
+        {{#origem}}
+        <div class="form-check form-check-inline mt-1">
+            <input class="form-check-input" type="radio" class="ticketOrigemId" name="ticketOrigemId" id="ticketOrigemIdAdd_{{id}}" value="{{id}}" {{#selected}}checked{{/selected}}>
+            <label class="form-check-label" for="ticketOrigemIdAdd_{{id}}"><strong>{{nome}}</strong> <small>({{detalhe}})</small></label>
+        </div>
+        {{/origem}}
+    </div>
+
+    <div class="form-group">
+        <p class="font-weight-bolder p-0 m-0"><kbd>Canal</kbd> <small>(obrigatório)</small></p>
+        {{#canal}}
+        <div class="form-check form-check-inline mt-1">
+            <input class="form-check-input" class="ticketCanalIdAdd" type="radio" name="ticketCanalId" id="ticketCanalId_{{id}}" value="{{id}}" {{#selected}}checked{{/selected}}>
+            <label class="form-check-label" for="ticketCanalId_{{id}}"><strong>{{nome}}</strong></label>
+        </div>
+        {{/canal}}
+    </div>
+
+    <div class="form-group msg-step step d-none lead"></div>
+    <div class="form-group step step-1 d-none">
+        <label for="" class="font-weight-bold">Houve contato com o possível Cliente?</label>
+        <div class="w-100">
+            <div class="ui buttons">
+                <button type="button" class="ui button div-step-1" value="0">Não</button>
+                <div class="or" data-text="ou"></div>
+                <button type="button" class="ui black button div-step-1" value="1">Sim</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group step step-2 d-none">
+        <label for="" class="font-weight-bold">Houve negociação com o cliente?</label>
+        <div class="w-100">
+            <div class="ui buttons">
+                <button type="button" class="ui button div-step-2" value="0">Não</button>
+                <div class="or" data-text="ou"></div>
+                <button type="button" class="ui black button div-step-2" value="1">Sim</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group step step-3 d-none">
+        <label for="" class="font-weight-bold">Foi emitido pedido?</label>
+        <div class="w-100">
+            <div class="ui buttons">
+                <button type="button" class="ui button div-step-3" value="0">Não</button>
+                <div class="or" data-text="ou"></div>
+                <button type="button" class="ui black button div-step-3" value="1">Sim</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group step step-4 d-none">
+        <label for="" class="font-weight-bold">Prestou algum serviço de pós-venda?</label>
+        <div class="w-100">
+            <div class="ui buttons">
+                <button type="button" class="ui button div-step-4" value="0">Não</button>
+                <div class="or" data-text="ou"></div>
+                <button type="button" class="ui black button div-step-4" value="1">Sim</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group step step-5 d-none">
+        <label for="ticketStatusId" class="font-weight-bold">O seu serviço/produto em relação ao cliente ficou ?</label>
+        <p>
+            <button type="button" class="btn btn-outline-danger rounded-0 div-step-5 mr-1" value="1" data-segment="{{SESSION.MM_Segment}}">Agendar Ticket</button>
+            <button type="button" class="btn btn-outline-primary rounded-0 div-step-5" value="2" data-segment="{{SESSION.MM_Segment}}">Encerrar Ticket</button>
+        </p>
+    </div>
+
+    <div class="form-group step step-6 d-none">
+        <label for="ticketEventoId" class="font-weight-bold">Evento:<small>(obrigatório)</small></label>
+        <select class="form-control col-md-10 ticketEventoId" id="ticketEventoIdAdd" name="ticketEventoId">
+        </select>
+    </div>
+
+    <div class="form-group step step-7 d-none">
+        <label for="ticketDataRetorno">Programar retorno: (obrigatório)</label>
+        <input type="date" name="ticketDataRetorno" id="ticketDataRetorno" min="2019-09-06" max="2030-12-31" class="col-md-4 form-control" value="{{today}}">
+    </div>
+
+    <div class="form-group step step-11 d-none">
+        <label for="ticketDataRetorno" class="font-weight-bold">Reprogramar retorno: <small>(não obrigatório, caso selecionado será criado um novo ticket agendado para a data escolhida)</small></label>
+        <input type="date" name="ticketDataRetornoReprogramado" id="ticketDataRetornoReprogramadoAdd" min="2019-09-06" max="3000-12-31" class="col-md-4 form-control ticketDataRetornoReprogramado" value="">
+        <small id="ticketDataRetornoHelp" class="form-text text-muted"></small>
+    </div>
+
+    <div class="form-group step step-9 d-none">
+        <label for="ticketDetalhes" class="font-weight-bold">Detalhes: <small>(detalhar ticket)</small></label>
+        <textarea class="form-control ticketDetalhes" id="ticketDetalhesAdd" rows="4" maxlength="355" name="ticketDetalhes"></textarea>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger rounded-0 clearTicket" data-form="formTicket"><i class="fas fa-trash"></i> Limpar</button>
+        <button type="button" id="buttonAddTicket" class="btn btn-primary rounded-0 addTicket"><i class="fas fa-save"></i> Gravar</button>
+    </div>
+
+</form>
+
+<script src="/crm/js/ticket.js?version=1.6"></script>

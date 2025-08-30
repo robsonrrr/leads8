@@ -1,0 +1,1341 @@
+<!-- Bootstrap core JavaScript -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- SearchHighlight -->
+<script src="{{ENV.cdn}}vendor/SearchHighlight/SearchHighlight.js"></script>
+
+<!--Selected2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/pt-BR.js"></script>
+
+<!--Modal Confirm -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+<!-- Autocomplete -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/jquery.easy-autocomplete.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.themes.min.css">//-->
+
+<!-- Price Formatter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-price-format/2.2.0/jquery.priceformat.min.js"></script>
+
+<!-- Jeditable //-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/2.0.6/jquery.jeditable.min.js" integrity="sha256-HEYrGxqo5UVZt8cCsTkiOM+JCNM0BSkxsolQX/Bd6R0=" crossorigin="anonymous"></script>
+
+<!-- Cookie -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+<!-- Suggest -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.36.0/autocomplete.jquery.min.js"></script>//-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.9/jquery.autocomplete.min.js"></script>
+
+<!-- AutoComplete -->
+<!--<script src="https://img-admin.rolemak.com.br/media/js/bootcomplete.js"></script>//-->
+
+<!-- jquery.mask -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.widgets.js" integrity="sha256-46l1q40VwOPnofvWNG4vQuFjxEnidAIBBn75kgKnI6c=" crossorigin="anonymous"></script>
+
+<style>
+    .easy-autocomplete.eac-square input { border:1px solid #333 }
+</style>
+
+{{#alert}}
+{{#alert_01}}
+<script>
+    $.alert({
+        title: '{{alert_title}}',
+        content: '{{alert_message}}',
+    });
+
+    setTimeout(function(){
+        history.pushState({}, '', '/leads/leads5/'+$("#leadID").val()+'/'+$("#segmentoPOID").val() );
+    }, 100);
+</script>
+{{/alert_01}}
+{{/alert}}
+
+<script>
+
+    // You can specify the selector you want ;)
+    $("#search").on('mouseup', function() { $(this).select(); });
+
+    $("#search").focus();
+
+    $(document).ready(function(){
+        $('.date').mask('00/00/0000');
+        $('.time').mask('00:00:00');
+        $('.date_time').mask('00/00/0000 00:00:00');
+        $('.cep').mask('00000-000');
+        $('.phone').mask('0000-0000');
+        $('.phone_with_ddd').mask('(00) 0000-0000');
+        $('.phone_us').mask('(000) 000-0000');
+        $('.mixed').mask('AAA 000-S0S');
+        $('.cpf').mask('000.000.000-00', {reverse: true});
+        $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+        $('.money').mask('000.000.000.000.000,00', {reverse: true});
+        $('.money2').mask("#.##0,00", {reverse: true});
+        $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+            translation: {
+                'Z': {
+                    pattern: /[0-9]/, optional: true
+                }
+            }
+        });
+        $('.ip_address').mask('099.099.099.099');
+        $('.percent').mask('##0,00%', {reverse: true});
+        $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+        $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+        $('.fallback').mask("00r00r0000", {
+            translation: {
+                'r': {
+                    pattern: /[\/]/,
+                    fallback: '/'
+                },
+                placeholder: "__/__/____"
+            }
+        });
+
+        $('.mask-discount').mask("99", {selectOnFocus: true, reverse: true} );
+        $('.mask-qty').mask("999999", {selectOnFocus: true, reverse: true} );
+    });
+
+
+    function send( elem ) {
+
+        var $form = $('input:checkbox:checked').serialize();
+        var $lead = $("#leadID").val();
+        var $name = elem.attr('name');
+
+        //console.log($form,$lead,$name);
+
+        $.ajax({
+            url: '/leads/leads5/lead/updatec/'+$lead,
+            type: 'get',
+            dataType: 'html',
+            data: {
+                products: $form,
+                type: $name
+            },
+            success: function(data) {
+                var result = data
+                //console.log(result);
+                leadRefresh();
+            }
+        });
+    }
+
+    $('.submitProducts').click(function() {
+        send( $(this) );
+    });
+
+    $('body').on('click', '[data-toggle="modal"]', function(){
+        $($(this).data("target")+' .modal-body').load($(this).data("remote"));
+    });
+
+    $('#remoteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var title = button.data('title') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        var modal = $(this)
+        modal.find('.modal-title').text( title );
+    });
+
+    $('#remoteModal2').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var title = button.data('title') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        var modal = $(this)
+        modal.find('.modal-title').text( title );
+    });
+
+    $('#remoteModal').on('shown.bs.modal', function () {
+        //POPOVER
+        $('[data-toggle="popover"]').popover();
+
+        //TOOLTIP
+        $('[data-toggle="tooltip"]').tooltip();
+        //console.log('shown');
+    });
+
+    $('#remoteModal').on('hidden.bs.modal', function () {
+        var modal = $(this)
+        modal.find('.modal-body').html( '<p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>' )
+    });
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('title') // Extract info from data-* attributes
+        var lead = button.data('lead') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text(recipient);
+        //modal.find('.modal-body input').val(recipient);
+        // modal.find('.modal-body input#lead').val(lead);
+    });
+
+    $('#exampleModal').on('shown.bs.modal', function (event) {
+        $('#recipient-type').trigger('focus');
+    });
+
+    $(function() {
+        //console.log( "ready!" );
+        $("#formOrder").submit(function (e) {
+            //stop submitting the form to see the disabled button effect
+            e.preventDefault();
+
+            //disable the submit button
+            $(".addOrder").attr("disabled", true);
+            return true;
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#search2').autocomplete({
+            serviceUrl: '/leads/leads5/search/bootcomplete',
+            minChars: 3,
+            //groupBy: 'category',
+            maxHeight: 500,
+            onSelect: function (suggestion) {
+                //console.log('You selected: ' + suggestion.value + ', ' + suggestion.id + ', ' + suggestion.modelo);
+
+                var $elem = $("#search");
+                $elem.val(suggestion.modelo);
+
+                loadProducts( $elem );
+            }
+        });
+
+    });
+
+    $.extend({
+        getUrlVars: function(){
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&");
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split("=");
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        },
+        getUrlVar: function(name){
+            return $.getUrlVars()[name];
+        }
+    });
+
+    (function ( $ ) {
+
+        $.fn.greenify = function( options ) {
+
+            // This is the easiest way to have default options.
+            var settings = $.extend({
+                // These are the defaults.
+                color: "#556b2f",
+                backgroundColor: "white"
+            }, options );
+
+            // Greenify the collection based on the settings variable.
+            return this.css({
+                color: settings.color,
+                backgroundColor: settings.backgroundColor
+            });
+
+        };
+
+    }( jQuery ));
+
+    $(function () {
+        loadPopover();
+        loadTooltip();
+        loadToast();
+        formatPrice();
+        showSearchCookie();
+        updateQuantity();
+        updateDiscount();
+        updateField();
+        ajaxClick();
+        checkStock();
+        jeditable();
+        jeditableDiscount();
+        jeditableRecalculate();
+        cartTable();
+    });
+
+    function cartTable()
+    {
+        //$("#cartTable").tablesorter();
+    }
+
+    function updateCart()
+    {
+        console.log('updateCart');
+
+        updateQuantity();
+        updateDiscount();
+        updateField();
+        ajaxClick();
+        checkStock();
+        jeditable();
+        jeditableDiscount();
+        jeditableRecalculate();
+        cartTable();
+    }
+
+     function UpdateTransporte( idtr, value )
+    {
+        var $value = value; // this.value
+        var $idtr  = idtr; // this.value
+        var $lead = $("#leadID").val();
+        var $segment = $("#segmentoPOID").val();
+
+        //console.log( $lead,  $value, $idtr );
+
+        $.ajax({
+            url: '/leads/leads5/lead/update/Leads/'+$lead+'/'+$segment, //'matchedit-data.php',
+            data: {
+                field: 'transportadoraPOID',
+                value: $idtr
+            },
+            type: 'get'
+        }).done(function(responseData) {
+            //console.log('Done: ', responseData);
+            //leadRefresh();
+            //leadRecalculate();
+        }).fail(function() {
+            console.log('Failed');
+        });
+
+         $.ajax({
+            url: '/leads/leads5/lead/update/Leads/'+$lead+'/'+$segment, //'matchedit-data.php',
+            data: {
+                field: 'valorFrete',
+                value: $value
+            },
+            type: 'get'
+        }).done(function(responseData) {
+            //console.log('Done: ', responseData);
+            leadRefresh();
+        }).fail(function() {
+            console.log('Failed');
+        });
+
+    }
+
+    function loadTooltip()
+    {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    function loadToast()
+    {
+        $('.toast').toast('show');
+    }
+
+    function loadPopover()
+    {
+        $('[data-toggle="popover"]').popover();
+
+        $('[data-toggle=popover-template]').each(function(i, obj) {
+            $(this).popover({
+                html: true,
+                content: function() {
+                    var id = $(this).attr('id')
+                    return $('#popover-content-' + id).html();
+                }
+            });
+        });
+    }
+
+    function formatPrice()
+    {
+        $('.priceFormat').priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.',
+            centsLimit: 2
+        });
+    }
+
+    function updateQuantity()
+    {
+        $(".qty-cart").on('change', function(){
+
+            var produtoQuantidade = $(this).val();           // this.value
+            var produtoPOID       = $(this).data('product'); // this.value
+            var lead              = $(this).data('lead');    // this.value
+            var times             = $(this).data('times');    // this.value
+
+            $.ajax({
+                url: $(this).data('update'), //'matchedit-data.php',
+                data: {
+                    produtoQuantidade: produtoQuantidade,
+                    produtoPOID: produtoPOID,
+                    produtoVezes: times,
+                    leadPOID: lead
+                },
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                leadRefresh();
+            }).fail(function() {
+                console.log('Failed');
+            });
+        });
+    }
+
+    function checkStock()
+    {
+        $("#customSwitch1").on('click', function(e){
+
+            $.ajax({
+                url: $(this).data('update'), //'matchedit-data.php',
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                leadRefresh();
+            }).fail(function() {
+                console.log('Failed');
+            });
+        });
+    }
+
+    function updateField()
+    {
+        $(".update").on('change paste', function(){
+
+            var $field = this.name; // this.field
+            var $value = this.value; // this.value
+
+            //console.log( $field,$value);
+
+            $.ajax({
+                url: $(this).data('url'), //'matchedit-data.php',
+                data: {
+                    field: $field,
+                    value: $value
+                },
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                //leadRefresh();
+            }).fail(function() {
+                console.log('Failed');
+            });
+        });
+    }
+
+    function ajaxClick()
+    {
+        $(".click-ajax-response").on('click', function(){
+            console.log( 'updateDiscountClick' );
+
+            $('.spinnerDiv').removeClass('d-none');
+
+            $.ajax({
+                url: $(this).data('url'), //'matchedit-data.php',
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', window.location.href);
+                //console.log('Done: ', responseData);
+                window.location.href = responseData;
+            }).fail(function() {
+                console.log('Failed');
+            });
+        });
+    }
+
+    function updateDiscount()
+    {
+        $(".product-discount").on('change paste', function(){
+
+            var discount     = $(this).val();                // this.value
+            var leadProduct  = $(this).data('lead-product'); // this.value
+            var lead         = $(this).data('lead');      // this.value
+            var type         = $(this).data('type');      // this.value
+            var segment      = $(this).data('segment');      // this.value
+            var classe       = $(this).data('classe');      // this.value
+            var id           = this.id;      // this.value
+            //console.log( discount,leadProduct,lead,type,id);
+
+            //$('.spinnerDiv').removeClass('d-none');
+
+            $.ajax({
+                url: $(this).data('url'), //'matchedit-data.php',
+                data: {
+                    type: type,
+                    classe: classe,
+                    discount: discount,
+                    segment: segment,
+                    leadProduct: leadProduct,
+                    lead: lead
+                },
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                leadRefresh();
+            }).fail(function() {
+                console.log('Failed');
+            });
+        });
+    }
+
+    function spinnerCart()
+    {
+        $('.spinner .btn:first-of-type').on('click', function() {
+
+            var $id    = $(this).closest( ".spinner" ).data('id');
+            var $name  = $(this).closest( ".spinner" ).data('name');
+            var $lead  = $(this).closest( ".spinner" ).data('lead');
+            var $qty   = $('#'+$name+''+$id).val();
+            var $div   = $(this).closest( ".spinner" ).attr('id');
+
+            $qty = parseInt($qty) + 1;
+            $('#'+$div+' input').val( $qty );
+            //console.log($id,$name,$qty,$div);
+
+            if ($name == 'qty_cart_')
+            {
+                $.ajax({
+                    url: $(this).closest( ".spinner" ).data('update'), //'matchedit-data.php',
+                    data: {
+                        produtoQuantidade: $qty,
+                        produtoPOID: $id,
+                        leadPOID: $lead
+                    },
+                    type: 'get'
+                }).done(function(responseData) {
+                    //console.log('Done: ', responseData);
+                    leadRefresh();
+                }).fail(function() {
+                    console.log('Failed');
+                });
+            }
+        });
+
+        $('.spinner .btn:last-of-type').on('click', function() {
+
+            var $id   = $(this).closest( ".spinner" ).data('id');
+            var $name = $(this).closest( ".spinner" ).data('name');
+            var $lead  = $(this).closest( ".spinner" ).data('lead');
+            var $qty  = $('#'+$name+''+$id).val();
+            var $div  = $(this).closest( ".spinner" ).attr('id');
+
+            $qty = parseInt($qty) + 1;
+            $('#'+$div+' input').val( $qty );
+            //console.log($id,$name,$qty,$div);
+
+            if ($name == 'qty_cart_')
+            {
+                $.ajax({
+                    url: $(this).closest( ".spinner" ).data('update'), //'matchedit-data.php',
+                    data: {
+                        produtoQuantidade: $qty,
+                        produtoPOID: $id,
+                        leadPOID: $lead
+                    },
+                    type: 'get'
+                }).done(function(responseData) {
+                    //console.log('Done: ', responseData);
+                    leadRecalculate();
+                }).fail(function() {
+                    console.log('Failed');
+                });
+            }
+        });
+    }
+
+    $(function(){
+
+        if ($.getUrlVar("query") != null) {
+            var $query = decodeURIComponent($.getUrlVar("query"));
+        }
+
+        if ( $query )
+        {
+            var $elem =  $("#search");
+            loadProducts( $elem );
+        }
+    });
+
+    $(function(){
+
+        $('.cartButton').on('click', function (evtobj) {
+
+            $("html, body").animate({ scrollTop: $('#cartContent').height() - 100 }, 1000);
+        });
+    });
+
+
+    $(function(){
+
+        var typingTimer;
+        var doneTypingInterval = 300;
+
+        $('#search').on('keyup', function (evtobj) {
+
+            if ( evtobj.keyCode == 13 )
+            {
+                $("html, body").animate({ scrollTop: $('#leadID').height() }, 1000);
+
+                var $elem =  $(this);
+                loadProducts( $elem );
+            }
+        });
+    });
+
+    // On first hover event we will make popover and then AJAX content into it.
+    $('[data-poload]').hover( function (event) {
+        var el = $(this);
+
+        // disable this event after first binding
+        el.off(event);
+
+        // add initial popovers with LOADING text
+        el.popover({
+            content: "carregando…", // maybe some loading animation like <img src='loading.gif />
+            html: true,
+            placement: "auto",
+            container: 'body',
+            trigger: 'hover'
+        });
+
+        // show this LOADING popover
+        el.popover('show');
+
+        // requesting data from unsing url from data-poload attribute
+        $.get(el.data('poload'), function (d) {
+            //console.log(d);
+            // set new content to popover
+            $(el).attr('data-content', d)
+
+            $(el).popover({
+                html: true,
+                trigger: 'manual',
+                placement: 'left'
+            });
+
+            $(el).popover('show')
+
+        }, 'json');
+    },
+                             // Without this handler popover flashes on first mouseout
+                             function() { }
+                            );
+
+    function loadProducts( $elem ){
+
+        var $content = $(".leadResult");
+
+        $content.html('<div class="loading text-center py-5 text-muted">Carregando Produtos<br><i class="fa fa-circle-notch fa-spin fa-2x fa-fw"></i></div>');
+
+        //console.log( $elem.val().length );
+        if ( $elem.val().length == 0 )
+        {
+            var pathname = window.location.pathname; // Returns path only
+            history.pushState({}, '', pathname);
+            $content.html('');
+            return false;
+        }
+
+        $('#search').on('keyup', function (evtobj) {
+          $elem.data('page',0);
+        });
+
+        $.get( $elem.data('service'), { query : $elem.val(), lead: $elem.data('lead'), page: $elem.data('page'), segment: $elem.data('segment'), stock: $( "input[name*='searchStock']:checked" ).val(), order: $( "input[name*='searchOrder']:checked" ).val() }, function(response){
+            // Do something with the request
+            //history.pushState({}, '', $elem.data('url')+"?query="+$elem.val() );
+            history.pushState({}, '', $elem.data('url') );
+
+            $content.html(response);
+
+            $('.trigger-add-to-cart').keydown(function(event){
+                var keyCode = (event.keyCode ? event.keyCode : event.which);
+                if (keyCode == 13) {
+                    //console.log('trigger-add-to-cart ');
+                    $('#search-add-to-cart-'+$(this).attr('data-produtoPOID') ).trigger('click');
+                }
+            });
+
+            //$('#searchTable :input:enabled:visible:first').select();
+            //$('#search').blur();
+
+            searchHighlight( $elem.val() );
+            //spinnerCart();
+            //formatPrice();
+            loadTooltip();
+            saveSearchCookie( $elem.val() );
+            showSearchCookie( );
+        }, 'html');
+
+    }
+
+    function saveSearchCookie( text )
+    {
+        var $lead = $("#leadID").val();
+        var $cookie = Cookies.get( 'last_search_'+$lead );
+
+        if ( $cookie )
+        {
+            var $result = $cookie.split(',').slice(-6);
+            //console.log($cookie, $result);
+
+            Cookies.set( 'last_search_'+$lead, $result+', '+text, { expires: 1 });
+        }else{
+            Cookies.set( 'last_search_'+$lead, text, { expires: 1 });
+        }
+    }
+
+    function showSearchCookie()
+    {
+        var $lead = $("#leadID").val();
+        var $redirect = '/leads/leads5/'+$lead;
+        var $cookie = Cookies.get( 'last_search_'+$lead );
+        //Cookies.remove('last_search_'+$user); // removed!
+
+        if ( $cookie)
+        {
+            var $result = $cookie.split(',');
+            var $array = '';
+
+            $.each($result, function(index, value) {
+                $array+='<a class="text-primary" href="'+$redirect+'?query='+$.trim(value)+'">'+value+'</a> |';
+                //console.log(index + ' : ' + value);
+            });
+
+            //console.log($lead);
+
+            $('#last_search').html( $array );
+        }else{
+            $('#last_search').html('Nenhuma busca realizada hoje !!!');
+        }
+    }
+
+    function searchHighlight( query ) {
+
+        var options = {
+            exact:"partial",
+            highlight:".contentSearchHighlight",
+            keys: query
+        }
+        jQuery(document).SearchHighlight(options);
+    }
+
+    function jeditableRecalculate()
+    {
+        $('.jeditable-recalculate').editable(function(value, settings) {
+            var $field = this.name; // this.field
+            var $value = value; // this.value
+
+            $('.spinnerDiv').removeClass('d-none');
+
+            //console.log( $field,$value);
+
+            $.ajax({
+                url: $(this).data('url'), //'matchedit-data.php',
+                data: {
+                    field: $field,
+                    value: $value
+                },
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                leadRecalculate();
+            }).fail(function() {
+                console.log('Failed');
+            });
+
+            return(value);
+        }, {
+            loadurl : $(this).data('url')
+        });
+    }
+
+    function jeditableDiscount()
+    {
+        $('.jeditable-discount').editable(function(value, settings) {
+
+            var $value = value; // this.value
+
+            //console.log( $value);
+            $('.spinnerDiv').removeClass('d-none');
+
+            $.ajax({
+                url: $(this).data('url'), //'matchedit-data.php',
+                data: {
+                    discount: $value,
+                },
+                type: 'get'
+            }).done(function(responseData) {
+                //console.log('Done: ', responseData);
+                leadRefresh();
+            }).fail(function() {
+                console.log('Failed');
+            });
+
+            return(value);
+        }, {
+            loadurl : $(this).data('url')
+        });
+    }
+
+
+    function jeditable()
+    {
+        $('.jeditable').editable(function(value, settings) {
+            //console.log($(this).data('field'));
+            //console.log($(this).data('url'));
+
+            $('.spinnerDiv').removeClass('d-none');
+
+            $.ajax({
+                type: "POST",
+                url:  $(this).data('url'),
+                data: $(this).data('field')+"="+value,
+                dataType:"json",
+                success: function(data) {
+                    //console.log(data);
+                    setTimeout(function(){ location.reload(); }, 100);
+                },
+                error: function (data)
+                {
+                    console.log('error');
+                    //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                    //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                }
+            });
+
+            return(value);
+        }, {
+            loadurl : $(this).data('url')
+        });
+
+    }
+
+    $(document).on('click','.search-add-to-cart', function() {
+
+        var elem  = $(this);
+
+        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+
+        $.ajax({
+            type: "GET",
+            url: elem.attr('data-service'),
+            data: "leadPOID="+elem.attr('data-leadPOID')+"&segmentoPOID="+$("#segmentoPOID").val()+"&produtoPOID="+elem.attr('data-produtoPOID')+"&descontoProduto="+$('#qty_discount_'+elem.attr('data-produtoPOID')).val()+"&produtoQuantidade="+$('#qty_search_'+elem.attr('data-produtoPOID')).val()+"&produtoVezes="+$('#qty_times_'+elem.attr('data-produtoPOID')+' option:selected').val(),
+            dataType:"json",
+            success: function(data) {
+                //console.log('success add');
+                // window.location.reload(true);
+                elem.html('<i class="fas fa-lg fa-cart-plus"></i>');
+                //console.log(data);
+
+                var leadPOID= data.leadPOID;
+                var POID= data.POID;
+
+                $.ajax({
+                    type: "POST",
+                    url: '/leads/leads5/lead/cart/'+leadPOID+'/'+$("#segmentoPOID").val(),
+                    //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                    dataType:"html",
+                    success: function(cart) {
+                        //console.log(cart);
+                        //console.log(POID);
+                        //console.log('add show cart');
+                        $('.leadCart').html(cart);
+                        //$('#colunm_'+POID).css("background-color","#fffdbd");
+
+                        updateCart();
+
+                        //$("#search").focus();
+                    },
+                    error: function (data)
+                    {
+                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        console.log('error show cart');
+                        //console.log(data);
+                        //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                    }
+                });
+
+               /*  $.ajax({
+                    type: "POST",
+                    url: '/leads/leads5/lead/total/'+leadPOID+'/'+$("#segmentoPOID").val(),
+                    //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                    dataType:"html",
+                    success: function(total) {
+                        //console.log(total);
+                        //console.log('total ok cart');
+                        $('.leadTotal').html(total);
+                        updateCart();
+                    },
+                    error: function (data)
+                    {
+                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        console.log('total error cart');
+                        // console.log(data);
+                        //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                    }
+                });  */
+
+            },
+            error: function (data)
+            {
+                console.log('error add cart');
+                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+            }
+        });
+
+    });
+
+    $(document).on('click','.cart-remove', function() {
+
+        var elem  = $(this);
+
+        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+
+        $.confirm({
+            title: 'Deseja Deletar o Carrinho inteiro ?',
+            content: 'Após a confirmação, essa ação não tem volta ...',
+
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    //btnClass: 'btn-blue',
+                    action: function () {
+                        elem.html(' <i class="far fa-trash-alt text-muted" aria-hidden="true"></i>');
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: elem.attr('data-service'),
+                            //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                            dataType:"json",
+                            success: function(data) {
+                                console.log('success delete');
+                                // window.location.reload(true);
+                                //colunm_363733
+                                //elem.html('<i class="fa fa-trash" aria-hidden="true"></i>');
+
+                                location.reload();
+
+                            },
+                            error: function (data)
+                            {
+                                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                console.log('error delete');
+                                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                            }
+                        });
+                    }
+                },
+            }
+        });
+    });
+
+    $(document).on('click','.cart-remove-item', function() {
+
+        var elem  = $(this);
+
+        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+
+        $.confirm({
+            title: 'Deseja Deletar o Item '+elem.attr('data-name')+' ?',
+            content: 'Após a confirmação, essa ação não tem volta ...',
+
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    //btnClass: 'btn-blue',
+                    action: function () {
+                        elem.html(' <i class="far fa-trash-alt text-muted" aria-hidden="true"></i>');
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: elem.attr('data-service'),
+                            //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                            dataType:"json",
+                            success: function(data) {
+                                console.log('success delete');
+                                // window.location.reload(true);
+                                //colunm_363733
+
+                                //elem.html('<i class="fa fa-trash" aria-hidden="true"></i>');
+
+                                $( "#"+elem.attr('id') ).css('backgroundColor', '#ff868c').closest('tr').fadeOut('slow', function(){
+                                    $(this).remove();
+                                });
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/leads/leads5/lead/cart/'+elem.attr('data-lead-id')+'/'+$("#segmentoPOID").val(),
+                                    //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                                    dataType:"html",
+                                    success: function(cart) {
+                                        //console.log(cart);
+                                        //console.log(POID);
+                                        //console.log('add show cart');
+                                        $('.leadCart').html(cart);
+                                        //$('#colunm_'+POID).css("background-color","#fffdbd");
+
+                                        updateCart();
+
+                                        //$("#search").focus();
+                                    },
+                                    error: function (data)
+                                    {
+                                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                        console.log('error show cart');
+                                        //console.log(data);
+                                        //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                                    }
+                                });
+
+                                /* $.ajax({
+                                    type: "POST",
+                                    url: '/leads/leads5/lead/total/'+elem.attr('data-lead-id')+'/'+$("#segmentoPOID").val(),
+                                    //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                                    dataType:"html",
+                                    success: function(total) {
+                                        //console.log(total);
+                                        //console.log('total ok cart');
+                                        $('.leadTotal').html(total);
+                                    },
+                                    error: function (data)
+                                    {
+                                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                        console.log('total error cart');
+                                        // console.log(data);
+                                        //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                                    }
+                                });  */
+                            },
+                            error: function (data)
+                            {
+                                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                console.log('error delete');
+                                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                            }
+                        });
+                    }
+                },
+            }
+        });
+    });
+
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
+    $(document).ready(function() {
+        $(".select2-ajax").select2({
+            ajax: {
+                //url:  'http://www.internut.com.br/leads/leads5/service/nop/',
+                dataType: 'json',
+                delay: 450,
+                data: function (params) {
+                    return {
+                        query: params.term, // search term
+                        limit: params.limit, // limit result
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0,
+            minimumResultsForSearch: 3 ,// at least 20 results must be displayed
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection,
+            theme: "classic",
+            language: "pt-BR",
+            //selectOnClose: true,
+            closeOnSelect: true
+            //allowClear: true
+            // width: 'resolve'
+        });
+    });
+
+    function formatRepo (repo) {
+        if (repo.loading) {
+            return repo.name;
+        }
+
+        var markup = "<div class='select2-result-repository clearfix'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'>" + repo.name + "</div>";
+        "</div>";
+        markup += "</div>";
+
+        return markup;
+    }
+
+    function formatRepoSelection (repo) {
+        return repo.name || repo.id;;
+    }
+
+    $('.select2-ajax').on('select2:select', function (e) {
+        var data = e.params.data;
+        var $elem = $(this);
+        // console.log('.select2-ajax');
+        // console.log(service,data);
+
+        $.confirm({
+            title: 'Tem Certeza ?',
+            content: 'Essa mudança pode afetar os valores dos produtos e descontos aplicados.',
+            type: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        console.log('cancelado');
+                    }
+                },
+                confirm:{
+                    text: 'Confirmar',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        console.log('confirmado');
+
+                        $.ajax({
+                            type: "GET",
+                            url: $elem.attr('data-ajax-update'),
+                            data: "field="+$elem.attr('data-field')+"&value="+data['id']+"&lead="+$elem.attr('data-lead'),
+                            dataType:"html",
+                            success: function(response) {
+                                var obj = JSON.parse(response)
+
+                                //console.log( obj.prazoPagamentoVezes );
+                                //console.log($elem.attr('data-field'), $elem.attr('data-recalculate'));
+
+                                if ( obj.prazoPagamentoVezes == 13 && $elem.attr('data-field') == 'prazoPagamentoVezes' )
+                                {
+                                    leadRecalculate();
+                                }
+
+                                if ( $elem.attr('data-recalculate') == 'true' )
+                                {
+
+                                    if ( $elem.attr('data-recalculate-price') == 'true' )
+                                    {
+                                        leadRecalculatePrice();
+                                    }else{
+                                        leadRecalculate();
+                                    }
+                                }
+                            },
+                            error: function (data)
+                            {
+                                //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                console.log('error update');
+                                // console.log(data);
+                                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    function leadRecalculate()
+    {
+        console.log('leadRecalculate');
+
+        var $id = $("#leadID").val();
+
+        $('.spinnerDiv').removeClass('d-none');
+
+        $.ajax({
+            type: "POST",
+            url: '/leads/leads5/lead/recalculate/'+$id,
+            dataType:"html",
+            success: function(total) {
+                //console.log(total);
+                setTimeout(function(){ location.reload(); }, 100);
+            },
+            error: function (data)
+            {
+                //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                console.log('total error cart');
+                // console.log(data);
+                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+            }
+        });
+    }
+
+    function leadRecalculatePrice()
+    {
+        console.log('leadRecalculatePrice');
+
+        var $id = $("#leadID").val();
+
+        $('.spinnerDiv').removeClass('d-none');
+
+        $.ajax({
+            type: "POST",
+            url: '/leads/leads5/lead/recalculate/'+$id+'/'+$("#segmentoPOID").val()+'/?price=true',
+            dataType:"html",
+            success: function(total) {
+                //console.log(total);
+                setTimeout(function(){ location.reload(); }, 100);
+                //alert('done');
+            },
+            error: function (data)
+            {
+                //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                console.log('total error cart');
+                // console.log(data);
+                //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+            }
+        });
+    }
+
+    function leadRefresh( url )
+    {
+        console.log('leadRefresh');
+
+        $('.spinnerDiv').removeClass('d-none');
+
+        setTimeout(function(){ location.reload(); }, 100);
+    }
+
+    function confirm_generate_order(){
+
+        $('.cart-generate-order').on('click', function () {
+            var elem  = $(this);
+
+            elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i> Gerando Pedido');
+
+            $.confirm({
+                title: 'Deseja Finalizar o Pedido ?',
+                content: 'Após a confirmação, essa ação não tem volta ...',
+
+                buttons: {
+                    cancel: {
+                        text: 'Cancelar',
+                        //btnClass: 'btn-blue',
+                        action: function () {
+                            elem.html('FINALIZAR PEDIDO');
+                        }
+                    },
+                    confirm: {
+                        text: 'Confirmar',
+                        btnClass: 'btn-primary',
+                        action: function () {
+                            $.ajax({
+                                type: "POST",
+                                url: elem.attr('data-url'),
+                                //data: "produtoPOID="+elem.attr('data-produtoPOID')+"&carrinhoQuantidade="+elem.val(),
+                                dataType:"json",
+                                success: function(data) {
+                                    //console.log( data, 'success delete');
+
+                                    //elem.html('<i class="fa fa-trash" aria-hidden="true"></i>');
+
+                                    $( "#"+elem.attr('id') ).css('backgroundColor', '#ff868c').closest('tr').fadeOut('slow', function(elem){
+                                        //  elem.parents('tr:first').remove();
+                                    });
+
+                                },
+                                error: function (data)
+                                {
+                                    elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                    $('.leadError').removeClass('d-none').html('<span class="h6"><i class="fas fa-exclamation-triangle"></i> Erro ao Gerar Pedido Verifique antes.</span>');
+                                    $('html,body').animate({ scrollTop: 0 }, 'slow');
+                                    //console.log('error delete');
+                                    //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
+                                }
+                            });
+                        }
+                    },
+                }
+            });
+
+        });
+    }
+
+</script>
+
+<script>
+$(document).ready(function() {
+  // Captura o ID do lead e segmentoPOID quando o modal é aberto
+  $('#modalGerencia').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var leadId = button.data('lead');
+    var segmentoPOID = button.data('segment');
+    $('#leadId').val(leadId);
+    $('#formGerencia').data('segmentoPOID', segmentoPOID);
+  });
+
+  // Envio da mensagem para a gerência
+  $('#btnEnviarGerencia').click(function() {
+    var form = $('#formGerencia');
+    var leadId = $('#leadId').val();
+    var mensagem = $('#mensagemGerencia').val();
+
+    if (mensagem.trim() === '') {
+      alert('Por favor, digite uma mensagem.');
+      return;
+    }
+
+    $.ajax({
+      url: '{{CONTAINER}}lead/gerencia',
+      type: 'POST',
+      data: {
+        leadId: leadId,
+        mensagem: mensagem,
+        segmentoPOID: $('#formGerencia').data('segmentoPOID')
+      },
+      success: function(response) {
+        $('#modalGerencia').modal('hide');
+        //alert('Mensagem enviada com sucesso!');
+        $('#mensagemGerencia').val('');
+      },
+      error: function(xhr, status, error) {
+        alert('Erro ao enviar mensagem: ' + error);
+      }
+    });
+  });
+});
+</script>
+

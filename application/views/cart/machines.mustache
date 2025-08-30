@@ -1,0 +1,370 @@
+<div id="cartContent" class="">
+
+    <div class="row">
+        <div class="col-3">
+            <p class="h2 color-primary">
+                <i class="fas fa-shopping-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="fas fa-level-down-alt"></i>
+            </p>
+        </div>
+        <div class="col-2">
+            <div class="custom-control custom-switch mt-2">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" data-update="{{CONTAINER}}lead/session/{{id}}" {{#SESSION.check}}checked{{/SESSION.check}}>
+                <label class="custom-control-label" for="customSwitch1">Verificar Estoque</label>
+            </div>
+        </div>
+
+        <div class="col-7 text-right">
+            <div class="btn-group btn-group-sm my-2" role="group" aria-label="Small button group">
+                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group btn-sm mt-1 p-2" role="group">
+                            <button id="btnGroupDrop4" type="button" class="btn btn-outline-primary btn-sm rounded-0 dropdown-toggle p-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Configurações
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop4">
+
+                                <a class="dropdown-item" href="#" class="dropdown-item mb-1 border-bottom" data-toggle="modal"
+                                       data-target="#modalTicketAdd" data-remote="{{CONTAINER}}ticket/new/{{Cliente.clienteID}}/{{Lead.id}}"
+                                       data-name="{{Cliente.clienteNome}}" data-customer="{{Cliente.clienteID}}" data-title="Criar um Novo Ticket" >
+                                   criar ticket
+                                </a>
+                                 <a class="dropdown-item" target="_blank" href="/agendor/tickets/?cliente={{Cliente.clienteID}}&dia=Todos&mes=Todos&ano=Todos">
+                                    tickets
+                                </a>
+                                <a class="dropdown-item" target="_blank" href="/clientes_editar.php?DADOS={{Cliente.id}}">
+                                   editar cliente
+                                </a>
+                               <a class="dropdown-item" target="_blank" href="/orders/orders_per_client.php?client={{Cliente.id}}">
+                                   pedidos
+                                </a>
+                                <a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/delete/{{id}}/{{segmentoPOID}}">
+                                  deletar lead
+                                </a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalGerencia" data-lead="{{id}}" data-segment="{{segmentoPOID}}">
+                                  enviar para gerência
+                                </a>
+                                {{#existProducts}}
+                                <a class="dropdown-item disabled" onclick="return false;" href="#">
+                                    raio-Y
+                                </a>
+                                {{/existProducts}}
+                                {{^existProducts}}
+                                <a class="dropdown-item click-ajax-response" href="#" data-url="{{CONTAINER}}lead/raioy/{{id}}/{{segmentoPOID}}">
+                                    raio-Y
+                                </a>
+                                {{/existProducts}}
+                                 <a class="dropdown-item click-ajax-response" href="#" data-url="{{CONTAINER}}lead/recalculate/{{id}}/{{segmentoPOID}}?price=true">
+                                    atualizar preço
+                                </a>
+                                 <a target="_blank" class="dropdown-item" href="{{CONTAINER}}lead/mail/{{id}}/{{segmentoPOID}}">
+                                    email
+                                </a>
+
+                                <a target="_blank" class="dropdown-item" href="{{CONTAINER}}lead/offer/{{id}}/{{segmentoPOID}}">
+                                    ofertar
+                                </a>
+                               {{#SESSION.acessoBoaKostura}}
+                                <a class="dropdown-item" target="_blank" href="/leads/leads4/lead/mail/{{id}}/{{segmentoPOID}}?layout=boakostura">
+                                    email p/ Boa Kostura
+                                </a>
+                                {{/SESSION.acessoBoaKostura}}
+                                <a target="_blank" class="dropdown-item" href="{{CONTAINER}}lead/print/{{id}}/{{segmentoPOID}}">
+                                    imprimir
+                                </a>
+                                <a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/clean/{{id}}/{{segmentoPOID}}">
+                                    gravar produtos negativos
+                                </a>
+
+
+                                 <a class="dropdown-item"  class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-lead="{{id}}"
+                                    {{#existPendencies}}disabled{{/existPendencies}} {{#existProducts}}disabled{{/existProducts}} >
+                               importar</a>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        {{#existPendencies}}
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>Pendências!</strong> favor corrigir {{existPendencies}}
+            </div>
+        </div>
+        {{/existPendencies}}
+
+    </div>
+
+    <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
+        <thead class="thead-custom">
+            <tr>
+                <th class="align-middle text-center" scope="col">#</th>
+                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
+                <th class="align-middle" scope="col">Produto</th>
+                <th class="align-middle text-center" scope="col">Marca</th>
+                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center" scope="col">Qtd.</th>
+                <th class="align-middle text-center" scope="col">Vezes</th>
+                <th class="align-middle text-center" scope="col">Valor de Venda</th>
+                <th class="align-middle text-right" scope="col">Subtotal Produto</th>
+                <th class="align-middle text-right" scope="col">Valor do Cliente</th>
+                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#Produtos}}
+            <tr id="colunm_{{POID}}" class="{{#produtoIndisponivel}}table-danger{{/produtoIndisponivel}}">
+                <th class="align-middle text-center" width="1%" scope="row">
+                    <p class="p-0 m-0">
+                        {{produtoContagem}}
+                    </p>
+                    <p class="p-0 m-0">
+                        <input class="checkBoxClass" name="product" type="checkbox" id="product_{{POID}}" value="{{POID}}">
+                    </p>
+                </th>
+                <td class="align-middle text-center" width="1%">
+                    <a href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
+                       data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
+                        <img src="{{ENV.img}}id/w35/{{produtoPOID}}.jpg?version={{VERSION}}">
+                    </a>
+                </td>
+                <td class="align-middle font12" width="40%">
+                    <div class="p-0 m-0">
+                        <strong><a class="color-primary" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}?query={{Detalhe.produtoModelo}}">{{Detalhe.produtoModelo}}</a></strong>
+                        {{> partials/product-actions}}
+                        <span>ID:{{produtoPOID}}</span>
+                        <span>Medida:{{Detalhe.produtoMedida}}</span>
+                    </div>
+                    <div class="p-0 m-0">
+                        {{solr.produtoNome}} <span class="p-0 m-0 font10 text-muted"> {{solr.produtoDescricaoCurta}} </span>
+                    </div>
+                </td>
+                <td class="align-middle text-center" width="5%">
+                    {{#Detalhe.produtoMarcaFormatado}}
+                    <img width="50" src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}"/>
+                    {{/Detalhe.produtoMarcaFormatado}}
+                    {{^Detalhe.produtoMarcaFormatado}}
+                    s/m
+                    {{/Detalhe.produtoMarcaFormatado}}
+                </td>
+                <td class="align-middle text-center">
+                    <span>{{Detalhe.produtoPeso}}</span>
+                    {{#SESSION.acessoFinanceiro}}
+                    <p class="p-0 pt-2 m-0 font11 text-danger">Frete: {{produtoFrete}} / {{produtoFreteTotal}}</p>
+                    {{/SESSION.acessoFinanceiro}}
+                </td>
+                <td class="align-middle text-center" width="10%">
+                    <input type="text" class="form-control form-control-sm rounded-0 qty-cart text-center mask-qty" data-update="/services/cart/update/{{POID}}" data-lead="{{id}}" autocomplete="off"
+                           data-product="{{produtoPOID}}" data-times="{{produtoVezes}}" id="qty_cart_{{produtoPOID}}" value="{{produtoQuantidade}}" name="produtoQuantidade"
+                           min="1" max="999999" maxlength="5">
+                    {{#SESSION.check}}
+                    <a href="#" class="" data-toggle="modal" data-title="Estoque Ecommerce" data-target="#remoteModal"
+                       data-remote="{{CONTAINER}}product/ecommerce/{{produtoPOID}}/{{Lead.unidadeEmitentePOID}}"  title="Esoque Ecommerce: Carrinho Ativos">
+                        <small class="text-muted">{{stock.estoqueEcommerce}}</small>
+                    </a>
+                    / <small class="text-muted" title="Estoque Comercial">{{stock.estoqueComercial}}</small>
+                    {{#SESSION.acessoGerencial}}
+                    / <small class="text-danger" title="Estoque Geral">{{stock.estoqueGeral}}</small>
+                    {{/SESSION.acessoGerencial}}
+                    {{/SESSION.check}}
+                    {{^SESSION.check}}
+                    <small class="text-warning">-</small>
+                    {{/SESSION.check}}
+                </td>
+                {{#produtoIndisponivel}}
+                <td class="align-middle text-center" colspan="4">
+                    Quantidade do item indisponível
+                </td>
+                {{/produtoIndisponivel}}
+                {{^produtoIndisponivel}}
+                <td class="align-middle text-center">{{produtoVezes}}</td>
+                <td class="align-middle text-center" width="10%">
+                    {{#produtoPrecoAjustado}}
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount color-primary font-weight-bolder"
+                           id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}"
+                           data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount"
+                           data-segment="{{segmentoPOID}}" value="{{produtoValorFormatado}}">
+                    {{/produtoPrecoAjustado}}
+                    {{^produtoPrecoAjustado}}
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-dark font-weight-bolder"
+                           id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}"
+                           data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount"
+                           data-segment="{{segmentoPOID}}" value="{{produtoValorFormatado}}">
+                    {{/produtoPrecoAjustado}}
+
+                    <small title="Preço Cliente">{{produtoValorOriginal}}</small>
+                    {{#SESSION.acessoGerencial}}
+                    / <small title="Preço base do Produto" class="text-danger"> {{Detalhe.produtoRevenda}}</small>
+                    {{/SESSION.acessoGerencial}}
+                    {{#SESSION.acessoDiretoria}}
+                    /<small title="Preço base do Produto" class="text-info">{{Detalhe.produtoFob}}</small>
+                    {{/SESSION.acessoDiretoria}}
+                </td>
+
+                <td class="align-middle text-right" width="10%">
+                    <p class="p-0 m-0">{{produtoValorSubtotal}}</p>
+                    {{#SESSION.acessoWebmaster}}
+                    <p class="p-0 m-0 font11 text-muted">({{produtoValor}} unit.)</p>
+                    {{/SESSION.acessoWebmaster}}
+                </td>
+                <td class="align-middle text-center" width="10%">
+                    {{#clienteDoClientePOID}}
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-dark font-weight-bolder"
+                           id="qty_cart_customer_{{produtoPOID}}" data-type="pricecc" min="0" max="" maxlength="" data-product="{{produtoPOID}}"
+                           data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount"
+                           data-segment="{{segmentoPOID}}" value="{{produtoCCValorFormatado}}">
+                    <!--<small title="Preço Cliente">Comissão {{produtoValorOriginal}}</small>//-->
+                    {{/clienteDoClientePOID}}
+                    {{^clienteDoClientePOID}}
+                    <p>
+                        <small>opção válida somente para<br> faturamento direto</small>
+                    </p>
+                    {{/clienteDoClientePOID}}
+                </td>
+                {{/produtoIndisponivel}}
+                <td class="align-middle text-center" width="1%">
+                    <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}/{{segmentoPOID}}">
+                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+            {{/Produtos}}
+            {{^Produtos}}
+            <tr>
+                <td colspan="16" class="text-center p-3">
+                    <p>
+                        <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="200" />
+                    </p>
+                    <span class="h4 text-muted">Seu Carrinho está vazio!</span>
+                </td>
+            </tr>
+            {{/Produtos}}
+        </tbody>
+        {{#Total}}
+        <tfoot class="{{^Produtos}}d-none {{/Produtos}}bg-custom">
+            <tr height="30">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="font-weight-bold lead">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="align-middle text-center">{{peso}}</td>
+                <td class="align-middle text-center">{{quantidade}}</td>
+                <td class="align-middle text-center"></td>
+                <td class="align-middle text-right"></td>
+                <td class="align-middle text-right">{{produto}}</td>
+                <td class="align-middle text-right">{{produtocc}}</td>
+                <td></td>
+            </tr>
+            <tr class="font11">
+                <th class="align-middle text-center" scope="col">#</th>
+                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
+                <th class="align-middle" scope="col">Produto</th>
+                <th class="align-middle" scope="col">Marca</th>
+                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center" scope="col">Qtd.</th>
+                <th class="align-middle text-center" scope="col">Vezes</th>
+                <th class="align-middle text-center" scope="col">Valor Venda</th>
+                <th class="align-middle text-right" scope="col">Subtotal Produto</th>
+                <th class="align-middle text-right" scope="col">Valor do Cliente</th>
+                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
+            </tr>
+        </tfoot>
+        {{/Total}}
+    </table>
+
+</div>
+
+{{#ClienteDoCliente}}
+<p class="h2 color-primary">
+    <i class="fas fa-money-bill-wave-alt"></i> Comissão Revendedor
+</p>
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-custom">
+        <tr>
+            <th>Total Pedido</th>
+            <th>Custo Mercadoria</th>
+            <th>Desconto Cartão</th>
+            <th>Desconto PIS/CONFINS</th>
+            <th>Desconto ICMS</th>
+            <th>Comissão a Pagar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="">R$ {{Total.produtocc}}</td>
+            <td class="text-danger">R$ - {{Total.produto}}</td>
+            <td class="text-danger">R$ - {{descontoFP}}</td>
+            <td class="text-danger">R$ - {{descontoFederal}}</td>
+            <td class="text-danger">R$ - {{descontoICMS}}</td>
+            <td class="bold lead text-success">R$ {{Total.comissao}} <small>( {{percentual}} %)</small></td>
+        </tr>
+    </tbody>
+</table>
+{{/ClienteDoCliente}}
+
+
+<div class="row">
+    <div class="col-9 text-left">
+        <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
+        <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
+        <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
+        <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
+        <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
+
+        <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
+            <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
+        </button>
+    </div>
+
+    {{#existProducts}}
+    <div class="col-3 text-right">
+        <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}"
+           class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
+            <i class="fas fa-fast-forward"></i> ir Próxima Etapa
+        </a>
+        <br>
+        <small class="font10">+1 etapa para concluir o pedido</small>
+    </div>
+    {{/existProducts}}
+</div>
+
+<!-- Modal para Enviar para Gerencia -->
+<div class="modal fade" id="modalGerencia" tabindex="-1" role="dialog" aria-labelledby="modalGerenciaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalGerenciaLabel">Enviar Mensagem para Gerência</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formGerencia">
+          <input type="hidden" id="leadId" name="leadId" value="">
+          <div class="form-group">
+            <label for="mensagemGerencia">Mensagem:</label>
+            <textarea class="form-control" id="mensagemGerencia" name="mensagem" rows="4" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnEnviarGerencia">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

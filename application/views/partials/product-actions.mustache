@@ -1,0 +1,39 @@
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <div class="btn-group btn-sm" role="group">
+        <i class="fas fa-cog color-primary pb-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="btnGroupDrop1">
+            {{#SESSION.acessoWebmaster}}
+            <a class="dropdown-item mb-1 border-bottom" target="_blank" href="http://api-v1.vallery.com.br/v1/Produtos/{{produtoPOID}}?filter[include]=Segmento&filter[include]=Classificacao">API</a>
+            <!--<a class="dropdown-item mb-1 border-bottom" target="_blank" href="https://solr.rolemak.com.br/solr/catalogo/select?indent=on&q=produtoPOID:{{produtoPOID}}&wt=json">SOLR</a>
+<a class="dropdown-item mb-1 border-bottom" target="_blank" href="/crm/v4/products?fq=produtos-moto-com-preco&title=Produtos+Motopeças+com+Preço&q={{Detalhe.produtoModelo}}"> Detalhe do Produto </a>//-->
+            {{/SESSION.acessoWebmaster}}
+
+            {{#SESSION.acessoGerencial}}
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Historico de Edições do Produto"
+               data-target="#remoteModal" data-remote="{{CONTAINER}}lead/history/{{POID}}">edições de preço</a>
+            <!--<a class="dropdown-item mb-1 border-bottom" target="_blank" href="/stock/view/{{produtoPOID}}">SOLR</a>//-->
+            {{/SESSION.acessoGerencial}}
+
+            {{#SESSION.acessoDiretoria}}
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Detalhes do Produto"
+               data-target="#remoteModal" data-remote="/K3/tip/vproduct/{{produtoPOID}}">detalhes do produto</a>
+            {{/SESSION.acessoDiretoria}}
+
+          <!--  <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Histórico de Venda do Produto"
+               data-target="#remoteModal" data-remote="/K3/tip/product/101219/">última vendas (completo)</a>//-->
+
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Histórico de Venda do Produto"
+               data-target="#remoteModal" data-remote="{{CONTAINER}}product/sales/{{produtoPOID}}?nop=27">última vendas (completo)</a>
+
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Histórico de Venda do Produto"
+               data-target="#remoteModal" data-remote="{{CONTAINER}}product/sales/{{produtoPOID}}/{{Cliente.clienteID}}?nop=27">últimas vendas (cliente)</a>
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Importação do Produto"
+               data-target="#remoteModal" data-remote="{{CONTAINER}}product/arrival/{{produtoPOID}}">previsão</a>
+
+            <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Inspeção do Produto ID:{{produtoPOID}} Modelo: {{Detalhe.produtoModelo}} ( as 3 últimas )"
+               data-target="#remoteModal" data-remote="{{CONTAINER}}product/inspect/{{produtoPOID}}/{{POID}}">inspeção</a>
+            <!--<a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Importação do Produto"
+data-target="#remoteModal" data-remote="#">Última Chegada</a>//-->
+        </div>
+    </div>
+</div>

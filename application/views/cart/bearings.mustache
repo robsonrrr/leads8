@@ -1,0 +1,314 @@
+<div id="cartContent">
+
+    <div class="alert alert-warning" role="alert">
+        <strong>Pedido de Rolamentos!</strong> desconto, prazos de acordo com a política de Rolamentos. Segmento:{{segmentoPOID}}, Desconto máximo de <strong>{{Total.maxdesconto}}%</strong> em relação aos produtos no carrinho.
+    </div>
+
+
+    <div class="row">
+        <div class="col-3">
+            <p class="h2 color-primary">
+                <i class="fas fa-shopping-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="fas fa-level-down-alt"></i>
+            </p>
+        </div>
+        <div class="col-2">
+            <div class="custom-control custom-switch mt-2">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" data-update="{{CONTAINER}}lead/session/{{id}}" {{#SESSION.check}}checked{{/SESSION.check}}>
+                <label class="custom-control-label" for="customSwitch1">Verificar Estoque</label>
+            </div>
+        </div>
+
+        <div class="col-7 text-right"> 
+            <div class="btn-group btn-group-sm my-2" role="group" aria-label="Small button group">
+                <a class="btn btn-secondary text-white" target="_blank" href="/clientes_editar.php?DADOS={{Cliente.id}}">
+                    <i class="fas fa-user-edit"></i> editar cliente
+                </a>
+                <a class="btn btn-secondary text-white" target="_blank" href="/mak.php?TIPO=PAGAMENTOS&DADOS={{Cliente.id}}&MNOME={{Cliente.clienteNome}}">
+                    <i class="fas fa-money-check-alt"></i> pagamentos
+                </a>
+                <a class="btn btn-secondary text-white" target="_blank" href="/orders/orders_per_client.php?client={{Cliente.id}}">
+                    <i class="fas fa-clipboard-list"></i> pedidos
+                </a>
+                <a class="btn btn-secondary text-white" href="#" class="dropdown-item mb-1 border-bottom" data-toggle="modal"
+                   data-target="#modalTicketAdd" data-remote="{{CONTAINER}}ticket/new/{{Cliente.clienteID}}/{{Lead.id}}"
+                   data-name="{{Cliente.clienteNome}}" data-customer="{{Cliente.clienteID}}" data-title="Criar um Novo Ticket" >
+                    <i class="fas fa-ticket-alt"></i> criar ticket
+                </a>
+                <a class="btn btn-secondary text-white" data-toggle="modal" data-title="Ver Tickets" 
+                   data-target="#remoteModal" data-remote="/agendor/tickets/?cliente={{Cliente.clienteID}}">
+                    tickets
+                </a>
+                <a class="btn btn-warning" target="_blank" href="{{CONTAINER}}lead/delete/{{id}}/{{segmentoPOID}}">
+                    <i class="fas fa-trash-alt"></i> deletar lead
+                </a>
+                <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/recalculate/{{id}}/{{segmentoPOID}}">
+                    <i class="fas fa-sync-alt"></i> recalcular impostos
+                </a>
+                <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/recalculate/{{id}}/{{segmentoPOID}}?price=true">
+                    <i class="fas fa-sync-alt"></i> atualizar preço
+                </a>
+
+                {{#existProducts}}
+                <a class="btn btn-warning disabled" onclick="return false;" href="#">
+                    <i class="fas fa-bolt"></i> Raio-Y
+                </a>                
+                {{/existProducts}}
+                {{^existProducts}}
+                <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/raioy/{{id}}/{{segmentoPOID}}">
+                    <i class="fas fa-bolt"></i> Raio-Y
+                </a>
+                {{/existProducts}}
+
+                <a target="_blank" class="btn btn-info" href="{{CONTAINER}}lead/mail/{{id}}/{{segmentoPOID}}">
+                    <i class="fas fa-envelope-open-text"></i> email
+                </a>
+                <a target="_blank" class="btn btn-info" href="{{CONTAINER}}lead/print/{{id}}/{{segmentoPOID}}">
+                    <i class="fas fa-print"></i> imprimir
+                </a>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-lead="{{id}}"
+                        {{#existPendencies}}disabled{{/existPendencies}} {{#existProducts}}disabled{{/existProducts}} >
+                    <i class="fas fa-file-import"></i> importar</button>
+            </div>
+        </div>
+
+        {{#existPendencies}}
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>Pendências!</strong> favor corrigir {{existPendencies}}
+            </div>
+        </div>
+        {{/existPendencies}}
+
+    </div>
+
+    <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
+        <thead class="thead-custom">
+            <tr>
+                <th class="align-middle text-center" scope="col">#</th>
+                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
+                <th class="align-middle" scope="col">Produto</th>
+                <th class="align-middle text-center" scope="col">Marca</th>
+                <th class="align-middle text-center" scope="col">Emb.</th>
+                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center" scope="col">Qtd.</th>
+                <th class="align-middle text-center" scope="col">Valor Venda</th>
+                <th class="align-middle text-right" scope="col">Produto</th>
+                <th class="align-middle text-right" scope="col">IPI</th>
+                <th class="align-middle text-right" scope="col">ST</th>
+                <th class="align-middle text-right" scope="col">Total</th>
+                <th class="align-middle text-center" scope="col">Desconto</th>
+                {{#SESSION.acessoDiretoria}}  
+                <th class="align-middle text-center" scope="col">Margem</th>
+                {{/SESSION.acessoDiretoria}}
+                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {{#Produtos}}
+            <tr id="colunm_{{POID}}" class="{{#produtoIndisponivel}}table-danger{{/produtoIndisponivel}}">
+                <th class="align-middle text-center" width="1%" scope="row">
+                    <p class="p-0 m-0">
+                        {{produtoContagem}}
+                    </p>
+                    <p class="p-0 m-0">
+                        <input class="checkBoxClass" name="product" type="checkbox" id="product_{{POID}}" value="{{POID}}">
+                    </p>
+                </th>
+                <td class="align-middle text-center" width="1%">
+                    <a href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
+                       data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}">
+                        <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}">
+                    </a>
+                </td>
+                <td class="align-middle font12" width="32%">
+                    <div class="p-0 m-0">
+                        <strong><a class="color-primary" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}?query={{Detalhe.produtoModelo}}">{{Detalhe.produtoModelo}}</a></strong>
+                        {{> partials/product-actions}}
+                        <small>ID:{{produtoPOID}}</small>
+                    </div>
+                    <div class="p-0 m-0">
+                        {{Detalhe.produtoNome}} <span class="p-0 m-0 font10 text-muted">   {{#solr.produtoMedida}} d:{{solr.produtoMedidaFuro}} x D:{{solr.produtoMedidaDiametro}} x B:{{solr.produtoMedidaLargura}} {{/solr.produtoMedida}} </span>
+                    </div>
+                </td>
+                <td class="align-middle text-center" width="5%">
+                    {{#Detalhe.produtoMarcaFormatado}}
+                    <img width="50" src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}"/>
+                    {{/Detalhe.produtoMarcaFormatado}}
+                    {{^Detalhe.produtoMarcaFormatado}}
+                    s/m
+                    {{/Detalhe.produtoMarcaFormatado}}
+                </td>
+                <td class="align-middle text-center font10" width="1%">
+                    {{#Detalhe.produtoEmbalagem}}
+                    <img width="35" src="{{ENV.cdn}}svg/icones/emb-{{Detalhe.produtoEmbalagem}}-{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{solr.produtoEmbalagem}}" alt="{{solr.produtoEmbalagem}}"/>
+                    {{/Detalhe.produtoEmbalagem}}
+                    {{^Detalhe.produtoEmbalagem}}
+                    {{solr.produtoEmbalagem}}
+                    {{/Detalhe.produtoEmbalagem}}
+                </td>
+                <td class="align-middle text-center" >
+                    <span>{{Detalhe.produtoPeso}}</span>
+                    {{#SESSION.acessoFinanceiro}}
+                    <p class="p-0 pt-2 m-0 font11 text-danger">Frete: {{produtoFrete}} / {{produtoFreteTotal}}</p>
+                    {{/SESSION.acessoFinanceiro}}
+                </td>
+                <td class="align-middle text-center" width="9%">
+                    <input type="text" class="form-control form-control-sm rounded-0 qty-cart text-center mask-qty" data-update="/services/cart/update/{{POID}}" data-lead="{{id}}" autocomplete="off"
+                           data-product="{{produtoPOID}}" id="qty_cart_{{produtoPOID}}" value="{{produtoQuantidade}}" name="produtoQuantidade"
+                           min="1" max="999999" maxlength="5">
+                    {{#SESSION.check}}
+                    <a href="#" class="" data-toggle="modal" data-title="Estoque Ecommerce" data-target="#remoteModal"
+                       data-remote="{{CONTAINER}}product/ecommerce/{{produtoPOID}}/{{Lead.unidadeEmitentePOID}}"  title="Estoque Ecommerce: Carrinho Ativos">
+                        <small class="text-muted">{{stock.estoqueEcommerce}}</small>
+                    </a>
+                    / <small class="text-muted" title="Estoque Comercial da {{Emitente.emitenteFantasia}} ">{{stock.estoqueComercial}}</small>
+                    / <small class="color-primary" title="Estoque Total da Unidade {{Emitente.emitenteFantasia}}">{{stock.estoqueTotal}}</small>
+                    / <small class="text-danger" title="Estoque Geral de Todas Unidades">{{stock.estoqueGeral}}</small>
+                    {{/SESSION.check}}
+                    {{^SESSION.check}}
+                    <small class="text-warning">-</small>
+                    {{/SESSION.check}}
+                </td>
+                {{#produtoIndisponivel}}
+                <td class="align-middle text-center" colspan="7">
+                    Quantidade do item indisponível
+                </td>
+                {{/produtoIndisponivel}}
+                {{^produtoIndisponivel}}
+                <td class="align-middle text-center" width="7%">
+                    {{#produtoPrecoAjustado}}
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount color-primary font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" 
+                           data-segment="{{segmentoPOID}}" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
+                    {{/produtoPrecoAjustado}}
+                    {{^produtoPrecoAjustado}}
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-dark font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength=""
+                           data-segment="{{segmentoPOID}}" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
+                    {{/produtoPrecoAjustado}}
+                    <small title="Preço do Cliente" title="Preço Cliente">{{produtoValorOriginal}}</small> / <small title="Preço base do Produto" class="text-danger"> {{Detalhe.produtoRevenda}}</small>
+                </td>
+                <td class="align-middle text-right">
+                    <p class="p-0 m-0">{{produtoValorSubtotal}}</p>
+                    {{#SESSION.acessoWebmaster}}
+                    <p class="p-0 m-0 font11 text-muted">({{produtoValor}} unit.)</p>
+                    {{/SESSION.acessoWebmaster}}
+                </td>
+                <td class="align-middle text-right">
+                    <p class="p-0 m-0">{{produtoIPISubtotal}} </p>
+                    {{#SESSION.acessoWebmaster}}
+                    <p class="p-0 m-0 font11 text-muted">({{produtoIPI}} unit.)</p>
+                    {{/SESSION.acessoWebmaster}}
+                </td>
+                <td class="align-middle text-right">
+                    <p class="p-0 m-0">{{produtoSTSubtotal}}</p>
+                    {{#SESSION.acessoWebmaster}}
+                    <p class="p-0 m-0 font11 text-muted">({{produtoST}} unit.)</p>
+                    {{/SESSION.acessoWebmaster}}
+                </td>
+                <td class="align-middle text-right">
+                    <p class="p-0 m-0 font-weight-bold">{{produtoValorSubtotalComImpostos}}</p>
+                    <p class="p-0 m-0 font11 text-muted">({{produtoValorUnitarioComImpostos}} unit.)</p>
+                </td>
+                <td class="align-middle text-center" width="5%">
+                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount mask-discount"
+                           id="cart_discount_{{produtoPOID}}" data-type="discount" min="0" max="99" maxlength="3" data-product="{{produtoPOID}}"
+                           data-classe="{{Detalhe.produtoClassificacao}}" data-lead-product="{{POID}}" data-segment="{{segmentoPOID}}" data-lead="{{id}}" 
+                           data-url="{{CONTAINER}}lead/discount" value="{{produtoDescontoPorcentagem}}">
+                    <p class="p-0 pt-1 m-0 font11 text-muted">
+                        Max: {{Classificacao.classificacaoDescontoVendedor}}%  {{#SESSION.acessoGerencial}}/ {{Classificacao.classificacaoDescontoGerente}}%{{/SESSION.acessoGerencial}}
+                    </p>
+                </td>
+                {{#SESSION.acessoDiretoria}}
+                <td class="align-middle text-center">
+                    <p class="p-0 m-0 font11 text-danger"> {{margemNominalFormatado}} / <span>{{margemPercentual}}</span>%</p>
+                    <p class="p-0 pt-1 m-0 font11 text-muted" title="Quantidade:{{Custo.qtd}}"> {{Custo.estimado}} - {{Custo.chegada}}</p>
+                </td>
+                {{/SESSION.acessoDiretoria}}  
+                {{/produtoIndisponivel}}
+                <td class="align-middle text-center" width="1%">
+                    <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}">
+                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+            {{/Produtos}}
+            {{^Produtos}}
+            <tr>
+                <td colspan="16" class="text-center p-3">
+                    <p>
+                        <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="200" /> 
+                    </p>
+                    <span class="h4 text-muted">Seu Carrinho está vazio!</span>
+                </td>
+            </tr>
+            {{/Produtos}}
+        </tbody>
+        {{#Total}}
+        <tfoot class="{{^Produtos}}d-none{{/Produtos}} bg-custom">
+            <tr class="font-weight-bold lead ">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="align-middle text-center">{{peso}}</td>
+                <td class="align-middle text-center">{{quantidade}}</td>
+                <td class="align-middle text-center"></td>
+                <td class="align-middle text-right">{{produto}}</td>
+                <td class="align-middle text-right">{{ipi}}</td>
+                <td class="align-middle text-right">{{st}}</td>
+                <td class="align-middle text-right">{{bruto}}</td>
+                <td class="align-middle text-right"><a href="#" class="jeditable-discount text-dark" name="" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a> <small> <i class="fas fa-edit"></i></small></td>
+                <td class="align-middle text-center">
+                    {{#SESSION.acessoDiretoria}}
+                    {{nominal}} / {{percentual}}%
+                    {{/SESSION.acessoDiretoria}}
+                </td>
+                <td></td>
+            </tr>
+            <tr class="font11">
+                <th class="align-middle text-center" scope="col">#</th>
+                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
+                <th class="align-middle" scope="col">Produto</th>
+                <th class="align-middle" scope="col">Marca</th>
+                <th class="align-middle text-center" scope="col">Emb.</th>
+                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center" scope="col">Qtd.</th>
+                <th class="align-middle text-center" scope="col">Valor Venda</th>
+                <th class="align-middle text-right" scope="col">Subtotal Produto</th>
+                <th class="align-middle text-right" scope="col">IPI</th>
+                <th class="align-middle text-right" scope="col">ST</th>
+                <th class="align-middle text-right" scope="col">Subtotal R$</th>
+                <th class="align-middle text-center" scope="col">Desconto</th>
+                {{#SESSION.acessoDiretoria}} 
+                <th class="align-middle text-center" scope="col">Margem</th>
+                {{/SESSION.acessoDiretoria}}
+                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
+            </tr>
+        </tfoot>
+        {{/Total}}
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-6 text-left">
+        <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
+        <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
+        <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
+        <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
+
+        <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
+            <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
+        </button>
+    </div>
+
+    {{#existProducts}}
+    <div class="col-6 text-right">
+        <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
+           class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
+            <i class="fas fa-fast-forward"></i> ir Próxima Etapa
+        </a>
+        <br>
+        <small class="font10">+1 etapa para concluir o pedido</small>
+    </div>
+    {{/existProducts}}
+</div>

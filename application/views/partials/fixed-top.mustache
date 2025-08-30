@@ -1,0 +1,50 @@
+<div class="border-bottom border-white fixed-top">
+    <div class="container-fluid leadHeader">
+        <div class="row pb-2">
+            <div class="col-10">
+                <div class="p-0 pt-1 m-0 font-weight-bold">
+                    Lead nº: <strong class="h4"><a target="_blank" class="text-primary" href="{{CONTAINER}}lead/build/{{id}}?check={{check}}&segment={{segmentoPOID}}">{{id}}</a></strong>
+                    
+                    <a target="_self" class="text-primary ml-2" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}"><i class="fas fa-lg fa-sync"></i></a>
+                    <a target="_blank" class="text-primary ml-2" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}"><i class="fas fa-lg fa-external-link-alt"></i></a>
+                    
+                    <span class="pl-5"></span>
+                    Cliente: <strong class="h5"><a target="_blank" class="text-primary" href="/agendor/?q={{Cliente.clienteID}}">{{Cliente.clienteNome}} - {{Cliente.clienteEstado}} - {{Cliente.Segmento.segmentoNome}} - {{Cliente.Hierarquia.clienteHierarquia}}</a></strong>
+                </div>
+            </div>
+            <div class="col-2 text-right">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       Pedido de {{segmentoNome}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        {{#SESSION.acessoMotopecas}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/6">Motopeças</a>
+                        {{/SESSION.acessoMotopecas}}
+
+                        {{#SESSION.acessoMaquinas}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/1">Máquinas</a>
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/3">Peças</a>
+                        {{/SESSION.acessoMaquinas}}
+
+                        {{#SESSION.acessoPecas}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/3">Peças & Acessórios</a>
+                        {{/SESSION.acessoPecas}}
+
+                        {{#SESSION.acessoAutopecas}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/5">Autopeças</a>
+                        {{/SESSION.acessoAutopecas}}
+
+                        {{#SESSION.acessoRolamentos}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/2">Rolamentos</a>
+                        {{/SESSION.acessoRolamentos}}
+
+                        {{#SESSION.acessoMetais}}
+                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/4">Metais</a>
+                        {{/SESSION.acessoMetais}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

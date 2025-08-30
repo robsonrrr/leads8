@@ -1,0 +1,194 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<!--<link rel="icon" href="../../../../favicon.ico">//-->
+
+<title>{{Lead.Cliente.clienteNome}} | Lead nº {{Lead.id}}</title>
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" />
+
+<!--Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+
+<!-- Custom styles for this template -->
+<style>
+    body        { background-color:#f8f8f8; min-width:1180px; margin-top:50px}
+
+    .leadHeader { background-color:#232628; color:#FFFFFF }
+    .logo       { padding-left:10px; padding-top:10px; padding-right:10px; width:50px;}
+
+    .leadMenu   { width:350px }
+    .leadCart   { }
+
+    .leadSearch { }
+
+    .cartContent {}
+
+    .font-title { font-size:18px; font-weight:bold; line-height:20px; }
+
+    .popover        { max-width:500px} 
+    .popover-header { margin:0}
+
+    .btn-outline-primary { color: #49afef; border-color: #49afef;}
+    .btn-primary         { color: #fff; background-color: #0474ca; border-color: #49afef;}
+
+    .text-primary        { color: #beef49!important}
+    .color-primary       { color: #005fee!important}
+    .text-secondary      { color: #C5C6C7!important}
+
+    a.text-primary:focus, a.text-primary:hover {
+        color: #beef49!important;
+    }
+
+    .list-group-item-dark { color: #C5C6C7; background-color: #232628;}   
+
+    .font09{ font-size:09px; line-height:9px}
+    .font10{ font-size:10px; line-height:10px}
+    .font11{ font-size:11px; line-height:11px}
+    .font12{ font-size:12px; line-height:12px}
+    .font13{ font-size:13px; line-height:13px}
+    .font14{ font-size:14px; line-height:14px}
+    .font15{ font-size:15px; line-height:15px}
+    .font18{ font-size:18px; line-height:18px}
+
+    .hilite1,.hilite2,.hilite3,.hilite4 { background-color:#383140; color:#FFF }
+
+    .spinner input              { text-align: right;}
+    .input-group-btn-vertical   { position: relative;  white-space: nowrap;  width: 1%;  vertical-align: middle;  display: table-cell;}
+    .input-group-btn-vertical > .btn             { display: block;  float: none; border:1px solid #cacaca;  width: 100%;  max-width: 100%;  padding:8px;  margin-left: 0px;  position: relative;  border-radius: 0;}
+    .input-group-btn-vertical > .btn:first-child { border-top-right-radius: 4px;}
+    .input-group-btn-vertical > .btn:last-child  { margin-top: -2px;  border-bottom-right-radius: 4px;}
+    .input-group-btn-vertical i {  position: absolute; top: 0; left: 4px;}
+
+    .leadTotal  { }
+    .leadResult { max-height:230px; overflow:auto; border-bottom:1px solid #f8f8f8}
+
+    .table .thead-custom th { color: #6b6743; background-color: #f2efe5; border-color: #f3f2e8;}
+    .bg-custom { color: #6b6743; background-color: #f2efe5; border-color: #f3f2e8;}
+
+    .spinnerLoading {
+        background-color:#FFFFF; position: absolute; left: 50%; top: 40%; height:60px; width:60px; margin:0px auto;
+        -webkit-animation: rotation .8s infinite linear; -moz-animation: rotation .8s infinite linear; -o-animation: rotation .8s infinite linear; animation: rotation .8s infinite linear;
+        border-left:6px solid rgba(255,152,76,.15); border-right:6px solid rgba(255,152,76,.15); border-bottom:6px solid rgba(255,152,76,.15); border-top:6px solid rgba(255,108,0,.8); border-radius:100%;
+        border-radius:100%;
+    }
+    .spinnerDiv {content: ''; z-index:999999999; display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.3);}
+
+    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+    .autocomplete-suggestion { padding: 4px 5px; white-space: nowrap; overflow: hidden; }
+    .autocomplete-selected { background: #F0F0F0; }
+    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+    .autocomplete-group {padding: 3px 5px; display: block; font-weight:bolder; border-bottom: 1px solid #000; background-color:#333; color:#FFFFFF; font-size:16px; }
+
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        /*  background-color:#fffdbd; */
+    }
+
+    input::selection, textarea::selection {
+        background-color: #0079cd;
+        color: #FFFFFF;
+    }
+
+    input#search:focus { 
+        outline: none !important;
+        border-color: #58baff;
+        box-shadow: 0 0 1px #58baff;
+    }
+
+    ::selection {
+        color: #FFFFFF;
+        background: #0079cd;
+    }
+
+    @-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(359deg);}
+    }
+    @-moz-keyframes rotation {
+        from {-moz-transform: rotate(0deg);}
+        to {-moz-transform: rotate(359deg);}
+    }
+    @-o-keyframes rotation {
+        from {-o-transform: rotate(0deg);}
+        to {-o-transform: rotate(359deg);}
+    }
+    @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(359deg);}
+    }
+
+    @media only screen and (max-width: 600px)
+    {
+        body { background-color:#000; min-width:100%; margin-top:90px; }
+        .leadHeader { font-size:12px }
+
+        .h5, h5, .h4, h4 { font-size: 0.75rem; }
+    }
+
+
+    {{#Lead.geral}} 
+    .leadHeader { background-color:#333439}
+    .leadTotal  { background-color:#333439}
+    {{/Lead.geral}}
+
+    {{#Lead.bearings}}
+    .leadHeader    { border-top:5px solid #ff8901; background-color:#c26800}
+    .leadTotal     { background-color:#f8f8f8}
+    .color-primary { color:#c26800!important}
+
+    .table .thead-custom th { color: #2e2e2e }
+    .bg-custom              { color: #2e2e2e }
+
+    .text-primary {    color: #08ffc7!important;}
+
+    a.text-primary:focus, a.text-primary:hover { color: #08ffc7!important;    }
+    {{/Lead.bearings}}
+
+    {{#Lead.machines}}
+    .leadHeader    { border-top:5px solid #00964c; background-color:#054324}
+    .leadTotal     { background-color:#f8f8f8}
+    .color-primary { color:#054324!important}
+
+    .table .thead-custom th { color: #2e2e2e }
+    .bg-custom              { color: #2e2e2e }
+    {{/Lead.machines}}
+
+    {{#Lead.parts}}
+    .leadHeader    { border-top:5px solid #04a1cc; background-color:#004e63}
+    .leadTotal     { background-color:#f8f8f8}
+    .color-primary { color:#004e63!important}
+
+    .table .thead-custom th { color: #2e2e2e }
+    .bg-custom              { color: #2e2e2e }
+    {{/Lead.parts}}
+
+    {{#Lead.moto}}
+    .leadHeader    { border-top:5px solid #db1414; background-color:#a20000}
+    .leadTotal     { background-color:#f8f8f8}
+    .color-primary { color:#a20000!important}
+
+    .table .thead-custom th { color: #2e2e2e }
+    .bg-custom              { color: #2e2e2e }
+    {{/Lead.moto}}
+
+    {{#Lead.faucets}}
+    .leadHeader { border-top:5px solid #00aec7;}
+    .leadTotal  { border-top:5px solid #00aec7;}
+    {{/Lead.faucets}}
+
+    {{#Lead.auto}}
+    .leadHeader    { border-top:5px solid #e3aa22; background-color:#f3bc14}
+    .leadTotal     { background-color:#f3bc14}
+    .color-primary { color:#e3aa22!important}
+
+    .table .thead-custom th { color: #2e2e2e }
+    .bg-custom              { color: #2e2e2e }
+
+    .text-primary {    color: #2669e4!important;}
+
+    a.text-primary:focus, a.text-primary:hover { color: #548ffc!important;    }
+    {{/Lead.auto}}
+
+</style>
