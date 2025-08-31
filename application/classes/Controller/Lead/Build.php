@@ -214,6 +214,8 @@ class Controller_Lead_Build extends Controller_Lead_Base{
         $margem      = 0;
         $percentual  = 0;
         $pnominal    = 0;
+        $totalIndex = 0;
+        $indexCount = 0;
 
         foreach( $array['Lead']['Produtos'] as $k => $v )
         {
@@ -268,7 +270,10 @@ class Controller_Lead_Build extends Controller_Lead_Base{
                 $array['Lead']['Produtos'][$k]['produtoCCValorFormatado']    = $this->formatPrice( $v["produtoValorClientedeCliente"]);
 
                 if ($detalhe['produtoFob'] > 0) {
-                    $array['Lead']['Produtos'][$k]['produtoIndex'] = number_format($v['produtoValor'] / $detalhe['produtoFob'], 2, ',', '.');
+                    $productIndex = $v['produtoValor'] / $detalhe['produtoFob'];
+                    $array['Lead']['Produtos'][$k]['produtoIndex'] = number_format($productIndex, 2, ',', '.');
+                    $totalIndex += $productIndex;
+                    $indexCount++;
                 } else {
                     $array['Lead']['Produtos'][$k]['produtoIndex'] = 'N/A';
                 }
@@ -425,6 +430,13 @@ class Controller_Lead_Build extends Controller_Lead_Base{
             'liquido'     => round($produto, 2),
             'impostos'    => $this->formatPrice($impostos)
         );
+
+        if ($indexCount > 0) {
+            $averageIndex = $totalIndex / $indexCount;
+            $array['Lead']['Total']['index'] = number_format($averageIndex, 2, ',', '.');
+        } else {
+            $array['Lead']['Total']['index'] = 'N/A';
+        }
 
         if ( isset($this->segmentID)  )
         {
