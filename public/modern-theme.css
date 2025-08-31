@@ -2012,6 +2012,12 @@ tr.fading-out {
     border: 2px solid rgba(255, 193, 7, 0.3);
 }
 
+.config-section .config-header.bg-secondary .config-title,
+.config-section .config-header.bg-secondary .config-subtitle,
+.config-section .config-header.bg-secondary .config-icon-wrapper i {
+    color: #111827 !important;
+}
+
 .search-section .config-header.bg-success {
     background: rgba(32, 201, 151, 0.15) !important;
     background-color: rgba(32, 201, 151, 0.15) !important;
