@@ -29,6 +29,9 @@ function initializeModernInteractions() {
     
     // Initialize responsive behaviors
     initializeResponsiveBehaviors();
+    
+    // Initialize collapse toggle interactions
+    initializeCollapseToggles();
 }
 
 /**
@@ -437,8 +440,32 @@ function initializeHideEmptyDiscountButtons() {
             input.addEventListener('input', checkDiscountButtonVisibility);
             input.addEventListener('change', checkDiscountButtonVisibility);
         });
-    }
-}
+     }
+     
+     // Handle search collapse toggle
+     const searchCollapse = document.getElementById('searchCollapse');
+     if (searchCollapse) {
+         searchCollapse.addEventListener('show.bs.collapse', function () {
+             const toggleBtn = document.querySelector('[href="#searchCollapse"]');
+             if (toggleBtn) {
+                 const icon = toggleBtn.querySelector('i');
+                 const text = toggleBtn.querySelector('.toggle-text');
+                 if (icon) icon.className = 'fas fa-chevron-up me-1';
+                 if (text) text.textContent = 'Ocultar';
+             }
+         });
+         
+         searchCollapse.addEventListener('hide.bs.collapse', function () {
+             const toggleBtn = document.querySelector('[href="#searchCollapse"]');
+             if (toggleBtn) {
+                 const icon = toggleBtn.querySelector('i');
+                 const text = toggleBtn.querySelector('.toggle-text');
+                 if (icon) icon.className = 'fas fa-chevron-down me-1';
+                 if (text) text.textContent = 'Mostrar';
+             }
+         });
+     }
+ }
 
 /**
  * Hide all rows with empty or zero discount values
@@ -502,6 +529,75 @@ function hideEmptyDiscountRow(input) {
         setTimeout(() => {
             row.style.display = 'none';
         }, 300);
+    }
+}
+
+/**
+ * Initialize collapse toggle interactions
+ */
+function initializeCollapseToggles() {
+    // Handle lead info collapse toggle
+    const leadInfoToggle = document.querySelector('[data-bs-toggle="collapse"][href="#leadInfoCollapse"]');
+    const leadInfoCollapse = document.getElementById('leadInfoCollapse');
+    
+    if (leadInfoToggle && leadInfoCollapse) {
+        leadInfoCollapse.addEventListener('show.bs.collapse', function() {
+            const icon = leadInfoToggle.querySelector('i');
+            const text = leadInfoToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-up me-1';
+            }
+            if (text) {
+                text.textContent = 'Ocultar';
+            }
+            leadInfoToggle.setAttribute('aria-expanded', 'true');
+        });
+        
+        leadInfoCollapse.addEventListener('hide.bs.collapse', function() {
+            const icon = leadInfoToggle.querySelector('i');
+            const text = leadInfoToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-down me-1';
+            }
+            if (text) {
+                text.textContent = 'Mostrar';
+            }
+            leadInfoToggle.setAttribute('aria-expanded', 'false');
+        });
+    }
+    
+    // Handle config collapse toggle
+    const configToggle = document.querySelector('[data-bs-toggle="collapse"][href="#configCollapse"]');
+    const configCollapse = document.getElementById('configCollapse');
+    
+    if (configToggle && configCollapse) {
+        configCollapse.addEventListener('show.bs.collapse', function() {
+            const icon = configToggle.querySelector('i');
+            const text = configToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-up me-1';
+            }
+            if (text) {
+                text.textContent = 'Ocultar';
+            }
+            configToggle.setAttribute('aria-expanded', 'true');
+        });
+        
+        configCollapse.addEventListener('hide.bs.collapse', function() {
+            const icon = configToggle.querySelector('i');
+            const text = configToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-down me-1';
+            }
+            if (text) {
+                text.textContent = 'Mostrar';
+            }
+            configToggle.setAttribute('aria-expanded', 'false');
+        });
     }
 }
 

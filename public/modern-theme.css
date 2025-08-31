@@ -1810,6 +1810,27 @@ tr.fading-out {
   margin-bottom: 2rem;
 }
 
+/* Ensure equal height for collapsible sections in row */
+.config-section.h-100 {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.config-section.h-100 .config-header {
+  flex-shrink: 0;
+}
+
+.config-section.h-100 .collapse {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.config-section.h-100 .config-body {
+  flex-grow: 1;
+}
+
 .config-card {
   background: var(--card-bg, white);
   border: 1px solid var(--border-color, var(--gray-200));

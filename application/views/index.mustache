@@ -33,10 +33,11 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <section class="lead-info-section mb-4">
-                            <div class="modern-card config-section info-section">
+                <!-- Collapsible Sections Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-4 col-md-6">
+                        <section class="lead-info-section h-100">
+                            <div class="modern-card config-section info-section h-100">
                                 <div class="config-header bg-info bg-opacity-10">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="d-flex align-items-center">
@@ -48,12 +49,13 @@
                                                 <p class="config-subtitle mb-0">Dados principais do lead</p>
                                             </div>
                                         </div>
-                                        <a class="btn btn-sm btn-light" data-bs-toggle="collapse" href="#leadInfoCollapse" role="button" aria-expanded="true" aria-controls="leadInfoCollapse">
-                                            <i class="fas fa-chevron-up"></i>
+                                        <a class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" href="#leadInfoCollapse" role="button" aria-expanded="false" aria-controls="leadInfoCollapse">
+                                            <i class="fas fa-chevron-down me-1"></i>
+                                            <span class="toggle-text">Mostrar</span>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="collapse show" id="leadInfoCollapse">
+                                <div class="collapse" id="leadInfoCollapse">
                                     <div class="config-body">
                                         <div class="d-flex flex-wrap justify-content-between">
                                             <div class="me-3">
@@ -96,23 +98,35 @@
                             </div>
                         </section>
                     </div>
-                
-                <!-- Configuration Section -->
-                <section class="config-section-h mb-4">
-                    <div class="modern-card config-section">
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <section class="config-section-h h-100">
+                            <div class="modern-card config-section h-100">
                         <div class="config-header bg-primary bg-opacity-10">
-                            <div class="d-flex align-items-center">
-                                <div class="config-icon-wrapper me-3">
-                                    <i class="fas fa-cogs"></i>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="config-icon-wrapper me-3">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="config-title mb-1">Configurações do Lead</h4>
+                                        <p class="config-subtitle mb-0">Ajustes e preferências</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="config-title mb-1">Configurações do Lead</h4>
-                                    <p class="config-subtitle mb-0">Ajustes e preferências</p>
-                                </div>
+                                <a class="btn btn-outline-info btn-sm" 
+                                   data-bs-toggle="collapse" 
+                                   href="#configCollapse" 
+                                   role="button" 
+                                   aria-expanded="false" 
+                                   aria-controls="configCollapse">
+                                    <i class="fas fa-chevron-down me-1"></i>
+                                    <span class="toggle-text">Mostrar</span>
+                                </a>
                             </div>
                         </div>
                         
-                        <div class="modern-card-body config-body">
+                        <div class="collapse" id="configCollapse">
+                            <div class="modern-card-body config-body">
                             <!-- Single Row Configuration -->
                             <div class="config-row">
                                 <div class="row g-3">
@@ -297,24 +311,37 @@
                                 </div>
                             </div>
                         </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
-                
-                <!-- Search Interface -->
-                <section class="search-section mt-4">
-                    <div class="modern-card config-section search-section">
+                    
+                    <div class="col-lg-4 col-md-12">
+                        <section class="search-section h-100">
+                            <div class="modern-card config-section search-section h-100">
                         <div class="config-header bg-success bg-opacity-10">
-                            <div class="d-flex align-items-center">
-                                <div class="config-icon-wrapper me-3">
-                                    <i class="fas fa-search"></i>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="config-icon-wrapper me-3">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="config-title mb-1">Busca de Produtos</h4>
+                                        <p class="config-subtitle mb-0">Encontre produtos por código ou descrição</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="config-title mb-1">Busca de Produtos</h4>
-                                    <p class="config-subtitle mb-0">Encontre produtos por código ou descrição</p>
-                                </div>
+                                <a class="btn btn-outline-success btn-sm" 
+                                   data-bs-toggle="collapse" 
+                                   href="#searchCollapse" 
+                                   role="button" 
+                                   aria-expanded="false" 
+                                   aria-controls="searchCollapse">
+                                    <i class="fas fa-chevron-down me-1"></i>
+                                    <span class="toggle-text">Mostrar</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="config-body">
+                        <div class="collapse" id="searchCollapse">
+                            <div class="config-body">
                     <div class="search-card">
                         <div class="search-body">
                             <!-- Search Input -->
@@ -425,8 +452,11 @@
                         </div>
                     </div>
                         </div>
-                    </div>
-                </section>
+                        </div>
+                             </div>
+                         </section>
+                     </div>
+                 </div>
                 <!-- DIFAL Alert -->
                 {{#Cliente.clienteDifal}}
                 <section class="difal-section mt-4">
