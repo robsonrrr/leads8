@@ -55,16 +55,16 @@
                         </div>
                         <div class="collapse show" id="leadInfoCollapse">
                             <div class="config-body">
-                            <div class="row g-3">
-                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <div class="me-3">
                                     <label class="form-label small"><i class="far fa-calendar-alt me-1"></i> Data Criado</label>
                                     <p class="form-control-plaintext form-control-sm py-0">{{dataEmissaoFormatado}} ({{dataEmissaoDias}} dia(s))</p>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                <div class="me-3">
                                     <label class="form-label small"><i class="fas fa-user-tie me-1"></i> Vendedor / Emissor</label>
                                     <p class="form-control-plaintext form-control-sm py-0">{{Cliente.Gerente.UsuarioNomeCurto}} / {{Vendedor.UsuarioNomeCurto}}</p>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                <div class="me-3">
                                     <label for="leadFonte" class="form-label small">
                                         <i class="fas fa-flag me-1"></i> Fonte
                                         <i class="fas fa-question-circle info-tooltip" 
@@ -77,7 +77,7 @@
                                            id="leadFonte" 
                                            value="{{leadFonte}}">
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                <div>
                                     <label for="leadTipo" class="form-label small">
                                         <i class="fas fa-tag me-1"></i> Tipo
                                         <i class="fas fa-question-circle info-tooltip" 
