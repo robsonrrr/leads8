@@ -115,6 +115,7 @@
                 <th class="align-middle text-center" scope="col">Qtd.</th>
                 <th class="align-middle text-center" scope="col">Vezes</th>
                 <th class="align-middle text-center" scope="col">Valor de Venda</th>
+                <th class="align-middle text-center" scope="col">Index</th>
                 <th class="align-middle text-right" scope="col">Subtotal Produto</th>
                 <th class="align-middle text-right" scope="col">Valor do Cliente</th>
                 <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
@@ -208,6 +209,9 @@
                     {{#SESSION.acessoDiretoria}}
                     /<small title="Preço base do Produto" class="text-info">{{Detalhe.produtoFob}}</small>
                     {{/SESSION.acessoDiretoria}}
+                </td>
+                <td class="align-middle text-center">
+                    <small>{{produtoIndex}}</small>
                 </td>
 
                 <td class="align-middle text-right" width="10%">

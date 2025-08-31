@@ -267,6 +267,12 @@ class Controller_Lead_Build extends Controller_Lead_Base{
                 $array['Lead']['Produtos'][$k]['produtoValorFormatado']      = $this->formatPrice( $v["produtoValor"]);
                 $array['Lead']['Produtos'][$k]['produtoCCValorFormatado']    = $this->formatPrice( $v["produtoValorClientedeCliente"]);
 
+                if ($detalhe['produtoFob'] > 0) {
+                    $array['Lead']['Produtos'][$k]['produtoIndex'] = number_format($v['produtoValor'] / $detalhe['produtoFob'], 2, ',', '.');
+                } else {
+                    $array['Lead']['Produtos'][$k]['produtoIndex'] = 'N/A';
+                }
+
                 if ( $v['produtoValorOriginal'] <> $v["produtoValor"] )
                 {
                     $array['Lead']['Produtos'][$k]['produtoPrecoAjustado'] = true;
