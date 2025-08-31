@@ -145,6 +145,26 @@ class Controller_Lead_Build extends Controller_Lead_Base{
         $array['Lead']['Emitente']['API'] = 'Estoque'.substr($array['Lead']['Emitente']['emitenteCnpj'] ,10,4);
         $array['Lead']['Emitente']['DB']  = 'mak_'.substr($array['Lead']['Emitente']['emitenteCnpj'] ,10,4);
         $array['Lead']['Financeiro']      = self::pending( $array[$k]['Cliente']['id'] );
+        
+        // Format financial values for display
+        if (isset($array['Lead']['Financeiro']) && is_array($array['Lead']['Financeiro'])) {
+            if (isset($array['Lead']['Financeiro']['limite'])) {
+                $array['Lead']['Financeiro']['limite'] = $this->formatPrice($array['Lead']['Financeiro']['limite']);
+            }
+            if (isset($array['Lead']['Financeiro']['disponivel'])) {
+                $array['Lead']['Financeiro']['disponivel'] = $this->formatPrice($array['Lead']['Financeiro']['disponivel']);
+            }
+            if (isset($array['Lead']['Financeiro']['atrasados'])) {
+                $array['Lead']['Financeiro']['atrasados'] = $this->formatPrice($array['Lead']['Financeiro']['atrasados']);
+            }
+            if (isset($array['Lead']['Financeiro']['pendentes'])) {
+                $array['Lead']['Financeiro']['pendentes'] = $this->formatPrice($array['Lead']['Financeiro']['pendentes']);
+            }
+            if (isset($array['Lead']['Financeiro']['vale'])) {
+                $array['Lead']['Financeiro']['vale'] = $this->formatPrice($array['Lead']['Financeiro']['vale']);
+            }
+        }
+        
         $array['Lead']['Ticket']          = self::ticket( $array[$k]['Cliente']['id'] );
 
         $array['Lead']['check'] =  $this->check;
@@ -585,7 +605,9 @@ class Controller_Lead_Build extends Controller_Lead_Base{
         $sql= sprintf("SELECT clientes.id, clientes.limite,
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND c.data < CURDATE()-5 AND ( ISNULL(c.datadep) OR MONTH(c.datadep)=0  ) GROUP BY c.idcli) AS atrasados,
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND ( YEAR(datadep)=0 OR datadep> current_date ) GROUP BY c.idcli) AS pendentes,
-                            (SELECT  SUM(h.usvale) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15  AND h.nop in (27,28,51,76) GROUP BY h.idcli) AS vale
+                            (SELECT  SUM(h.usvale) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15  AND h.nop in (27,28,51,76) GROUP BY h.idcli) AS vale,
+                            (SELECT DATEDIFF(now(),h.data ) FROM hoje h WHERE h.idcli=clientes.id and h.prazo<>15  AND h.nop in (27,28,51,76) AND h.valor>1500 ORDER BY id DESC limit 1) AS Recencia,
+                            (SELECT count(DISTINCT h.id) FROM hoje h WHERE h.idcli=clientes.id and h.prazo<>15  AND h.nop in (27,28,51,76) AND h.valor>1500 AND h.data >= CURDATE() - INTERVAL 90 DAY ORDER BY id DESC limit 1) AS Frequencia
                             FROM clientes
                             WHERE vip < 9 AND clientes.id=%s
                             LIMIT 1

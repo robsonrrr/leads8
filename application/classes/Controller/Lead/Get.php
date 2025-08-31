@@ -1,5 +1,5 @@
 <?php
-class Controller_Lead_Get extends Controller {
+class Controller_Lead_Get extends Controller_Website {
 
     public function action_index()
     {

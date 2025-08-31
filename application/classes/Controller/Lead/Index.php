@@ -26,12 +26,16 @@ class Controller_Lead_Index extends Controller_Website {
         // Exclude tablets.
         if( ( $detect->isMobile() or $detect->isTablet() ) and 5 == $segmentID )
         {
-           return $this->redirect( $_SERVER["HTTP_X_FORWARDED_PROTO"].'://'.$_SERVER["HTTP_X_FORWARDED_HOST"].'/leads/mobile/'.$leadID.'/'.$segmentID );  
+           $protocol = isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) ? $_SERVER["HTTP_X_FORWARDED_PROTO"] : (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http');
+           $host = isset($_SERVER["HTTP_X_FORWARDED_HOST"]) ? $_SERVER["HTTP_X_FORWARDED_HOST"] : $_SERVER['HTTP_HOST'];
+           return $this->redirect( $protocol.'://'.$host.'/leads/mobile/'.$leadID.'/'.$segmentID, 302 );  
         }
         
         if ( 1 != $segmentID and 3 != $segmentID )
         {
-          return $this->redirect( $_SERVER["HTTP_X_FORWARDED_PROTO"].'://'.$_SERVER["HTTP_X_FORWARDED_HOST"].'/leads/leads4/'.$leadID.'/'.$segmentID );   
+          $protocol = isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) ? $_SERVER["HTTP_X_FORWARDED_PROTO"] : (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http');
+          $host = isset($_SERVER["HTTP_X_FORWARDED_HOST"]) ? $_SERVER["HTTP_X_FORWARDED_HOST"] : $_SERVER['HTTP_HOST'];
+          return $this->redirect( $protocol.'://'.$host.'/leads/leads4/'.$leadID.'/'.$segmentID, 302 );   
         }
 
         $data = array( 

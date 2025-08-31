@@ -18,8 +18,11 @@ class Controller_Lead_Add extends Controller_Website {
         {
             if ( isset( $get['redirect'] ) )
             {
-                //$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['HTTP_X_FORWARDED_PREFIX'].$lead['id'];
-                $this->redirect($url);
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                $host = $_SERVER['HTTP_HOST'];
+                $prefix = isset($_SERVER['HTTP_X_FORWARDED_PREFIX']) ? $_SERVER['HTTP_X_FORWARDED_PREFIX'] : '';
+                $url = $protocol."://".$host.$prefix.$lead['id'];
+                $this->redirect($url, 302);
             }
         }
 
