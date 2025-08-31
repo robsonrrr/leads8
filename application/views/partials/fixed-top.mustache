@@ -1,4 +1,4 @@
-<header class="modern-header fixed-top">
+<header class="modern-header fixed-top{{#pedidoPOID}} pedido-approved{{/pedidoPOID}}"{{#pedidoPOID}} style="background-color: #28a745 !important;"{{/pedidoPOID}}>
   <div class="container">
     <div class="header-content">
       <div class="lead-info">
@@ -26,7 +26,14 @@
           <span class="label">Cliente:</span>
           <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link">{{Cliente.clienteNome}}
           {{#Cliente.clienteCidade}}<span class="client-location"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="client-location">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}</a>
-        </div>       
+        </div>
+        
+        {{#Vendedor.UsuarioNomeCurto}}
+         <div class="seller-info" style="color: #888;">
+           <span class="label">Vendedor:</span>
+           <span class="seller-name">{{Vendedor.UsuarioNomeCurto}}</span>
+         </div>
+         {{/Vendedor.UsuarioNomeCurto}}       
       </div>
       
       {{#Financeiro}}
