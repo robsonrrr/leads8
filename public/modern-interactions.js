@@ -32,6 +32,9 @@ function initializeModernInteractions() {
     
     // Initialize collapse toggle interactions
     initializeCollapseToggles();
+    
+    // Hide collapsible sections on page load
+    hideCollapsibleSectionsOnLoad();
 }
 
 /**
@@ -421,25 +424,25 @@ function handleWindowResize() {
  * Export functions for external use
  */
 /**
- * Initialize hide empty discount buttons
+ * Initialize hide empty discount buttons with 3-stage system
  */
 function initializeHideEmptyDiscountButtons() {
-    // Single button to hide all empty discount rows
+    // Initialize discount visibility stage (1: hide value=0, 2: hide value>0, 3: show all)
+    let discountStage = 1;
+    
     const hideAllButton = document.querySelector('.hide-all-empty-discounts');
     if (hideAllButton) {
+        // Set initial button state
+        updateDiscountButtonState(hideAllButton, discountStage);
+        
         hideAllButton.addEventListener('click', function() {
-            hideAllEmptyDiscountRows();
+            discountStage = discountStage >= 3 ? 1 : discountStage + 1;
+            applyDiscountVisibilityStage(discountStage);
+            updateDiscountButtonState(hideAllButton, discountStage);
         });
         
-        // Check if button should be visible
-        checkDiscountButtonVisibility();
-        
-        // Monitor discount input changes
-        const discountInputs = document.querySelectorAll('.product-discount');
-        discountInputs.forEach(input => {
-            input.addEventListener('input', checkDiscountButtonVisibility);
-            input.addEventListener('change', checkDiscountButtonVisibility);
-        });
+        // Apply initial stage
+        applyDiscountVisibilityStage(discountStage);
      }
      
      // Handle search collapse toggle
@@ -468,49 +471,72 @@ function initializeHideEmptyDiscountButtons() {
  }
 
 /**
- * Hide all rows with empty or zero discount values
+ * Apply discount visibility based on current stage
+ * Stage 1: Hide rows with value = 0 (default)
+ * Stage 2: Hide rows with value > 0
+ * Stage 3: Show all rows
  */
-function hideAllEmptyDiscountRows() {
+function applyDiscountVisibilityStage(stage) {
     const discountInputs = document.querySelectorAll('.product-discount');
     
     discountInputs.forEach(input => {
-        const value = input.value.trim();
-        // Check if value is empty, 0, or "0.00"
-        if (value === '' || value === '0' || value === '0.00' || parseFloat(value) === 0) {
-            const row = input.closest('tr');
-            if (row) {
+        const value = parseFloat(input.value) || 0;
+        const row = input.closest('tr');
+        
+        if (row) {
+            let shouldHide = false;
+            
+            switch(stage) {
+                case 1: // Hide value = 0
+                    shouldHide = value === 0;
+                    break;
+                case 2: // Hide value > 0
+                    shouldHide = value > 0;
+                    break;
+                case 3: // Show all
+                    shouldHide = false;
+                    break;
+            }
+            
+            if (shouldHide) {
                 row.classList.add('fading-out');
                 setTimeout(() => {
                     row.style.display = 'none';
                 }, 300);
+            } else {
+                row.classList.remove('fading-out');
+                row.style.display = '';
             }
         }
     });
 }
 
 /**
- * Check if hide discount button should be visible
+ * Update button appearance based on current stage
  */
-function checkDiscountButtonVisibility() {
-    const hideAllButton = document.querySelector('.hide-all-empty-discounts');
-    if (!hideAllButton) return;
+function updateDiscountButtonState(button, stage) {
+    const icon = button.querySelector('i');
+    const textNode = button.childNodes[button.childNodes.length - 1];
     
-    const discountInputs = document.querySelectorAll('.product-discount');
-    let hasDiscounts = false;
-    
-    // Check if any discount input has a non-zero value
-    discountInputs.forEach(input => {
-        const value = parseFloat(input.value) || 0;
-        if (value > 0 && input.value !== '' && input.value !== '0.00') {
-            hasDiscounts = true;
-        }
-    });
-    
-    // Show/hide button based on whether there are discounts
-    if (hasDiscounts) {
-        hideAllButton.style.setProperty('display', 'inline-block', 'important');
-    } else {
-        hideAllButton.style.setProperty('display', 'none', 'important');
+    switch(stage) {
+        case 1:
+            button.className = 'btn btn-outline-danger btn-sm hide-all-empty-discounts';
+            if (icon) icon.className = 'fas fa-eye-slash';
+            if (textNode) textNode.textContent = ' Hide Empty (=0)';
+            button.title = 'Stage 1: Hide rows with discount = 0';
+            break;
+        case 2:
+            button.className = 'btn btn-outline-warning btn-sm hide-all-empty-discounts';
+            if (icon) icon.className = 'fas fa-eye';
+            if (textNode) textNode.textContent = ' Hide Discounted (>0)';
+            button.title = 'Stage 2: Hide rows with discount > 0';
+            break;
+        case 3:
+            button.className = 'btn btn-outline-success btn-sm hide-all-empty-discounts';
+            if (icon) icon.className = 'fas fa-eye';
+            if (textNode) textNode.textContent = ' Show All';
+            button.title = 'Stage 3: Show all rows';
+            break;
     }
 }
 
@@ -599,6 +625,45 @@ function initializeCollapseToggles() {
             configToggle.setAttribute('aria-expanded', 'false');
         });
     }
+}
+
+/**
+ * Hide collapsible sections on page load
+ */
+function hideCollapsibleSectionsOnLoad() {
+    // Add a small delay to ensure DOM is fully loaded and Bootstrap is initialized
+    setTimeout(() => {
+        // List of collapsible section IDs to hide on page load
+        const sectionsToHide = ['leadInfoCollapse', 'configCollapse', 'searchCollapse'];
+        
+        sectionsToHide.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            const toggle = document.querySelector(`[data-bs-toggle="collapse"][href="#${sectionId}"]`);
+            
+            if (section && toggle) {
+                // Force hide the section by removing show class and setting display none temporarily
+                section.classList.remove('show');
+                section.style.display = 'none';
+                
+                // Reset display after a brief moment to allow Bootstrap to take control
+                setTimeout(() => {
+                    section.style.display = '';
+                }, 50);
+                
+                // Update toggle button state
+                const icon = toggle.querySelector('i');
+                const text = toggle.querySelector('.toggle-text');
+                
+                if (icon) {
+                    icon.className = 'fas fa-chevron-down me-1';
+                }
+                if (text) {
+                    text.textContent = 'Mostrar';
+                }
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }, 100);
 }
 
 window.ModernInteractions = {

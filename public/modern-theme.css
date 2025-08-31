@@ -1823,8 +1823,11 @@ tr.fading-out {
 
 .config-section.h-100 .collapse {
   flex-grow: 1;
-  display: flex;
   flex-direction: column;
+}
+
+.config-section.h-100 .collapse.show {
+  display: flex;
 }
 
 .config-section.h-100 .config-body {
@@ -2122,4 +2125,75 @@ tr.fading-out {
   .alert-card .config-body {
     padding: 1.5rem;
   }
+}
+
+/* ===== 3-STAGE DISCOUNT VISIBILITY SYSTEM ===== */
+
+/* Fade-out animation for hiding rows */
+.fading-out {
+  opacity: 0 !important;
+  transition: opacity 0.3s ease-out !important;
+}
+
+/* 3-stage discount button states */
+.hide-all-empty-discounts {
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border-width: 2px;
+  min-width: 180px;
+}
+
+.hide-all-empty-discounts:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Stage 1: Hide Empty (=0) - Danger/Red */
+.btn-outline-danger.hide-all-empty-discounts {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.btn-outline-danger.hide-all-empty-discounts:hover {
+  background-color: var(--error);
+  border-color: var(--error);
+  color: white;
+}
+
+/* Stage 2: Hide Discounted (>0) - Warning/Orange */
+.btn-outline-warning.hide-all-empty-discounts {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.btn-outline-warning.hide-all-empty-discounts:hover {
+  background-color: var(--warning);
+  border-color: var(--warning);
+  color: white;
+}
+
+/* Stage 3: Show All - Success/Green */
+.btn-outline-success.hide-all-empty-discounts {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.btn-outline-success.hide-all-empty-discounts:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+/* Table row transitions */
+tr {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Ensure smooth visibility transitions */
+.table tbody tr {
+  opacity: 1;
+}
+
+.table tbody tr[style*="display: none"] {
+  opacity: 0;
 }
