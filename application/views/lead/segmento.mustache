@@ -4,37 +4,36 @@
         {{> partials/header}}
     </head>
     <body>
-        <div class="container">
-            <h1>
-                Lead número: {{leadID}}
-            </h1>
-            <p>
-                Escolha qual a finalidade do seu pedido.
-            </p>
+        <div class="modern-container">
+            <div class="modern-header">
+                <h1 class="modern-title">
+                    Lead número: {{leadID}}
+                </h1>
+                <p class="modern-subtitle">
+                    Escolha qual a finalidade do seu pedido.
+                </p>
+            </div>
             <div class="row">
                 {{#SESSION}}
                 {{#acessoPecas}}
                 <div class="col-md-6">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-pecas.jpg"><div class="card-body">
-                        <p class="card-text">Peças e Acessórios</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="/leads4/{{leadID}}/3" class="btn btn-sm btn-outline-primary">Emitir</a>
+                    <div class="modern-card">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-pecas.jpg" class="modern-card-image">
+                        <div class="modern-card-body">
+                            <p class="modern-card-text">Peças e Acessórios</p>
+                            <div class="modern-card-actions">
+                                <a href="/leads4/{{leadID}}/3" class="btn btn-primary">Emitir</a>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-maquinas.jpg">
-                        <div class="card-body">
-                            <p class="card-text">Máquina de Costura</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a href="/leads4/{{leadID}}/1" class="btn btn-sm btn-outline-primary">Emitir</a>
-                                </div>
+                    <div class="modern-card">
+                        <img src="{{ENV.cdn}}media/r6/menu-banner-categoria-maquinas.jpg" class="modern-card-image">
+                        <div class="modern-card-body">
+                            <p class="modern-card-text">Máquina de Costura</p>
+                            <div class="modern-card-actions">
+                                <a href="/leads4/{{leadID}}/1" class="btn btn-primary">Emitir</a>
                             </div>
                         </div>
                     </div>

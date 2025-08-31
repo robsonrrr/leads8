@@ -1,4 +1,4 @@
-<div id="cartContent">
+<div id="cartContent" class="container">
 
     <div class="row">
         <div class="col-3">
@@ -93,6 +93,14 @@
 
     </div>
 
+    <!-- Hide Empty Discounts Button -->
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <button type="button" class="btn btn-outline-danger btn-sm hide-all-empty-discounts" title="Hide all rows with empty or zero discount values">
+                <i class="fas fa-eye-slash"></i> Hide Empty Discounts
+            </button>
+        </div>
+    </div>
 
     <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
         <thead class="thead-custom">
@@ -287,7 +295,6 @@
         <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
         <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
         <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
-
         <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
             <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
         </button>

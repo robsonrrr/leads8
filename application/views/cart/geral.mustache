@@ -6,167 +6,140 @@
     </div>
     {{/existPendencies}}
 
-    <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
-        <thead class="thead-custom">
-            <tr>
-                <th class="align-middle h4 text-primary sorter-false filter-false" scope="col" colspan="3">
-                    <i class="fas fa-shopping-cart"></i> Produtos no Carrinho
-                    <small class="text-secondary font12">( Os itens no carrinho não é garantia de estoque )</small>
-                </th>
-                <th scope="col" class="sorter-false filter-false" colspan="3">
-                    <div class="custom-control custom-switch float-left">
+    <!-- Modern Cart Header -->
+    <div class="modern-cart-header">
+        <div class="cart-header-content">
+            <div class="cart-title-section">
+                <h2 class="cart-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    Produtos no Carrinho
+                </h2>
+                <p class="cart-subtitle">Os itens no carrinho não são garantia de estoque</p>
+            </div>
+            
+            <div class="cart-actions">
+                <div class="cart-controls">
+                    <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="customSwitch1" data-update="{{CONTAINER}}lead/session/{{id}}" {{#SESSION.check}}checked{{/SESSION.check}}>
                         <label class="custom-control-label" for="customSwitch1">Verificar Estoque</label>
                     </div>
-                </th>
-                <th class="align-middle text-right sorter-false filter-false" scope="col" colspan="9">
+                    
+                    <button type="button" class="btn btn-outline-secondary btn-sm hide-all-empty-discounts" title="Ocultar descontos vazios">
+                        <i class="fas fa-eye-slash"></i> Ocultar Vazios
+                    </button>
+                </div>
+                
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="cartActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cog"></i> Ações
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartActionsDropdown">
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/print/{{id}}"><i class="fas fa-print"></i> Imprimir</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/mail/{{id}}"><i class="fas fa-envelope"></i> Email</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/aviseme/{{id}}"><i class="fas fa-bell"></i> Avise-me</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/export/{{id}}"><i class="fas fa-download"></i> Exportar</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/clean/{{id}}"><i class="fas fa-broom"></i> Produtos Negativos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <div class="btn-group btn-sm mt-1" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary btn-sm rounded-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Configurações
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/print/{{id}}">
-                                    Imprimir
-                                </a>
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/mail/{{id}}">
-                                    Email
-                                </a>
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/aviseme/{{id}}">
-                                    Aviseme
-                                </a>
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/export/{{id}}">
-                                    Exportar
-                                </a>
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/export/{{id}}">
-                                    Importar
-                                </a>
-                                <a class="dropdown-item mb-1 border-bottom" target="_blank" href="{{CONTAINER}}lead/clean/{{id}}">
-                                    Gravar produtos negativos
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--  <p class="p-0 m-0">
-<span class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-<button onclick="window.open('{{CONTAINER}}lead/ticket/{{id}}','_blank')" type="button" class="btn btn-primary rounded-0" data-toggle="tooltip" data-placement="bottom" title="Gerar ticket">
-<i class="fas fa-lg fa-ticket-alt"></i>
-</button>
-<button onclick="window.open('{{CONTAINER}}lead/print/{{id}}','_blank')" {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}} {{^existProducts}}disabled{{/existProducts}} type="button" class="btn btn-primary rounded-0" data-toggle="tooltip" data-placement="bottom" title="Imprimir">
-<i class="fas fa-lg fa-print"></i>
-</button>
-<button onclick="window.open('{{CONTAINER}}lead/mail/{{id}}','_blank')" {{#multiple}}disabled{{/multiple}} {{^existProducts}}disabled{{/existProducts}} type="button" class="btn btn-primary rounded-0" data-toggle="tooltip" data-placement="bottom" title="Visualizar Email Marketing">
-<i class="fas fa-lg fa-mail-bulk"></i> Email
-</button>
-{{#bearings}}
-<button onclick="window.open('{{CONTAINER}}lead/aviseme/{{id}}','_blank')" {{#multiple}}disabled{{/multiple}} {{^existProducts}}disabled{{/existProducts}} type="button" class="btn btn-primary rounded-0" data-toggle="tooltip" data-placement="bottom" title="Visualizar Email Marketing">
-<i class="fas fa-lg fa-mail-bulk"></i> Avise-me
-</button>
-{{/bearings}}
-<button onclick="window.open('{{CONTAINER}}lead/export/{{id}}','_blank')" {{#multiple}}disabled{{/multiple}} {{^existProducts}}disabled{{/existProducts}} type="button" class="btn btn-primary rounded-0" data-toggle="tooltip" data-placement="bottom" title="Exportar">
-<i class="fas fa-lg fa-file-export"></i> Exportar
-</button>
-<button type="button" class="btn btn-primary rounded-0" {{#existPendencies}}disabled{{/existPendencies}} {{#existProducts}}disabled{{/existProducts}} data-toggle="modal" data-target="#exampleModal" data-lead="{{id}}">
-<i class="fas fa-lg fa-file-import"></i> Importar
-</button>
-</span>
-</p>//-->
-                </th>
-                <!--<th class="align-middle text-right sorter-false filter-false" scope="col" colspan="5">
-<div class="btn-group dropleft pull-right btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-<button onclick="window.open('{{CONTAINER}}lead/clean/{{id}}','_blank')" {{^existProducts}}disabled{{/existProducts}} type="button" class="btn btn-light rounded-0">
-<i class="fas fa-broom"></i> Gravar produtos negativos
-</button>
-<button type="button" class="btn btn-danger cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-<i class="far fa-trash-alt" aria-hidden="true"></i> Remover Produtos
-</button>
-</div>
-</th>//-->
-            </tr>
-            <tr>
-                <th class="align-middle text-center" scope="col">#</th>
-                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
-                <th class="align-middle" scope="col">Produto</th>
-                <th class="align-middle" scope="col">Marca</th>
-                <th class="align-middle text-center" scope="col">Emb.</th>
-                <th class="align-middle text-center" scope="col">Peso</th>
-                <th class="align-middle text-center" scope="col">Qtd.</th>
-                <th class="align-middle text-center" scope="col">Valor Venda</th>
-                <th class="align-middle text-right" scope="col">Produto</th>
-                <th class="align-middle text-right" scope="col">IPI</th>
-                <th class="align-middle text-right" scope="col">ST</th>
-                <th class="align-middle text-right" scope="col">Total</th>
-                <th class="align-middle text-center" scope="col" colspan="2">Desconto</th>
-                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
+    <!-- Desktop Table View -->
+    <div class="modern-table-container d-none d-lg-block">
+        <table class="table modern-table" id="cartTable">
+            <thead>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Imagem</th>
+                    <th>Produto</th>
+                    <th class="text-center">Marca</th>
+                    <th class="text-center">Emb.</th>
+                    <th class="text-center">Peso</th>
+                    <th class="text-center">Qtd.</th>
+                    <th class="text-center">Valor Venda</th>
+                    <th class="text-end">Subtotal</th>
+                    <th class="text-end">IPI</th>
+                    <th class="text-end">ST</th>
+                    <th class="text-end">Total</th>
+                    <th class="text-center">Desconto</th>
+                    <th class="text-center">Margem</th>
+                    <th class="text-center">Ações</th>
             </tr>
         </thead>
         <tbody> 
             {{#Produtos}}
-            <tr id="colunm_{{POID}}" class="{{#produtoIndisponivel}}table-danger{{/produtoIndisponivel}}">
-                <th class="align-middle text-center" width="1%" scope="row">
-                    <p class="p-0 m-0">
-                        {{produtoContagem}}
-                    </p>
-                    <p class="p-0 m-0">
-                        <input class="checkBoxClass" name="product" type="checkbox" id="product_{{POID}}" value="{{POID}}">
-                    </p>
-                </th>
-                <td class="align-middle text-center" width="1%">
-                    <a href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
-                       data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}">
-                        <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}">
-                    </a>
+            <tr id="colunm_{{POID}}" class="product-row {{#produtoIndisponivel}}table-warning{{/produtoIndisponivel}}">
+                <td class="text-center product-number">
+                    <div class="product-counter">{{produtoContagem}}</div>
+                    <div class="product-checkbox">
+                        <input class="form-check-input checkBoxClass" name="product" type="checkbox" id="product_{{POID}}" value="{{POID}}">
+                    </div>
                 </td>
-                <td class="align-middle font12" width="32%">
-                    <div class="p-0 m-0">
-                        <strong><a class="color-primary" href="{{CONTAINER}}{{id}}?query={{Detalhe.produtoModelo}}">{{Detalhe.produtoModelo}}</a></strong>
+                <td class="text-center product-image">
+                    <div class="product-image-container">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#remoteModal" data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}">
+                            <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}" class="product-img" alt="{{Detalhe.produtoModelo}}">
+                        </a>
+                    </div>
+                </td>
+                <td class="product-info">
+                    <div class="product-title">
+                        <a href="{{CONTAINER}}{{id}}?query={{Detalhe.produtoModelo}}" class="product-link">{{Detalhe.produtoModelo}}</a>
                         {{> partials/product-actions}}
-                        <!--<small>ID:{{produtoPOID}}</small>//-->
                     </div>
-                    <div class="p-0 m-0">
-                        {{Detalhe.produtoNome}} <span class="p-0 m-0 font10 text-muted"> {{produtoMedida}} </span>
+                    <div class="product-description">
+                        {{Detalhe.produtoNome}} 
+                        {{#produtoMedida}}<span class="product-measure">{{produtoMedida}}</span>{{/produtoMedida}}
                     </div>
                 </td>
-                <td class="align-middle" width="5%">
+                <td class="text-center brand-cell">
                     {{#Detalhe.produtoMarcaFormatado}}
-                    <img width="50" src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}"/>
+                    <div class="brand-logo">
+                        <img src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}" class="brand-img"/>
+                    </div>
                     {{/Detalhe.produtoMarcaFormatado}}
                     {{^Detalhe.produtoMarcaFormatado}}
-                    s/m
+                    <span class="no-brand">s/m</span>
                     {{/Detalhe.produtoMarcaFormatado}}
                 </td>
-                <td class="align-middle text-center font10" width="1%">
+                <td class="text-center packaging-cell">
                     {{#Detalhe.produtoEmbalagem}}
-                    <img width="35" src="{{ENV.cdn}}svg/icones/emb-{{Detalhe.produtoEmbalagem}}-{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{solr.produtoEmbalagem}}" alt="{{solr.produtoEmbalagem}}"/> {{solr.produtoEmbalagem}}
+                    <div class="packaging-info">
+                        <img src="{{ENV.cdn}}svg/icones/emb-{{Detalhe.produtoEmbalagem}}-{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{solr.produtoEmbalagem}}" alt="{{solr.produtoEmbalagem}}" class="packaging-icon"/> 
+                        <span class="packaging-text">{{solr.produtoEmbalagem}}</span>
+                    </div>
                     {{/Detalhe.produtoEmbalagem}}
                     {{^Detalhe.produtoEmbalagem}}
-                    {{solr.produtoEmbalagem}}
+                    <span class="packaging-text">{{solr.produtoEmbalagem}}</span>
                     {{/Detalhe.produtoEmbalagem}}
                 </td>
-                <td class="align-middle text-center" >
-                    <span>{{Detalhe.produtoPeso}}</span>
-                    {{#SESSION.acessoFinanceiro}}
-                    <p class="p-0 pt-2 m-0 font11 text-danger">Frete: {{produtoFrete}} / {{produtoFreteTotal}}</p>
-                    {{/SESSION.acessoFinanceiro}}
+                <td class="text-center weight-cell">
+                    <div class="weight-info">
+                        <span class="weight-value">{{Detalhe.produtoPeso}}</span>
+                        {{#SESSION.acessoFinanceiro}}
+                        <div class="freight-info">Frete: {{produtoFrete}} / {{produtoFreteTotal}}</div>
+                        {{/SESSION.acessoFinanceiro}}
+                    </div>
                 </td>
-                <td class="align-middle text-center" width="9%">
-                    <input type="text" class="form-control form-control-sm rounded-0 qty-cart text-center mask-qty" data-update="/services/cart/update/{{POID}}" data-lead="{{id}}" autocomplete="off"
-                           data-product="{{produtoPOID}}" id="qty_cart_{{produtoPOID}}" value="{{produtoQuantidade}}" name="produtoQuantidade"
-                           min="1" max="999999" maxlength="5">
+                <td class="text-center quantity-cell">
+                    <div class="quantity-input-group">
+                        <input type="text" class="form-control qty-cart text-center mask-qty" data-update="/services/cart/update/{{POID}}" data-lead="{{id}}" autocomplete="off"
+                               data-product="{{produtoPOID}}" id="qty_cart_{{produtoPOID}}" value="{{produtoQuantidade}}" name="produtoQuantidade"
+                               min="1" max="999999" maxlength="5">
+                    </div>
                     {{#SESSION.check}}
-                    <a href="#" class="" data-toggle="modal" data-title="Estoque Ecommerce" data-target="#remoteModal"
-                       data-remote="{{CONTAINER}}product/ecommerce/{{produtoPOID}}/{{Lead.unidadeEmitentePOID}}"  title="Esoque Ecommerce: Carrinho Ativos">
-                        <small class="text-muted">{{stock.estoqueEcommerce}}</small>
-                    </a>
-                    / <small class="text-muted" title="Estoque Comercial">{{stock.estoqueComercial}}</small>
-                    {{#SESSION.acessoGerencial}}
-                    / <small class="text-danger" title="Estoque Total">{{stock.estoqueTotal}}</small>
-                    {{/SESSION.acessoGerencial}}
+                    <div class="stock-info">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#remoteModal" data-remote="{{CONTAINER}}product/ecommerce/{{produtoPOID}}/{{Lead.unidadeEmitentePOID}}" title="Estoque Ecommerce">
+                            <span class="stock-ecommerce">{{stock.estoqueEcommerce}}</span>
+                        </a>
+                        / <span class="stock-commercial" title="Estoque Comercial">{{stock.estoqueComercial}}</span>
+                        {{#SESSION.acessoGerencial}}
+                        / <span class="stock-total" title="Estoque Total">{{stock.estoqueTotal}}</span>
+                        {{/SESSION.acessoGerencial}}
+                    </div>
                     {{/SESSION.check}}
                     {{^SESSION.check}}
-                    <small class="text-warning">-</small>
+                    <div class="stock-info"><span class="stock-unavailable">-</span></div>
                     {{/SESSION.check}}
                 </td>
                 {{#produtoIndisponivel}}
@@ -259,68 +232,215 @@
             {{/Produtos}}
         </tbody>
         {{#Total}}
-        <tfoot class="{{^Produtos}}d-none{{/Produtos}} bg-dark">
-            <tr class="font-weight-bold lead text-white">
+        <tfoot class="{{^Produtos}}d-none{{/Produtos}} table-dark">
+            <tr class="fw-bold text-white">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="align-middle text-center">{{peso}}</td>
-                <td class="align-middle text-center">{{quantidade}}</td>
-                <td class="align-middle text-center"></td>
-                <td class="align-middle text-right">{{produto}}</td>
-                <td class="align-middle text-right">{{ipi}}</td>
-                <td class="align-middle text-right">{{st}}</td>
-                <td class="align-middle text-right">{{bruto}}</td>
-                <td class="align-middle text-center" colspan="2">
+                <td class="text-center">{{peso}}</td>
+                <td class="text-center">{{quantidade}}</td>
+                <td class="text-center"></td>
+                <td class="text-end">{{produto}}</td>
+                <td class="text-end">{{ipi}}</td>
+                <td class="text-end">{{st}}</td>
+                <td class="text-end">{{bruto}}</td>
+                <td class="text-center">
                     {{#SESSION.acessoDiretoria}}
                     {{nominal}} / {{percentual}}
                     {{/SESSION.acessoDiretoria}}
                 </td>
+                <td class="text-center">
+                    {{#SESSION.acessoDiretoria}}
+                    Margem
+                    {{/SESSION.acessoDiretoria}}
+                </td>
                 <td></td>
-            </tr>
-            <tr class="font11 text-white">
-                <th class="align-middle text-center" scope="col">#</th>
-                <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
-                <th class="align-middle" scope="col">Produto</th>
-                <th class="align-middle" scope="col">Marca</th>
-                <th class="align-middle text-center" scope="col">Emb.</th>
-                <th class="align-middle text-center" scope="col">Peso</th>
-                <th class="align-middle text-center" scope="col">Qtd.</th>
-                <th class="align-middle text-center" scope="col">Valor Venda</th>
-                <th class="align-middle text-right" scope="col">Subtotal Produto</th>
-                <th class="align-middle text-right" scope="col">IPI</th>
-                <th class="align-middle text-right" scope="col">ST</th>
-                <th class="align-middle text-right" scope="col">Subtotal R$</th>
-                <th class="align-middle text-center" scope="col" colspan="2">Desconto</th>
-                <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
             </tr>
         </tfoot>
         {{/Total}}
     </table>
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="mobile-cards d-lg-none">
+        {{#Produtos}}
+        <div class="cart-product-card mb-3" id="card_{{POID}}">
+            <div class="card {{#produtoIndisponivel}}border-warning{{/produtoIndisponivel}}">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="product-image-container">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#remoteModal" data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}">
+                                    <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}" class="product-img" alt="{{Detalhe.produtoModelo}}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="product-header">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="product-title-section">
+                                        <h6 class="product-title mb-1">
+                                            <a href="{{CONTAINER}}{{id}}?query={{Detalhe.produtoModelo}}" class="product-link">{{Detalhe.produtoModelo}}</a>
+                                        </h6>
+                                        <p class="product-description mb-2">{{Detalhe.produtoNome}}</p>
+                                    </div>
+                                    <div class="product-actions">
+                                        <input class="form-check-input" name="product" type="checkbox" id="product_mobile_{{POID}}" value="{{POID}}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-details">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Marca:</span>
+                                            {{#Detalhe.produtoMarcaFormatado}}
+                                            <img src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}" class="brand-img-small"/>
+                                            {{/Detalhe.produtoMarcaFormatado}}
+                                            {{^Detalhe.produtoMarcaFormatado}}
+                                            <span class="no-brand">s/m</span>
+                                            {{/Detalhe.produtoMarcaFormatado}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Peso:</span>
+                                            <span class="detail-value">{{Detalhe.produtoPeso}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Embalagem:</span>
+                                            <span class="detail-value">{{solr.produtoEmbalagem}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Estoque:</span>
+                                            {{#SESSION.check}}
+                                            <span class="stock-ecommerce">{{stock.estoqueEcommerce}}</span> / <span class="stock-commercial">{{stock.estoqueComercial}}</span>
+                                            {{/SESSION.check}}
+                                            {{^SESSION.check}}
+                                            <span class="stock-unavailable">-</span>
+                                            {{/SESSION.check}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-pricing mt-3">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <div class="quantity-control">
+                                            <label class="form-label small">Qtd:</label>
+                                            <input type="text" class="form-control form-control-sm qty-cart text-center mask-qty" 
+                                                   data-update="/services/cart/update/{{POID}}" data-lead="{{id}}" autocomplete="off"
+                                                   data-product="{{produtoPOID}}" value="{{produtoQuantidade}}" name="produtoQuantidade"
+                                                   min="1" max="999999" maxlength="5">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="price-control">
+                                            <label class="form-label small">Preço:</label>
+                                            {{^produtoIndisponivel}}
+                                            <input type="text" class="form-control form-control-sm text-center product-discount" 
+                                                   data-type="price" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" 
+                                                   data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
+                                            {{/produtoIndisponivel}}
+                                            {{#produtoIndisponivel}}
+                                            <span class="text-warning">Indisponível</span>
+                                            {{/produtoIndisponivel}}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="total-price">
+                                            <label class="form-label small">Total:</label>
+                                            <div class="fw-bold text-primary">{{produtoValorSubtotalComImpostos}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-actions-bottom mt-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="discount-control">
+                                        <label class="form-label small">Desconto %:</label>
+                                        <input type="text" class="form-control form-control-sm text-center product-discount mask-discount" 
+                                               data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 
+                                               data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" 
+                                               value="{{produtoDescontoPorcentagem}}" style="width: 80px;">
+                                    </div>
+                                    <button class="btn btn-danger btn-sm cart-remove-item" 
+                                            data-lead-id="{{leadPOID}}" data-name="{{Detalhe.produtoModelo}}" 
+                                            data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}">
+                                        <i class="fas fa-trash-alt"></i> Remover
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/Produtos}}
+        
+        {{^Produtos}}
+        <div class="empty-cart text-center py-5">
+            <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="200" alt="Carrinho vazio" /> 
+            <h4 class="text-muted mt-3">Seu Carrinho está vazio!</h4>
+        </div>
+        {{/Produtos}}
+    </div>
 </div>
 
-
-<div class="row">
-    <div class="col-6 text-left">
-        <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
-        <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
-        <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
-
-        <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-            <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
-        </button>
+<!-- Cart Actions -->
+<div class="cart-actions-section mt-4">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <div class="cart-bulk-actions">
+                <h6 class="mb-3">Ações em Lote</h6>
+                <div class="btn-group flex-wrap" role="group" aria-label="Ações do carrinho">
+                    <button type="button" class="btn btn-outline-danger btn-sm submitProducts" name="remove">
+                        <i class="fas fa-trash-alt"></i> Remover Selecionados
+                    </button>
+                    <button type="button" class="btn btn-outline-warning btn-sm submitProducts" name="add">
+                        <i class="fas fa-check"></i> Manter Selecionados
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-sm cart-remove" 
+                            {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" 
+                            data-service="/services/cart/clear/{{id}}">
+                        <i class="fas fa-trash-alt"></i> Remover Todos
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="cart-checkout-section text-lg-end">
+                {{#Total}}
+                <div class="cart-summary mb-3">
+                    <div class="summary-item">
+                        <span class="summary-label">Total de Produtos:</span>
+                        <span class="summary-value fw-bold">{{quantidade}}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Valor Total:</span>
+                        <span class="summary-value fw-bold text-success fs-5">{{bruto}}</span>
+                    </div>
+                </div>
+                {{/Total}}
+                {{#existProducts}}
+                <a href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
+                   class="btn btn-success btn-lg px-4 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
+                    <i class="fas fa-fast-forward"></i> Ir Próxima Etapa
+                </a>
+                <div class="mt-2">
+                    <small class="text-muted">+1 etapa para concluir o pedido</small>
+                </div>
+                {{/existProducts}}
+            </div>
+        </div>
     </div>
-
-    {{#existProducts}}
-    <div class="col-6 text-right">
-        <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
-           class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
-            <i class="fas fa-fast-forward"></i> ir Próxima Etapa
-        </a>
-        <br>
-        <small class="font10">+1 etapa para concluir o pedido</small>
-    </div>
-    {{/existProducts}}
 </div>

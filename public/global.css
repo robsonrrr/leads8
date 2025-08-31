@@ -1,3 +1,44 @@
+/* Global CSS - Modern Theme Integration */
+:root {
+  --legacy-bg-color: #f9fafb; /* Modern gray-50 instead of legacy beige */
+}
+
+/* Modern background color */
 body {
-  background-color: #cac2a5;
+  background-color: var(--gray-50, #f9fafb);
+  transition: background-color 0.3s ease;
+  width: 97%;
+  margin: 0 auto;
+}
+
+/* Ensure modern theme compatibility */
+body.modern-theme {
+  background-color: var(--gray-50, #f9fafb);
+}
+
+/* Override Bootstrap containers to use 97% width */
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+  width: 97% !important;
+  max-width: none !important;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    background-color: var(--gray-50, #f9fafb);
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: white !important;
+  }
 }

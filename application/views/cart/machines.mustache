@@ -1,4 +1,4 @@
-<div id="cartContent" class="">
+<div id="cartContent" class="container">
 
     <div class="row">
         <div class="col-3">
@@ -93,6 +93,15 @@
         </div>
         {{/existPendencies}}
 
+    </div>
+
+    <!-- Hide Empty Discounts Button -->
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <button type="button" class="btn btn-outline-danger btn-sm hide-all-empty-discounts" title="Hide all rows with empty or zero discount values">
+                <i class="fas fa-eye-slash"></i> Hide Empty Discounts
+            </button>
+        </div>
     </div>
 
     <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
@@ -316,29 +325,30 @@
 {{/ClienteDoCliente}}
 
 
-<div class="row">
-    <div class="col-9 text-left">
-        <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
-        <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
-        <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
-        <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
-        <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
+<div class="container">
+    <div class="row">
+        <div class="col-9 text-left">
+            <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
+            <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
+            <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
+            <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
+            <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
+            <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
+                <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
+            </button>
+        </div>
 
-        <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-            <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
-        </button>
+        {{#existProducts}}
+        <div class="col-3 text-right">
+            <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}"
+               class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
+                <i class="fas fa-fast-forward"></i> ir Próxima Etapa
+            </a>
+            <br>
+            <small class="font10">+1 etapa para concluir o pedido</small>
+        </div>
+        {{/existProducts}}
     </div>
-
-    {{#existProducts}}
-    <div class="col-3 text-right">
-        <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}"
-           class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
-            <i class="fas fa-fast-forward"></i> ir Próxima Etapa
-        </a>
-        <br>
-        <small class="font10">+1 etapa para concluir o pedido</small>
-    </div>
-    {{/existProducts}}
 </div>
 
 <!-- Modal para Enviar para Gerencia -->

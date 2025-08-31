@@ -1,107 +1,171 @@
-<!-- Modal -->
-<div class="modal fade" id="obsModal" tabindex="-1" role="dialog" aria-labelledby="obsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="obsModalLabel">Coloque suas Obersações no Pedido / Cotação / Lead</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Modern Observations Modal -->
+<div class="modal fade" id="obsModal" tabindex="-1" aria-labelledby="obsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modern-modal">
+            <div class="modal-header modern-modal-header">
+                <h5 class="modal-title" id="obsModalLabel">
+                    <i class="fas fa-sticky-note me-2"></i>
+                    Observações do Pedido / Cotação / Lead
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" action="{{CONTAINER}}lead/update/{{id}}">
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <label for="observacaoFinaceiro">observacaoFinanceiro</label>
-                        <textarea class="form-control" name="observacaoFinaceiro" id="observacaoFinaceiro" rows="3">{{observacaoFinaceiro}}</textarea>
+                <div class="modal-body modern-modal-body">
+                    <div class="mb-3">
+                        <label for="observacaoFinaceiro" class="form-label">
+                            <i class="fas fa-dollar-sign me-1"></i>
+                            Observação Financeiro
+                        </label>
+                        <textarea class="form-control modern-textarea" name="observacaoFinaceiro" id="observacaoFinaceiro" rows="3" placeholder="Digite observações relacionadas ao financeiro...">{{observacaoFinaceiro}}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="observacaoLogistica">observacaoLogistica</label>
-                        <textarea class="form-control" name="observacaoLogistica" id="observacaoLogistica" rows="3">{{observacaoLogistica}}</textarea>
+                    
+                    <div class="mb-3">
+                        <label for="observacaoLogistica" class="form-label">
+                            <i class="fas fa-truck me-1"></i>
+                            Observação Logística
+                        </label>
+                        <textarea class="form-control modern-textarea" name="observacaoLogistica" id="observacaoLogistica" rows="3" placeholder="Digite observações relacionadas à logística...">{{observacaoLogistica}}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="observacaoNotaFiscal">observacaoNotaFiscal</label>
-                        <textarea class="form-control" name="observacaoNotaFiscal" id="observacaoNotaFiscal" rows="3">{{observacaoNotaFiscal}}</textarea>
+                    
+                    <div class="mb-3">
+                        <label for="observacaoNotaFiscal" class="form-label">
+                            <i class="fas fa-file-invoice me-1"></i>
+                            Observação Nota Fiscal
+                        </label>
+                        <textarea class="form-control modern-textarea" name="observacaoNotaFiscal" id="observacaoNotaFiscal" rows="3" placeholder="Digite observações relacionadas à nota fiscal...">{{observacaoNotaFiscal}}</textarea>
                     </div>
-
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary rounded-0">Gravar Edições</button>
+                <div class="modal-footer modern-modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>
+                        Fechar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>
+                        Gravar Edições
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- remoteModal Large -->
-<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="remoteModalLabel"> Title </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Modern Remote Content Modal -->
+<div class="modal fade" id="remoteModal" tabindex="-1" aria-labelledby="remoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content modern-modal">
+            <div class="modal-header modern-modal-header">
+                <h5 class="modal-title" id="remoteModalLabel">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Conteúdo Remoto
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Ticket -->
-<div class="modal fade" id="modalTicketAdd" class="modalTicket" tabindex="-1" role="dialog" aria-labelledby="titleModalTicket" aria-hidden="true" data-dismiss="modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="remoteModalLabel2"> Title </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center py-5"><small class="text-secondary"> <i class="fas fa-spinner fa-spin fa-2x"></i><br/>Carregando aguarde um momento.</small></p>
+            <div class="modal-body modern-modal-body">
+                <div class="loading-container text-center py-5">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    </div>
+                    <p class="loading-text mt-3">
+                        <small class="text-muted">Carregando, aguarde um momento...</small>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Importar Produtos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Modern Ticket Modal -->
+<div class="modal fade" id="modalTicketAdd" tabindex="-1" aria-labelledby="titleModalTicket" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modern-modal">
+            <div class="modal-header modern-modal-header">
+                <h5 class="modal-title" id="remoteModalLabel2">
+                    <i class="fas fa-ticket-alt me-2"></i>
+                    Ticket
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modern-modal-body">
+                <div class="loading-container text-center py-5">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    </div>
+                    <p class="loading-text mt-3">
+                        <small class="text-muted">Carregando, aguarde um momento...</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modern Import Products Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modern-modal">
+            <div class="modal-header modern-modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <i class="fas fa-download me-2"></i>
+                    Importar Produtos
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{CONTAINER}}lead/import" method="get">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="">Selecione de onde quer importar</label>
-                        <select class="form-control" id="recipient-type" name="type">
-                            <option value=""></option>
-                            <option value="ecommerce">Ecommerce</option>
-                            <option value="lead">Lead</option>
-                            <option value="order">Pedido</option>
-                            <option value="quote">Consulta</option>
-                            <option value="shipment">Importação</option>
+                <div class="modal-body modern-modal-body">
+                    <div class="mb-3">
+                        <label for="recipient-type" class="form-label">
+                            <i class="fas fa-source me-1"></i>
+                            Selecione de onde quer importar
+                        </label>
+                        <select class="form-select modern-select" id="recipient-type" name="type" required>
+                            <option value="">Escolha uma opção...</option>
+                            <option value="ecommerce">
+                                <i class="fas fa-shopping-cart"></i> Ecommerce
+                            </option>
+                            <option value="lead">
+                                <i class="fas fa-user-tie"></i> Lead
+                            </option>
+                            <option value="order">
+                                <i class="fas fa-shopping-bag"></i> Pedido
+                            </option>
+                            <option value="quote">
+                                <i class="fas fa-file-alt"></i> Consulta
+                            </option>
+                            <option value="shipment">
+                                <i class="fas fa-ship"></i> Importação
+                            </option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Número <small>( Pedido, Lead ou Cotação )</small> ou Nome <small>( Ecommerce )</small>:</label>
-                        <input type="text" class="form-control" id="recipient-name" name="order" autocomplete="off">
-                        <input type="hidden" class="form-control" id="lead" name="lead" value="{{id}}">
-                        <input type="hidden" class="form-control" id="segmentoPOID" name="segmentoPOID" value="{{segmentoPOID}}">
-                        <input type="hidden" class="form-control" id="customer" name="customer" value="{{clientePOID}}">
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="form-label">
+                            <i class="fas fa-search me-1"></i>
+                            Identificação
+                        </label>
+                        <input type="text" class="form-control modern-input" id="recipient-name" name="order" autocomplete="off" placeholder="Digite o número do pedido/lead/cotação ou nome do ecommerce" required>
+                        <div class="form-text">
+                            <small class="text-muted">
+                                <strong>Número:</strong> Para Pedido, Lead ou Cotação | 
+                                <strong>Nome:</strong> Para Ecommerce
+                            </small>
+                        </div>
+                        <input type="hidden" id="lead" name="lead" value="{{id}}">
+                        <input type="hidden" id="segmentoPOID" name="segmentoPOID" value="{{segmentoPOID}}">
+                        <input type="hidden" id="customer" name="customer" value="{{clientePOID}}">
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Importar</button>
+                
+                <div class="modal-footer modern-modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-download me-1"></i>
+                        Importar
+                    </button>
                 </div>
             </form>
         </div>

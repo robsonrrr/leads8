@@ -1,0 +1,519 @@
+/**
+ * Modern Interactions JavaScript
+ * Enhanced user interactions for the modernized lead management system
+ */
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeModernInteractions();
+});
+
+function initializeModernInteractions() {
+    // Initialize Bootstrap tooltips
+    initializeTooltips();
+    
+    // Initialize modern table interactions
+    initializeTableInteractions();
+    
+    // Initialize cart interactions
+    initializeCartInteractions();
+    
+    // Initialize modal interactions
+    initializeModalInteractions();
+    
+    // Initialize form enhancements
+    initializeFormEnhancements();
+    
+    // Initialize loading states
+    initializeLoadingStates();
+    
+    // Initialize responsive behaviors
+    initializeResponsiveBehaviors();
+}
+
+/**
+ * Initialize Bootstrap 5 tooltips
+ */
+function initializeTooltips() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+            trigger: 'hover focus'
+        });
+    });
+}
+
+/**
+ * Enhanced table interactions
+ */
+function initializeTableInteractions() {
+    // Row selection with visual feedback
+    const checkboxes = document.querySelectorAll('.modern-table input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const row = this.closest('.product-row');
+            if (row) {
+                row.classList.toggle('row-selected', this.checked);
+                updateSelectionCounter();
+            }
+        });
+    });
+    
+    // Select all functionality
+    const selectAllCheckbox = document.querySelector('#selectAll');
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            const productCheckboxes = document.querySelectorAll('.product-row input[type="checkbox"]');
+            productCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+                const row = checkbox.closest('.product-row');
+                if (row) {
+                    row.classList.toggle('row-selected', this.checked);
+                }
+            });
+            updateSelectionCounter();
+        });
+    }
+    
+    // Quantity input enhancements
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            validateQuantityInput(this);
+        });
+        
+        input.addEventListener('blur', function() {
+            formatQuantityInput(this);
+        });
+    });
+}
+
+/**
+ * Cart-specific interactions
+ */
+function initializeCartInteractions() {
+    // Price input formatting
+    const priceInputs = document.querySelectorAll('.price-input');
+    priceInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            formatCurrencyInput(this);
+        });
+    });
+    
+    // Discount input validation
+    const discountInputs = document.querySelectorAll('.discount-input');
+    discountInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            validateDiscountInput(this);
+        });
+    });
+    
+    // Remove item confirmation
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            showRemoveConfirmation(this);
+        });
+    });
+    
+    // Hide empty discount functionality
+    initializeHideEmptyDiscountButtons();
+}
+
+/**
+ * Modal enhancements
+ */
+function initializeModalInteractions() {
+    // Auto-focus first input in modals
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        modal.addEventListener('shown.bs.modal', function() {
+            const firstInput = this.querySelector('input:not([type="hidden"]), textarea, select');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        });
+    });
+    
+    // Form validation in modals
+    const modalForms = document.querySelectorAll('.modal form');
+    modalForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!validateModalForm(this)) {
+                e.preventDefault();
+            }
+        });
+    });
+}
+
+/**
+ * Form enhancements
+ */
+function initializeFormEnhancements() {
+    // Real-time validation
+    const inputs = document.querySelectorAll('.modern-input, .modern-textarea, .modern-select');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateInput(this);
+        });
+        
+        input.addEventListener('input', function() {
+            clearValidationState(this);
+        });
+    });
+    
+    // Auto-resize textareas
+    const textareas = document.querySelectorAll('.modern-textarea');
+    textareas.forEach(textarea => {
+        autoResizeTextarea(textarea);
+        textarea.addEventListener('input', function() {
+            autoResizeTextarea(this);
+        });
+    });
+}
+
+/**
+ * Loading states management
+ */
+function initializeLoadingStates() {
+    // Button loading states
+    const submitButtons = document.querySelectorAll('button[type="submit"]');
+    submitButtons.forEach(button => {
+        const form = button.closest('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                showButtonLoading(button);
+            });
+        }
+    });
+    
+    // AJAX loading indicators
+    document.addEventListener('ajaxStart', function() {
+        showGlobalLoading();
+    });
+    
+    document.addEventListener('ajaxComplete', function() {
+        hideGlobalLoading();
+    });
+}
+
+/**
+ * Responsive behaviors
+ */
+function initializeResponsiveBehaviors() {
+    // Mobile menu toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            toggleMobileMenu();
+        });
+    }
+    
+    // Responsive table scrolling
+    const tables = document.querySelectorAll('.modern-table-container');
+    tables.forEach(container => {
+        addHorizontalScrollIndicators(container);
+    });
+    
+    // Window resize handler
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            handleWindowResize();
+        }, 250);
+    });
+}
+
+/**
+ * Utility Functions
+ */
+
+function updateSelectionCounter() {
+    const selectedCount = document.querySelectorAll('.product-row.row-selected').length;
+    const counter = document.querySelector('.selection-counter');
+    if (counter) {
+        counter.textContent = `${selectedCount} item(s) selecionado(s)`;
+        counter.style.display = selectedCount > 0 ? 'block' : 'none';
+    }
+}
+
+function validateQuantityInput(input) {
+    const value = parseFloat(input.value);
+    const min = parseFloat(input.getAttribute('min')) || 0;
+    const max = parseFloat(input.getAttribute('max')) || Infinity;
+    
+    if (isNaN(value) || value < min || value > max) {
+        input.classList.add('is-invalid');
+        return false;
+    }
+    
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    return true;
+}
+
+function formatQuantityInput(input) {
+    const value = parseFloat(input.value);
+    if (!isNaN(value)) {
+        input.value = value.toFixed(0);
+    }
+}
+
+function formatCurrencyInput(input) {
+    const value = parseFloat(input.value.replace(/[^\d.,]/g, '').replace(',', '.'));
+    if (!isNaN(value)) {
+        input.value = value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).replace('R$\u00A0', 'R$ ');
+    }
+}
+
+function validateDiscountInput(input) {
+    const value = parseFloat(input.value);
+    const maxDiscount = parseFloat(input.dataset.maxDiscount) || 100;
+    
+    if (isNaN(value) || value < 0 || value > maxDiscount) {
+        input.classList.add('is-invalid');
+        return false;
+    }
+    
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    return true;
+}
+
+function showRemoveConfirmation(button) {
+    const productName = button.closest('.product-row')?.querySelector('.product-name')?.textContent || 'este item';
+    
+    if (confirm(`Tem certeza que deseja remover ${productName} do carrinho?`)) {
+        // Proceed with removal
+        const form = button.closest('form');
+        if (form) {
+            form.submit();
+        }
+    }
+}
+
+function validateModalForm(form) {
+    const requiredInputs = form.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+    
+    return isValid;
+}
+
+function validateInput(input) {
+    if (input.hasAttribute('required') && !input.value.trim()) {
+        input.classList.add('is-invalid');
+        return false;
+    }
+    
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    return true;
+}
+
+function clearValidationState(input) {
+    input.classList.remove('is-invalid', 'is-valid');
+}
+
+function autoResizeTextarea(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+function showButtonLoading(button) {
+    const originalText = button.innerHTML;
+    button.dataset.originalText = originalText;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Processando...';
+    button.disabled = true;
+}
+
+function hideButtonLoading(button) {
+    if (button.dataset.originalText) {
+        button.innerHTML = button.dataset.originalText;
+        button.disabled = false;
+    }
+}
+
+function showGlobalLoading() {
+    const loader = document.querySelector('.global-loader');
+    if (loader) {
+        loader.style.display = 'flex';
+    }
+}
+
+function hideGlobalLoading() {
+    const loader = document.querySelector('.global-loader');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+}
+
+function toggleMobileMenu() {
+    const menu = document.querySelector('.modern-sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (menu) {
+        menu.classList.toggle('show');
+    }
+    
+    if (overlay) {
+        overlay.classList.toggle('show');
+    }
+}
+
+function addHorizontalScrollIndicators(container) {
+    const table = container.querySelector('.modern-table');
+    if (!table) return;
+    
+    const updateScrollIndicators = () => {
+        const isScrollable = table.scrollWidth > container.clientWidth;
+        const isScrolledLeft = table.scrollLeft > 0;
+        const isScrolledRight = table.scrollLeft < (table.scrollWidth - container.clientWidth);
+        
+        container.classList.toggle('scrollable', isScrollable);
+        container.classList.toggle('scrolled-left', isScrolledLeft);
+        container.classList.toggle('scrolled-right', isScrolledRight);
+    };
+    
+    table.addEventListener('scroll', updateScrollIndicators);
+    window.addEventListener('resize', updateScrollIndicators);
+    updateScrollIndicators();
+}
+
+function handleWindowResize() {
+    // Update table scroll indicators
+    const tableContainers = document.querySelectorAll('.modern-table-container');
+    tableContainers.forEach(container => {
+        const table = container.querySelector('.modern-table');
+        if (table) {
+            const event = new Event('scroll');
+            table.dispatchEvent(event);
+        }
+    });
+    
+    // Update mobile menu state
+    if (window.innerWidth > 768) {
+        const menu = document.querySelector('.modern-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        
+        if (menu) menu.classList.remove('show');
+        if (overlay) overlay.classList.remove('show');
+    }
+}
+
+/**
+ * Export functions for external use
+ */
+/**
+ * Initialize hide empty discount buttons
+ */
+function initializeHideEmptyDiscountButtons() {
+    // Single button to hide all empty discount rows
+    const hideAllButton = document.querySelector('.hide-all-empty-discounts');
+    if (hideAllButton) {
+        hideAllButton.addEventListener('click', function() {
+            hideAllEmptyDiscountRows();
+        });
+        
+        // Check if button should be visible
+        checkDiscountButtonVisibility();
+        
+        // Monitor discount input changes
+        const discountInputs = document.querySelectorAll('.product-discount');
+        discountInputs.forEach(input => {
+            input.addEventListener('input', checkDiscountButtonVisibility);
+            input.addEventListener('change', checkDiscountButtonVisibility);
+        });
+    }
+}
+
+/**
+ * Hide all rows with empty or zero discount values
+ */
+function hideAllEmptyDiscountRows() {
+    const discountInputs = document.querySelectorAll('.product-discount');
+    
+    discountInputs.forEach(input => {
+        const value = input.value.trim();
+        // Check if value is empty, 0, or "0.00"
+        if (value === '' || value === '0' || value === '0.00' || parseFloat(value) === 0) {
+            const row = input.closest('tr');
+            if (row) {
+                row.classList.add('fading-out');
+                setTimeout(() => {
+                    row.style.display = 'none';
+                }, 300);
+            }
+        }
+    });
+}
+
+/**
+ * Check if hide discount button should be visible
+ */
+function checkDiscountButtonVisibility() {
+    const hideAllButton = document.querySelector('.hide-all-empty-discounts');
+    if (!hideAllButton) return;
+    
+    const discountInputs = document.querySelectorAll('.product-discount');
+    let hasDiscounts = false;
+    
+    // Check if any discount input has a non-zero value
+    discountInputs.forEach(input => {
+        const value = parseFloat(input.value) || 0;
+        if (value > 0 && input.value !== '' && input.value !== '0.00') {
+            hasDiscounts = true;
+        }
+    });
+    
+    // Show/hide button based on whether there are discounts
+    if (hasDiscounts) {
+        hideAllButton.style.setProperty('display', 'inline-block', 'important');
+    } else {
+        hideAllButton.style.setProperty('display', 'none', 'important');
+    }
+}
+
+/**
+ * Hide the discount row when value is empty or zero
+ */
+function hideEmptyDiscountRow(input) {
+    // Find the closest table row
+    const row = input.closest('tr');
+    if (row) {
+        // Add fade out animation
+        row.style.transition = 'opacity 0.3s ease-out';
+        row.style.opacity = '0';
+        
+        // Hide the row after animation
+        setTimeout(() => {
+            row.style.display = 'none';
+        }, 300);
+    }
+}
+
+window.ModernInteractions = {
+    init: initializeModernInteractions,
+    updateSelectionCounter,
+    validateQuantityInput,
+    formatCurrencyInput,
+    validateDiscountInput,
+    showButtonLoading,
+    hideButtonLoading,
+    showGlobalLoading,
+    hideGlobalLoading,
+    hideEmptyDiscountRow
+};

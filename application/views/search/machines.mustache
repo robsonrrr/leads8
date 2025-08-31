@@ -1,80 +1,109 @@
-<div class="w-100">
-    <table class="table table-sm table-bordered table-hover table-striped p-0 m-0" id="searchTable">
-        <thead class="thead-custom">
-            <tr>
-                <th class="align-middle h3 color-primary" scope="col" colspan="18"><i class="fas fa-search"></i> Resultado da Busca <small class="text-secondary font12">( {{Total}} produtos encontrados )</small></th>
-            </tr>
-            <tr>
-                <th class="align-middle text-center" scope="col">#</th>
-                <th class="align-middle" scope="col">IMG</th>
-                <th class="align-middle" scope="col">Produto</th>
-                <th class="align-middle text-center" scope="col">Marca</th>
-                <th class="align-middle text-center" scope="col">Estoque</th>
-                <th class="align-middle text-center" scope="col">Última venda</th>
-                <th class="align-middle text-center" scope="col">Previsão</th>
-                <th class="align-middle text-center" scope="col">Qtd.</th>
-                <th class="align-middle text-center" scope="col">Prazo - Preço</th>
-                <th class="align-middle text-center" scope="col">Add</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#Busca}}
-            <tr class="contentSearchHighlight" id="colunm_{{produtoPOID}}">
-                <th class="align-middle text-center py-3" width="1%" scope="row">{{item}}</th>
-                <td class="align-middle text-center" width="1%">
-                    <a tabindex="-1" href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
-                       data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
-                        <img src="{{ENV.img}}id/w35/{{produtoPOID}}.jpg?version={{VERSION}}">
-                    </a>
-                </td>
-                <td class="align-middle font12" width="48%">
-                    <div class="p-0 m-0">
-                        <strong><a tabindex="-1" class="color-primary" href="#">{{produtoModelo}}</a></strong>
-                        {{> partials/product-actions}}
-                    </div>
-                    <div class="p-0 m-0">
-                        {{produtoNome}}
-                    </div>
-                </td>
-                <td class="align-middle" width="5%">
-                    <img width="50" src="{{ENV.cdn}}svg/marca/{{marcaSeo}}.svg?version={{VERSION}}" title="{{produtoMarca}}" alt="{{produtoMarca}}"/>
-                </td>
-                <td class="align-middle text-center" width="10%">
-                    <span class="p-0 m-0 font15 font-weight-bold {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
-                        {{estoqueSelecionado}} {{unidade}}
-                        <i class="fas text-danger fa-question-circle" data-toggle="tooltip" data-placement="top"
-                           title="Matriz:{{estoqueSaoPaulo}} - Loja:{{estoqueSaoPauloLoja}} - Barra Funda:{{estoqueSaoPauloBarraFunda}} - Blumenau:{{estoqueBlumenau}} - Reservado:{{estoqueReservado}}"></i>
-                    </span>
-                </td>
-                <td class="align-middle text-center" width="10%">
-                    <span class="p-0 m-0">{{LastDaysSales}} dia(s)</span>
-                </td>
-                <td class="align-middle text-center" width="5%">
-                    {{#Next}}
-                    <a tabindex="-1" href="#" class="color-primary font-weight-bold {{#NextDaysActive}}text-success{{/NextDaysActive}}" data-toggle="modal" data-title="Importação do Produto"
-                       data-target="#remoteModal" data-remote="{{CONTAINER}}product/arrival/{{produtoPOID}}">Sim</a>
-                    {{/Next}}
-                    {{^Next}} Não {{/Next}}
-                </td>
-                <td class="align-middle text-center" width="5%">
-                    <input type="text" class="form-control form-control-sm text-center rounded-0 trigger-add-to-cart mask-qty" autocomplete="off"
-                           data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}" data-service="/services/cart/add3"
-                           id="qty_search_{{produtoPOID}}" value="1" name="produtoQuantidade">
-                </td>
-                <td class="align-middle text-center" width="20%">
-                    <select tabindex="-1" id="qty_times_{{produtoPOID}}" class="form-control form-control-sm text-center rounded-0" name="produtoVezes">
-                        {{#Lista}}
-                        <option value="{{value}}">{{vezes}} - {{valorFormatado}}</option>
-                        {{/Lista}}
-                    </select>
-                </td>
-                <td class="align-middle text-center" width="1%">
-                    <a tabindex="-1" href="javascript:void(0)" id="search-add-to-cart-{{produtoPOID}}"
-                       data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}"
-                       data-service="/services/cart/add3" class="search-add-to-cart btn btn-sm btn-primary">
-                        <i class="fas fa-cart-plus"></i>
-                    </a>
-                </td>
+<!-- Modern Search Results Container -->
+<div class="modern-search-results">
+    <!-- Search Header -->
+    <div class="search-results-header">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div class="search-title">
+                <i class="fas fa-search text-primary me-2"></i>
+                <h4 class="mb-0 text-primary">Resultado da Busca - Máquinas</h4>
+                <small class="text-muted ms-2">{{Total}} produtos encontrados</small>
+            </div>
+            <div class="search-actions">
+                <button class="btn btn-outline-secondary btn-sm me-2" id="toggleView" data-view="table">
+                    <i class="fas fa-th-large"></i> Cards
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" id="exportResults">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="table-responsive d-none d-lg-block" id="tableView">
+        <table class="table modern-table" id="searchTable">
+            <thead class="modern-table-header">
+                <tr>
+                    <th class="text-center" width="5%">#</th>
+                    <th width="8%">Imagem</th>
+                    <th width="40%">Produto</th>
+                    <th class="text-center" width="10%">Marca</th>
+                    <th class="text-center" width="10%">Estoque</th>
+                    <th class="text-center" width="10%">Última Venda</th>
+                    <th class="text-center" width="8%">Previsão</th>
+                    <th class="text-center" width="5%">Qtd.</th>
+                    <th class="text-center" width="12%">Prazo - Preço</th>
+                    <th class="text-center" width="5%">Add</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#Busca}}
+                <tr class="modern-table-row" id="colunm_{{produtoPOID}}">
+                    <td class="text-center fw-bold">{{item}}</td>
+                    <td class="text-center">
+                        <div class="product-image-container">
+                            <a href="#" class="product-image-link" data-bs-toggle="modal" data-bs-target="#remoteModal"
+                               data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
+                                <img src="{{ENV.img}}id/w45/{{produtoPOID}}.jpg?version={{VERSION}}" 
+                                     class="product-image" alt="{{produtoModelo}}">
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="product-info">
+                            <h6 class="product-title mb-1">
+                                <a href="#" class="text-primary text-decoration-none">{{produtoModelo}}</a>
+                            </h6>
+                            <p class="product-description mb-1">{{produtoNome}}</p>
+                            {{> partials/product-actions}}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <img src="{{ENV.cdn}}svg/marca/{{marcaSeo}}.svg?version={{VERSION}}" 
+                             class="brand-logo" title="{{produtoMarca}}" alt="{{produtoMarca}}"/>
+                    </td>
+                    <td class="text-center">
+                        <div class="stock-info">
+                            <span class="stock-value {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
+                                {{estoqueSelecionado}} {{unidade}}
+                            </span>
+                            <i class="fas fa-info-circle text-muted ms-1" data-bs-toggle="tooltip" 
+                               title="Matriz:{{estoqueSaoPaulo}} - Loja:{{estoqueSaoPauloLoja}} - Barra Funda:{{estoqueSaoPauloBarraFunda}} - Blumenau:{{estoqueBlumenau}} - Reservado:{{estoqueReservado}}"></i>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-light text-dark">{{LastDaysSales}} dia(s)</span>
+                    </td>
+                    <td class="text-center">
+                        {{#Next}}
+                        <a href="#" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" 
+                           data-bs-target="#remoteModal" data-remote="{{CONTAINER}}product/arrival/{{produtoPOID}}">
+                            <i class="fas fa-check"></i> Sim
+                        </a>
+                        {{/Next}}
+                        {{^Next}}
+                        <span class="text-muted">Não</span>
+                        {{/Next}}
+                    </td>
+                    <td class="text-center">
+                        <input type="number" class="form-control form-control-sm text-center modern-input trigger-add-to-cart" 
+                               data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}" data-service="/services/cart/add3"
+                               id="qty_search_{{produtoPOID}}" value="1" name="produtoQuantidade" min="1">
+                    </td>
+                    <td class="text-center">
+                        <select id="qty_times_{{produtoPOID}}" class="form-select form-select-sm modern-select" name="produtoVezes">
+                            {{#Lista}}
+                            <option value="{{value}}">{{vezes}} - {{valorFormatado}}</option>
+                            {{/Lista}}
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" id="search-add-to-cart-{{produtoPOID}}"
+                                data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}"
+                                data-service="/services/cart/add3" class="btn btn-primary btn-sm search-add-to-cart">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </td>
 
             </tr>
             {{/Busca}}
@@ -85,10 +114,94 @@
                     <p class="">{{error}}</p>
                 </td>
             </tr>
-            {{/Busca}}
-        </tbody>
-    </table>
-</div>
+                 {{/Busca}}
+             </tbody>
+         </table>
+     </div>
+
+     <!-- Mobile Card View -->
+     <div class="mobile-cards d-lg-none">
+         {{#Busca}}
+         <div class="product-card mb-3" id="card_{{produtoPOID}}">
+             <div class="card">
+                 <div class="card-body">
+                     <div class="row align-items-center">
+                         <div class="col-3">
+                             <div class="product-image-container">
+                                 <a href="#" class="product-image-link" data-bs-toggle="modal" data-bs-target="#remoteModal"
+                                    data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
+                                     <img src="{{ENV.img}}id/w60/{{produtoPOID}}.jpg?version={{VERSION}}" 
+                                          class="product-image-mobile" alt="{{produtoModelo}}">
+                                 </a>
+                             </div>
+                         </div>
+                         <div class="col-9">
+                             <div class="product-info">
+                                 <h6 class="product-title mb-1">
+                                     <a href="#" class="text-primary text-decoration-none">{{produtoModelo}}</a>
+                                 </h6>
+                                 <p class="product-description mb-2 text-muted small">{{produtoNome}}</p>
+                                 
+                                 <div class="row mb-2">
+                                     <div class="col-6">
+                                         <small class="text-muted">Marca:</small><br>
+                                         <img src="{{ENV.cdn}}svg/marca/{{marcaSeo}}.svg?version={{VERSION}}" 
+                                              class="brand-logo-mobile" title="{{produtoMarca}}" alt="{{produtoMarca}}"/>
+                                     </div>
+                                     <div class="col-6">
+                                         <small class="text-muted">Estoque:</small><br>
+                                         <span class="stock-value {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
+                                             {{estoqueSelecionado}} {{unidade}}
+                                         </span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row mb-2">
+                                     <div class="col-6">
+                                         <small class="text-muted">Última venda:</small><br>
+                                         <span class="badge bg-light text-dark">{{LastDaysSales}} dia(s)</span>
+                                     </div>
+                                     <div class="col-6">
+                                         <small class="text-muted">Importação:</small><br>
+                                         {{#Next}}
+                                         <span class="text-success"><i class="fas fa-check"></i> Sim</span>
+                                         {{/Next}}
+                                         {{^Next}}
+                                         <span class="text-muted">Não</span>
+                                         {{/Next}}
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row align-items-center">
+                                     <div class="col-4">
+                                         <input type="number" class="form-control form-control-sm text-center modern-input trigger-add-to-cart" 
+                                                data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}" data-service="/services/cart/add3"
+                                                id="qty_mobile_{{produtoPOID}}" value="1" name="produtoQuantidade" min="1">
+                                     </div>
+                                     <div class="col-5">
+                                         <select id="qty_times_mobile_{{produtoPOID}}" class="form-select form-select-sm modern-select" name="produtoVezes">
+                                             {{#Lista}}
+                                             <option value="{{value}}">{{vezes}} - {{valorFormatado}}</option>
+                                             {{/Lista}}
+                                         </select>
+                                     </div>
+                                     <div class="col-3">
+                                         <button type="button" id="mobile-add-to-cart-{{produtoPOID}}"
+                                                 data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}"
+                                                 data-service="/services/cart/add3" class="btn btn-primary btn-sm w-100 search-add-to-cart">
+                                             <i class="fas fa-cart-plus"></i>
+                                         </button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         {{/Busca}}
+     </div>
+ </div>
 
 <div class="w-100 py-3">
 {{#Pages}}

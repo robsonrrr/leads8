@@ -1,50 +1,38 @@
-<div class="border-bottom border-white fixed-top">
-    <div class="container-fluid leadHeader">
-        <div class="row pb-2">
-            <div class="col-10">
-                <div class="p-0 pt-1 m-0 font-weight-bold">
-                    Lead nº: <strong class="h4"><a target="_blank" class="text-primary" href="{{CONTAINER}}lead/build/{{id}}?check={{check}}&segment={{segmentoPOID}}">{{id}}</a></strong>
-                    
-                    <a target="_self" class="text-primary ml-2" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}"><i class="fas fa-lg fa-sync"></i></a>
-                    <a target="_blank" class="text-primary ml-2" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}"><i class="fas fa-lg fa-external-link-alt"></i></a>
-                    
-                    <span class="pl-5"></span>
-                    Cliente: <strong class="h5"><a target="_blank" class="text-primary" href="/agendor/?q={{Cliente.clienteID}}">{{Cliente.clienteNome}} - {{Cliente.clienteEstado}} - {{Cliente.Segmento.segmentoNome}} - {{Cliente.Hierarquia.clienteHierarquia}}</a></strong>
-                </div>
-            </div>
-            <div class="col-2 text-right">
-                <div class="btn-group btn-group-sm" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       Pedido de {{segmentoNome}}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        {{#SESSION.acessoMotopecas}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/6">Motopeças</a>
-                        {{/SESSION.acessoMotopecas}}
-
-                        {{#SESSION.acessoMaquinas}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/1">Máquinas</a>
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/3">Peças</a>
-                        {{/SESSION.acessoMaquinas}}
-
-                        {{#SESSION.acessoPecas}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/3">Peças & Acessórios</a>
-                        {{/SESSION.acessoPecas}}
-
-                        {{#SESSION.acessoAutopecas}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/5">Autopeças</a>
-                        {{/SESSION.acessoAutopecas}}
-
-                        {{#SESSION.acessoRolamentos}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/2">Rolamentos</a>
-                        {{/SESSION.acessoRolamentos}}
-
-                        {{#SESSION.acessoMetais}}
-                        <a class="dropdown-item" href="{{CONTAINER}}{{id}}/4">Metais</a>
-                        {{/SESSION.acessoMetais}}
-                    </div>
-                </div>
-            </div>
+<header class="modern-header fixed-top">
+  <div class="container">
+    <div class="header-content">
+      <div class="lead-info">
+        <div class="lead-number">
+          <span class="label">Lead:</span>
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="lead-link">#{{id}}</a>
         </div>
+        
+        <div class="lead-actions">
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_self" class="action-btn" title="Atualizar">
+            <i class="fas fa-sync-alt"></i>
+          </a>
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_blank" class="action-btn" title="Abrir em nova aba">
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+        
+        <div class="client-info">
+          <span class="label">Cliente:</span>
+          <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link">{{Cliente.clienteNome}}</a>
+        </div>
+      </div>
+      
+      <div class="segment-selector">
+        <select class="btn-segment" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">
+          <option value="1" {{#segment_1}}selected{{/segment_1}}>Rolamentos</option>
+          <option value="2" {{#segment_2}}selected{{/segment_2}}>Automotivo</option>
+          <option value="3" {{#segment_3}}selected{{/segment_3}}>Máquinas</option>
+          <option value="4" {{#segment_4}}selected{{/segment_4}}>Torneiras</option>
+          <option value="5" {{#segment_5}}selected{{/segment_5}}>Peças</option>
+          <option value="6" {{#segment_6}}selected{{/segment_6}}>Moto</option>
+          <option value="7" {{#segment_7}}selected{{/segment_7}}>Geral</option>
+        </select>
+      </div>
     </div>
-</div>
+  </div>
+</header>

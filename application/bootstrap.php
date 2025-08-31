@@ -241,6 +241,13 @@ Route::set('segment', 'segment(/<id>)')
         'action'     => 'index',
     ]);
 
+Route::set('leads8', 'leads8(/<controller>(/<id>(/<segment>(/<complement>))))')
+    ->defaults([
+        'directory'  => 'lead',
+        'controller' => 'index',
+        'action'     => 'index',
+    ]);
+
 Route::set('default', '<id>(/<segment>)')
     ->defaults([
         'directory'  => 'lead',
