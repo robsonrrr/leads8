@@ -1269,6 +1269,24 @@ p {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  justify-content: space-between;
+}
+
+.prev-lead-link,
+.next-lead-link {
+  color: #007bff;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.prev-lead-link:hover,
+.next-lead-link:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateX(2px);
 }
 
 .lead-number .label {

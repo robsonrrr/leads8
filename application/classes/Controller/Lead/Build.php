@@ -499,6 +499,10 @@ class Controller_Lead_Build extends Controller_Lead_Base{
 
 
         $array['today'] = date('Y-m-d');
+        
+        // Calculate next and previous lead IDs for navigation
+        $array['Lead']['nextid'] = $this->leadID + 1;
+        $array['Lead']['previd'] = $this->leadID - 1;
 
         $this->response->body( json_encode($array) );
         return $this->response;
