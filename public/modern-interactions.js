@@ -625,6 +625,38 @@ function initializeCollapseToggles() {
             configToggle.setAttribute('aria-expanded', 'false');
         });
     }
+    
+    // Handle order summary collapse toggle
+    const orderSummaryToggle = document.querySelector('[data-bs-toggle="collapse"][href="#orderSummaryCollapse"]');
+    const orderSummaryCollapse = document.getElementById('orderSummaryCollapse');
+    
+    if (orderSummaryToggle && orderSummaryCollapse) {
+        orderSummaryCollapse.addEventListener('show.bs.collapse', function() {
+            const icon = orderSummaryToggle.querySelector('i');
+            const text = orderSummaryToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-up me-1';
+            }
+            if (text) {
+                text.textContent = 'Ocultar';
+            }
+            orderSummaryToggle.setAttribute('aria-expanded', 'true');
+        });
+        
+        orderSummaryCollapse.addEventListener('hide.bs.collapse', function() {
+            const icon = orderSummaryToggle.querySelector('i');
+            const text = orderSummaryToggle.querySelector('.toggle-text');
+            
+            if (icon) {
+                icon.className = 'fas fa-chevron-down me-1';
+            }
+            if (text) {
+                text.textContent = 'Mostrar';
+            }
+            orderSummaryToggle.setAttribute('aria-expanded', 'false');
+        });
+    }
 }
 
 /**
@@ -634,7 +666,7 @@ function hideCollapsibleSectionsOnLoad() {
     // Add a small delay to ensure DOM is fully loaded and Bootstrap is initialized
     setTimeout(() => {
         // List of collapsible section IDs to hide on page load
-        const sectionsToHide = ['leadInfoCollapse', 'configCollapse', 'searchCollapse'];
+        const sectionsToHide = ['leadInfoCollapse', 'configCollapse', 'searchCollapse', 'orderSummaryCollapse'];
         
         sectionsToHide.forEach(sectionId => {
             const section = document.getElementById(sectionId);

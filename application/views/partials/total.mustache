@@ -1,97 +1,120 @@
 {{#Total}}
-<!-- Modern Order Summary -->
-<div class="container">
-<div class="order-summary">
-    <div class="summary-header">
-        <h5 class="summary-title">
-            <i class="fas fa-calculator me-2"></i>Resumo do Pedido
-        </h5>
-    </div>
-    
-    <div class="summary-content">
-        <div class="summary-grid">
-            <div class="summary-item">
-                <div class="item-label">
-                    <i class="fas fa-box me-1"></i>
-                    Produto
-                    <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Valor base de todos produtos sem impostos"></i>
+<!-- Order Summary Section -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <section class="order-summary-section h-100">
+            <div class="modern-card config-section order-section h-100">
+                <div class="config-header bg-success bg-opacity-10">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="config-icon-wrapper me-3">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div>
+                                <h5 class="config-title mb-0">Resumo do Pedido</h5>
+                                <small class="text-muted">Detalhes financeiros do pedido</small>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-success toggle-btn" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#orderSummaryCollapse" 
+                                aria-expanded="false" 
+                                aria-controls="orderSummaryCollapse">
+                            <i class="fas fa-chevron-down"></i>
+                            <span class="toggle-text ms-1">Mostrar</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="item-value primary-value">
-                    <strong>{{base}} / {{produto}}</strong>
-                </div>
-            </div>
-
-            {{#bearings}}
-            <div class="summary-item">
-                <div class="item-label">
-                    <i class="fas fa-percent me-1"></i>
-                    Impostos
-                    <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="IPI {{ipi}} + ST {{st}}= Impostos"></i>
-                </div>
-                <div class="item-value">{{impostos}}</div>
-            </div>
-            
-            <div class="summary-item">
-                <div class="item-label">
-                    <i class="fas fa-truck me-1"></i>
-                    Frete
-                    <span class="editable-indicator">
-                        <i class="fas fa-edit ms-1"></i>
-                        <small>Editável</small>
-                    </span>
-                </div>
-                <div class="item-value editable-value">
-                    <a href="#" class="jeditable-recalculate" name="valorFrete" data-url="{{CONTAINER}}lead/update/Leads/{{id}}">{{valorFrete}}</a>
-                </div>
-            </div>
-            
-            <div class="summary-item">
-                <div class="item-label">
-                    <i class="fas fa-percentage me-1"></i>
-                    Desconto
-                    <span class="editable-indicator">
-                        <i class="fas fa-edit ms-1"></i>
-                        <small>Editável</small>
-                    </span>
-                </div>
-                <div class="item-value editable-value">
-                    <a href="#" class="jeditable-discount" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a>
-                </div>
-            </div>
-            {{/bearings}}
-
-            {{#machines}}
-            <div class="summary-item">
-                <div class="item-label">
-                    <i class="fas fa-handshake me-1"></i>
-                    Comissão
-                </div>
-                <div class="item-value">{{comissao}}</div>
-            </div>
-            {{/machines}}
-            
-            <div class="summary-item total-item">
-                <div class="item-label">
-                    <i class="fas fa-receipt me-1"></i>
-                    Valor do Pedido
-                    <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Produto + Impostos + Frete = Valor do Pedido"></i>
-                </div>
-                <div class="item-value total-value">
-                    <strong>{{pedido}}</strong>
-                </div>
-            </div>
-        </div>
         
-        {{#existProducts}}
-        <div class="summary-actions">
-            <a href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
-               class="btn btn-primary btn-lg checkout-btn {{^SESSION.check}}btn-secondary disabled{{/SESSION.check}} {{#existPendencies}}btn-secondary disabled{{/existPendencies}} {{#multiple}}btn-secondary disabled{{/multiple}}">
-                <i class="fas fa-arrow-right me-2"></i>
-                Ir para Confirmação
-            </a>
-        </div>
-        {{/existProducts}}
-    </div>
-</div>
-</div>
-{{/Total}}
+                <div class="collapse" id="orderSummaryCollapse">
+                    <div class="summary-content">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="item-label">
+                        <i class="fas fa-box me-1"></i>
+                        Produto
+                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Valor base de todos produtos sem impostos"></i>
+                    </div>
+                    <div class="item-value primary-value">
+                        <strong>{{base}} / {{produto}}</strong>
+                    </div>
+                </div>
+
+                {{#bearings}}
+                <div class="summary-item">
+                    <div class="item-label">
+                        <i class="fas fa-percent me-1"></i>
+                        Impostos
+                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="IPI {{ipi}} + ST {{st}}= Impostos"></i>
+                    </div>
+                    <div class="item-value">{{impostos}}</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="item-label">
+                        <i class="fas fa-truck me-1"></i>
+                        Frete
+                        <span class="editable-indicator">
+                            <i class="fas fa-edit ms-1"></i>
+                            <small>Editável</small>
+                        </span>
+                    </div>
+                    <div class="item-value editable-value">
+                        <a href="#" class="jeditable-recalculate" name="valorFrete" data-url="{{CONTAINER}}lead/update/Leads/{{id}}">{{valorFrete}}</a>
+                    </div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="item-label">
+                        <i class="fas fa-percentage me-1"></i>
+                        Desconto
+                        <span class="editable-indicator">
+                            <i class="fas fa-edit ms-1"></i>
+                            <small>Editável</small>
+                        </span>
+                    </div>
+                    <div class="item-value editable-value">
+                        <a href="#" class="jeditable-discount" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a>
+                    </div>
+                </div>
+                {{/bearings}}
+
+                {{#machines}}
+                <div class="summary-item">
+                    <div class="item-label">
+                        <i class="fas fa-handshake me-1"></i>
+                        Comissão
+                    </div>
+                    <div class="item-value">{{comissao}}</div>
+                </div>
+                {{/machines}}
+                
+                <div class="summary-item total-item">
+                    <div class="item-label">
+                        <i class="fas fa-receipt me-1"></i>
+                        Valor do Pedido
+                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Produto + Impostos + Frete = Valor do Pedido"></i>
+                    </div>
+                    <div class="item-value total-value">
+                        <strong>{{pedido}}</strong>
+                    </div>
+                </div>
+            </div>
+            
+            {{#existProducts}}
+            <div class="summary-actions">
+                <a href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
+                   class="btn btn-primary btn-lg checkout-btn {{^SESSION.check}}btn-secondary disabled{{/SESSION.check}} {{#existPendencies}}btn-secondary disabled{{/existPendencies}} {{#multiple}}btn-secondary disabled{{/multiple}}">
+                    <i class="fas fa-arrow-right me-2"></i>
+                    Ir para Confirmação
+                </a>
+            </div>
+            {{/existProducts}}
+                     </div>
+                 </div>
+             </div>
+         </section>
+     </div>
+ </div>
+ {{/Total}}
