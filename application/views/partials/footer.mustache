@@ -652,7 +652,7 @@
 
         var $content = $(".leadResult");
 
-        $content.html('<div class="loading text-center py-5 text-muted">Carregando Produtos<br><i class="fa fa-circle-notch fa-spin fa-2x fa-fw"></i></div>');
+        $content.html('<div class="loading text-center py-5 text-muted">Carregando Produtos<br><i class="bi bi-arrow-clockwise" style="font-size: 2rem;"></i></div>');
 
         //console.log( $elem.val().length );
         if ( $elem.val().length == 0 )
@@ -825,7 +825,7 @@
                 error: function (data)
                 {
                     console.log('error');
-                    //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                    //elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
                     //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
                 }
             });
@@ -841,7 +841,7 @@
 
         var elem  = $(this);
 
-        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+        elem.html('<i class="bi bi-arrow-clockwise" style="font-size: 1.25rem;"></i>');
 
         $.ajax({
             type: "GET",
@@ -851,7 +851,7 @@
             success: function(data) {
                 //console.log('success add');
                 // window.location.reload(true);
-                elem.html('<i class="fas fa-lg fa-cart-plus"></i>');
+                elem.html('<i class="bi bi-cart-plus" style="font-size: 1.25rem;"></i>');
                 //console.log(data);
 
                 var leadPOID= data.leadPOID;
@@ -875,7 +875,7 @@
                     },
                     error: function (data)
                     {
-                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        //elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
                         console.log('error show cart');
                         //console.log(data);
                         //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
@@ -895,7 +895,7 @@
                     },
                     error: function (data)
                     {
-                        //elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        //elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
                         console.log('total error cart');
                         // console.log(data);
                         //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
@@ -906,7 +906,7 @@
             error: function (data)
             {
                 console.log('error add cart');
-                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
                 //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
             }
         });
@@ -917,7 +917,7 @@
 
         var elem  = $(this);
 
-        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+        elem.html('<i class="bi bi-arrow-clockwise" style="font-size: 1.25rem;"></i>');
 
         $.confirm({
             title: 'Deseja Deletar o Carrinho inteiro ?',
@@ -928,7 +928,7 @@
                     text: 'Cancelar',
                     //btnClass: 'btn-blue',
                     action: function () {
-                        elem.html(' <i class="far fa-trash-alt text-muted" aria-hidden="true"></i>');
+                        elem.html(' <i class="bi bi-trash text-muted" aria-hidden="true"></i>');
                     }
                 },
                 confirm: {
@@ -951,7 +951,7 @@
                             },
                             error: function (data)
                             {
-                                elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                                elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
                                 console.log('error delete');
                                 //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");
                             }
@@ -966,7 +966,7 @@
 
         var elem  = $(this);
 
-        elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>');
+        elem.html('<i class="bi bi-arrow-clockwise" style="font-size: 1.25rem;"></i>');
 
         $.confirm({
             title: 'Deseja Deletar o Item '+elem.attr('data-name')+' ?',
@@ -977,7 +977,7 @@
                     text: 'Cancelar',
                     //btnClass: 'btn-blue',
                     action: function () {
-                        elem.html(' <i class="far fa-trash-alt text-muted" aria-hidden="true"></i>');
+                        elem.html(' <i class="bi bi-trash text-muted" aria-hidden="true"></i>');
                     }
                 },
                 confirm: {
@@ -1255,7 +1255,7 @@
         $('.cart-generate-order').on('click', function () {
             var elem  = $(this);
 
-            elem.html('<i class="fa fa-spinner fa-spin fa-lg fa-fw"></i> Gerando Pedido');
+            elem.html('<i class="bi bi-arrow-clockwise" style="font-size: 1.25rem;"></i> Gerando Pedido');
 
             $.confirm({
                 title: 'Deseja Finalizar o Pedido ?',
@@ -1290,8 +1290,8 @@
                                 },
                                 error: function (data)
                                 {
-                                    elem.html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
-                                    $('.leadError').removeClass('d-none').html('<span class="h6"><i class="fas fa-exclamation-triangle"></i> Erro ao Gerar Pedido Verifique antes.</span>');
+                                    elem.html('<i class="bi bi-exclamation-triangle" aria-hidden="true"></i>');
+                                    $('.leadError').removeClass('d-none').html('<span class="h6"><i class="bi bi-exclamation-triangle"></i> Erro ao Gerar Pedido Verifique antes.</span>');
                                     $('html,body').animate({ scrollTop: 0 }, 'slow');
                                     //console.log('error delete');
                                     //swal("Erro ao alterar!", "Tente novamente e se o erro persistir entre em contato com suporte Rolemak", "error");

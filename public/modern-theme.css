@@ -1966,7 +1966,7 @@ tr.fading-out {
   color: var(--text-primary, var(--gray-800));
 }
 
-.modern-label i.fas:first-child {
+.modern-label i.bi:first-child {
   width: 20px;
   text-align: center;
 }

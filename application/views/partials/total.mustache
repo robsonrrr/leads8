@@ -8,7 +8,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div class="config-icon-wrapper me-3">
-                                <i class="fas fa-calculator"></i>
+                                <i class="bi bi-calculator"></i>
                             </div>
                             <div>
                                 <h5 class="config-title mb-0">Resumo do Pedido</h5>
@@ -21,7 +21,7 @@
                                 data-bs-target="#orderSummaryCollapse" 
                                 aria-expanded="false" 
                                 aria-controls="orderSummaryCollapse">
-                            <i class="fas fa-chevron-down"></i>
+                            <i class="bi bi-chevron-down"></i>
                             <span class="toggle-text ms-1">Mostrar</span>
                         </button>
                     </div>
@@ -32,9 +32,9 @@
             <div class="summary-grid">
                 <div class="summary-item">
                     <div class="item-label">
-                        <i class="fas fa-box me-1"></i>
+                        <i class="bi bi-box me-1"></i>
                         Produto
-                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Valor base de todos produtos sem impostos"></i>
+                        <i class="bi bi-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Valor base de todos produtos sem impostos"></i>
                     </div>
                     <div class="item-value primary-value">
                         <strong>{{base}} / {{produto}}</strong>
@@ -44,19 +44,19 @@
                 {{#bearings}}
                 <div class="summary-item">
                     <div class="item-label">
-                        <i class="fas fa-percent me-1"></i>
+                        <i class="bi bi-percent me-1"></i>
                         Impostos
-                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="IPI {{ipi}} + ST {{st}}= Impostos"></i>
+                        <i class="bi bi-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="IPI {{ipi}} + ST {{st}}= Impostos"></i>
                     </div>
                     <div class="item-value">{{impostos}}</div>
                 </div>
                 
                 <div class="summary-item">
                     <div class="item-label">
-                        <i class="fas fa-truck me-1"></i>
+                        <i class="bi bi-truck me-1"></i>
                         Frete
                         <span class="editable-indicator">
-                            <i class="fas fa-edit ms-1"></i>
+                            <i class="bi bi-pencil ms-1"></i>
                             <small>Editável</small>
                         </span>
                     </div>
@@ -67,10 +67,10 @@
                 
                 <div class="summary-item">
                     <div class="item-label">
-                        <i class="fas fa-percentage me-1"></i>
+                        <i class="bi bi-percent me-1"></i>
                         Desconto
                         <span class="editable-indicator">
-                            <i class="fas fa-edit ms-1"></i>
+                            <i class="bi bi-pencil ms-1"></i>
                             <small>Editável</small>
                         </span>
                     </div>
@@ -83,7 +83,7 @@
                 {{#machines}}
                 <div class="summary-item">
                     <div class="item-label">
-                        <i class="fas fa-handshake me-1"></i>
+                        <i class="bi bi-handshake me-1"></i>
                         Comissão
                     </div>
                     <div class="item-value">{{comissao}}</div>
@@ -92,9 +92,9 @@
                 
                 <div class="summary-item total-item">
                     <div class="item-label">
-                        <i class="fas fa-receipt me-1"></i>
+                        <i class="bi bi-receipt me-1"></i>
                         Valor do Pedido
-                        <i class="fas fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Produto + Impostos + Frete = Valor do Pedido"></i>
+                        <i class="bi bi-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Produto + Impostos + Frete = Valor do Pedido"></i>
                     </div>
                     <div class="item-value total-value">
                         <strong>{{pedido}}</strong>
@@ -106,7 +106,7 @@
             <div class="summary-actions">
                 <a href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
                    class="btn btn-primary btn-lg checkout-btn {{^SESSION.check}}btn-secondary disabled{{/SESSION.check}} {{#existPendencies}}btn-secondary disabled{{/existPendencies}} {{#multiple}}btn-secondary disabled{{/multiple}}">
-                    <i class="fas fa-arrow-right me-2"></i>
+                    <i class="bi bi-arrow-right me-2"></i>
                     Ir para Confirmação
                 </a>
             </div>

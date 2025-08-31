@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-3">
             <p class="h2 color-primary">
-                <i class="fas fa-shopping-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="fas fa-level-down-alt"></i>
+                <i class="bi bi-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="bi bi-arrow-down"></i>
             </p>
         </div>
         <div class="col-2">
@@ -16,54 +16,54 @@
         <div class="col-7 text-right"> 
             <div class="btn-group btn-group-sm my-2" role="group" aria-label="Small button group">
                 <a class="btn btn-secondary text-white" target="_blank" href="/clientes_editar.php?DADOS={{Cliente.id}}">
-                    <i class="fas fa-user-edit"></i> editar cliente
+                    <i class="bi bi-person-gear"></i> editar cliente
                 </a>
                 <a class="btn btn-secondary text-white" target="_blank" href="/mak.php?TIPO=PAGAMENTOS&DADOS={{Cliente.id}}&MNOME={{Cliente.clienteNome}}">
-                    <i class="fas fa-money-check-alt"></i> pagamentos
+                    <i class="bi bi-credit-card"></i> pagamentos
                 </a>
                 <a class="btn btn-secondary text-white" target="_blank" href="/orders/orders_per_client.php?client={{Cliente.id}}">
-                    <i class="fas fa-clipboard-list"></i> pedidos
+                    <i class="bi bi-clipboard-check"></i> pedidos
                 </a>
                 <a class="btn btn-secondary text-white" href="#" class="dropdown-item mb-1 border-bottom" data-toggle="modal"
                    data-target="#modalTicketAdd" data-remote="{{CONTAINER}}ticket/new/{{Cliente.clienteID}}/{{Lead.id}}"
                    data-name="{{Cliente.clienteNome}}" data-customer="{{Cliente.clienteID}}" data-title="Criar um Novo Ticket" >
-                    <i class="fas fa-ticket-alt"></i> criar ticket
+                    <i class="bi bi-ticket"></i> criar ticket
                 </a>
                 <a class="btn btn-secondary text-white" data-toggle="modal" data-title="Ver Tickets" 
                    data-target="#remoteModal" data-remote="/agendor/tickets/?cliente={{Cliente.clienteID}}">
                     tickets
                 </a>
                 <a class="btn btn-warning" target="_blank" href="{{CONTAINER}}lead/delete/{{id}}/{{segmentoPOID}}">
-                    <i class="fas fa-trash-alt"></i> deletar lead
+                    <i class="bi bi-trash"></i> deletar lead
                 </a>
                 <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/recalculate/{{id}}/{{segmentoPOID}}">
-                    <i class="fas fa-sync-alt"></i> recalcular impostos
+                    <i class="bi bi-arrow-clockwise"></i> recalcular impostos
                 </a>
                 <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/recalculate/{{id}}/{{segmentoPOID}}?price=true">
-                    <i class="fas fa-sync-alt"></i> atualizar preço
+                    <i class="bi bi-arrow-clockwise"></i> atualizar preço
                 </a>
                 {{#existProducts}}
                 <a class="btn btn-warning disabled" onclick="return false;" href="#">
-                    <i class="fas fa-bolt"></i> Raio-Y
+                    <i class="bi bi-lightning"></i> Raio-Y
                 </a>                
                 {{/existProducts}}
                 {{^existProducts}}
                 <a class="btn btn-warning click-ajax-response" href="#" data-url="{{CONTAINER}}lead/raioy/{{id}}/{{segmentoPOID}}">
-                    <i class="fas fa-bolt"></i> Raio-Y
+                    <i class="bi bi-lightning"></i> Raio-Y
                 </a>
                 {{/existProducts}}
                 <a target="_blank" class="btn btn-info" href="{{CONTAINER}}lead/mail/{{id}}/{{segmentoPOID}}">
-                    <i class="fas fa-envelope-open-text"></i> email
+                    <i class="bi bi-envelope-open"></i> email
                 </a>
                 <a target="_blank" class="btn btn-info" href="{{CONTAINER}}lead/print/{{id}}/{{segmentoPOID}}">
-                    <i class="fas fa-print"></i> imprimir
+                    <i class="bi bi-printer"></i> imprimir
                 </a>
                 <a target="_blank" class="btn btn-info" href="{{CONTAINER}}lead/export/{{id}}/{{segmentoPOID}}">
                     exportar
                 </a>
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-lead="{{id}}"
                         {{#existPendencies}}disabled{{/existPendencies}} {{#existProducts}}disabled{{/existProducts}} >
-                    <i class="fas fa-file-import"></i> importar</button>
+                    <i class="bi bi-file-earmark-arrow-up"></i> importar</button>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
     <div class="row mb-3">
         <div class="col-12 text-center">
             <button type="button" class="btn btn-outline-danger btn-sm hide-all-empty-discounts" title="Stage 1: Hide rows with discount = 0">
-                <i class="fas fa-eye-slash"></i> Hide Empty (=0)
+                <i class="bi bi-eye-slash"></i> Hide Empty (=0)
             </button>
         </div>
     </div>
@@ -234,7 +234,7 @@
                 {{/produtoIndisponivel}}
                 <td class="align-middle text-center" width="1%">
                     <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}">
-                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                        <i class="bi bi-trash" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>
@@ -265,7 +265,7 @@
                 <td class="align-middle text-right">{{ipi}}</td>
                 <td class="align-middle text-right">{{st}}</td>
                 <td class="align-middle text-right">{{bruto}}</td>
-                <td class="align-middle text-center"><a href="#" class="jeditable-discount text-white" name="" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a> <small> <i class="fas fa-edit"></i></small></td>
+                <td class="align-middle text-center"><a href="#" class="jeditable-discount text-white" name="" data-url="{{CONTAINER}}lead/discountall/{{id}}/{{segmentoPOID}}">{{mdpedido}}</a> <small> <i class="bi bi-pencil"></i></small></td>
                 <td class="align-middle text-center">
                     {{#SESSION.acessoDiretoria}}
                     {{nominal}} / {{percentual}}%
@@ -306,7 +306,7 @@
         <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
 
         <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-            <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
+            <i class="bi bi-trash" aria-hidden="true"></i> Remover Todos Produtos
         </button>
     </div>
 
@@ -314,7 +314,7 @@
     <div class="col-6 text-right">
         <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
            class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
-            <i class="fas fa-fast-forward"></i> ir Próxima Etapa
+            <i class="bi bi-fast-forward"></i> ir Próxima Etapa
         </a>
         <br>
         <small class="font10">+1 etapa para concluir o pedido</small>

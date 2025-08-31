@@ -4,7 +4,7 @@
         <div class="modal-content modern-modal">
             <div class="modal-header modern-modal-header">
                 <h5 class="modal-title" id="obsModalLabel">
-                    <i class="fas fa-sticky-note me-2"></i>
+                    <i class="bi bi-sticky me-2"></i>
                     Observações do Pedido / Cotação / Lead
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -13,7 +13,7 @@
                 <div class="modal-body modern-modal-body">
                     <div class="mb-3">
                         <label for="observacaoFinaceiro" class="form-label">
-                            <i class="fas fa-dollar-sign me-1"></i>
+                            <i class="bi bi-currency-dollar me-1"></i>
                             Observação Financeiro
                         </label>
                         <textarea class="form-control modern-textarea" name="observacaoFinaceiro" id="observacaoFinaceiro" rows="3" placeholder="Digite observações relacionadas ao financeiro...">{{observacaoFinaceiro}}</textarea>
@@ -21,7 +21,7 @@
                     
                     <div class="mb-3">
                         <label for="observacaoLogistica" class="form-label">
-                            <i class="fas fa-truck me-1"></i>
+                            <i class="bi bi-truck me-1"></i>
                             Observação Logística
                         </label>
                         <textarea class="form-control modern-textarea" name="observacaoLogistica" id="observacaoLogistica" rows="3" placeholder="Digite observações relacionadas à logística...">{{observacaoLogistica}}</textarea>
@@ -29,7 +29,7 @@
                     
                     <div class="mb-3">
                         <label for="observacaoNotaFiscal" class="form-label">
-                            <i class="fas fa-file-invoice me-1"></i>
+                            <i class="bi bi-file-earmark-text me-1"></i>
                             Observação Nota Fiscal
                         </label>
                         <textarea class="form-control modern-textarea" name="observacaoNotaFiscal" id="observacaoNotaFiscal" rows="3" placeholder="Digite observações relacionadas à nota fiscal...">{{observacaoNotaFiscal}}</textarea>
@@ -38,11 +38,11 @@
 
                 <div class="modal-footer modern-modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>
+                        <i class="bi bi-x me-1"></i>
                         Fechar
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i>
+                        <i class="bi bi-save me-1"></i>
                         Gravar Edições
                     </button>
                 </div>
@@ -57,7 +57,7 @@
         <div class="modal-content modern-modal">
             <div class="modal-header modern-modal-header">
                 <h5 class="modal-title" id="remoteModalLabel">
-                    <i class="fas fa-external-link-alt me-2"></i>
+                    <i class="bi bi-box-arrow-up-right me-2"></i>
                     Conteúdo Remoto
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -65,7 +65,7 @@
             <div class="modal-body modern-modal-body">
                 <div class="loading-container text-center py-5">
                     <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                        <i class="bi bi-arrow-clockwise text-primary" style="font-size: 2rem;"></i>
                     </div>
                     <p class="loading-text mt-3">
                         <small class="text-muted">Carregando, aguarde um momento...</small>
@@ -82,7 +82,7 @@
         <div class="modal-content modern-modal">
             <div class="modal-header modern-modal-header">
                 <h5 class="modal-title" id="remoteModalLabel2">
-                    <i class="fas fa-ticket-alt me-2"></i>
+                    <i class="bi bi-ticket me-2"></i>
                     Ticket
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -90,7 +90,7 @@
             <div class="modal-body modern-modal-body">
                 <div class="loading-container text-center py-5">
                     <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                        <i class="bi bi-arrow-clockwise text-primary" style="font-size: 2rem;"></i>
                     </div>
                     <p class="loading-text mt-3">
                         <small class="text-muted">Carregando, aguarde um momento...</small>
@@ -107,7 +107,7 @@
         <div class="modal-content modern-modal">
             <div class="modal-header modern-modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">
-                    <i class="fas fa-download me-2"></i>
+                    <i class="bi bi-download me-2"></i>
                     Importar Produtos
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -116,32 +116,32 @@
                 <div class="modal-body modern-modal-body">
                     <div class="mb-3">
                         <label for="recipient-type" class="form-label">
-                            <i class="fas fa-source me-1"></i>
+                            <i class="bi bi-code me-1"></i>
                             Selecione de onde quer importar
                         </label>
                         <select class="form-select modern-select" id="recipient-type" name="type" required>
                             <option value="">Escolha uma opção...</option>
                             <option value="ecommerce">
-                                <i class="fas fa-shopping-cart"></i> Ecommerce
+                                <i class="bi bi-cart"></i> Ecommerce
                             </option>
                             <option value="lead">
-                                <i class="fas fa-user-tie"></i> Lead
+                                <i class="bi bi-person-tie"></i> Lead
                             </option>
                             <option value="order">
-                                <i class="fas fa-shopping-bag"></i> Pedido
+                                <i class="bi bi-bag"></i> Pedido
                             </option>
                             <option value="quote">
-                                <i class="fas fa-file-alt"></i> Consulta
+                                <i class="bi bi-file-text"></i> Consulta
                             </option>
                             <option value="shipment">
-                                <i class="fas fa-ship"></i> Importação
+                                <i class="bi bi-ship"></i> Importação
                             </option>
                         </select>
                     </div>
                     
                     <div class="mb-3">
                         <label for="recipient-name" class="form-label">
-                            <i class="fas fa-search me-1"></i>
+                            <i class="bi bi-search me-1"></i>
                             Identificação
                         </label>
                         <input type="text" class="form-control modern-input" id="recipient-name" name="order" autocomplete="off" placeholder="Digite o número do pedido/lead/cotação ou nome do ecommerce" required>
@@ -159,11 +159,11 @@
                 
                 <div class="modal-footer modern-modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>
+                        <i class="bi bi-x me-1"></i>
                         Cancelar
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-download me-1"></i>
+                        <i class="bi bi-download me-1"></i>
                         Importar
                     </button>
                 </div>

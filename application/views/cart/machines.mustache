@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-3">
             <p class="h2 color-primary">
-                <i class="fas fa-shopping-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="fas fa-level-down-alt"></i>
+                <i class="bi bi-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="bi bi-arrow-down"></i>
             </p>
         </div>
         <div class="col-2">
@@ -99,7 +99,7 @@
     <div class="row mb-3">
         <div class="col-12 text-center">
             <button type="button" class="btn btn-outline-danger btn-sm hide-all-empty-discounts" title="Stage 1: Hide rows with discount = 0">
-                <i class="fas fa-eye-slash"></i> Hide Empty (=0)
+                <i class="bi bi-eye-slash"></i> Hide Empty (=0)
             </button>
         </div>
     </div>
@@ -135,7 +135,7 @@
                 <td class="align-middle text-center" width="1%">
                     <a href="#" class="" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
                        data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
-                        <img src="{{ENV.img}}id/w35/{{produtoPOID}}.jpg?version={{VERSION}}">
+                        <img src="{{ENV.img}}id/w96/{{produtoPOID}}.jpg?version={{VERSION}}">
                     </a>
                 </td>
                 <td class="align-middle font12" width="40%">
@@ -237,7 +237,7 @@
                 {{/produtoIndisponivel}}
                 <td class="align-middle text-center" width="1%">
                     <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}/{{segmentoPOID}}">
-                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                        <i class="bi bi-trash" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>
@@ -305,7 +305,7 @@
 
 {{#ClienteDoCliente}}
 <p class="h2 color-primary">
-    <i class="fas fa-money-bill-wave-alt"></i> Comissão Revendedor
+    <i class="bi bi-cash-stack"></i> Comissão Revendedor
 </p>
 <table class="table table-sm table-bordered table-hover table-striped">
     <thead class="thead-custom">
@@ -341,7 +341,7 @@
             <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
             <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
             <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-                <i class="far fa-trash-alt" aria-hidden="true"></i> Remover Todos Produtos
+                <i class="bi bi-trash" aria-hidden="true"></i> Remover Todos Produtos
             </button>
         </div>
 
@@ -349,7 +349,7 @@
         <div class="col-3 text-right">
             <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}"
                class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
-                <i class="fas fa-fast-forward"></i> ir Próxima Etapa
+                <i class="bi bi-fast-forward"></i> ir Próxima Etapa
             </a>
             <br>
             <small class="font10">+1 etapa para concluir o pedido</small>

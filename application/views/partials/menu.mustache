@@ -3,7 +3,7 @@
         <!-- Sidebar Header -->
         <div class="sidebar-header">
             <div class="sidebar-brand">
-                <i class="fas fa-cog text-primary me-2"></i>
+                <i class="bi bi-gear text-primary me-2"></i>
                 <span class="brand-text">Configurações</span>
             </div>
         </div>
@@ -11,7 +11,7 @@
         <!-- Logistics Section -->
         <div class="sidebar-section">
             <div class="section-header">
-                <i class="fas fa-shipping-fast section-icon text-primary"></i>
+                <i class="bi bi-truck section-icon text-primary"></i>
                 <h6 class="section-title">Logística</h6>
                 <div class="section-badge">
                     <span class="badge bg-light text-dark">3 campos</span>
@@ -22,9 +22,9 @@
                 <!-- Emitente (Hidden) -->
                 <div class="form-group d-none">
                     <label class="form-label">
-                        <i class="fas fa-building me-1"></i>
+                        <i class="bi bi-building me-1"></i>
                         Emitente
-                        <i class="fas fa-question-circle text-warning ms-1" data-poload="{{CONTAINER}}helper/unity/?clienteID={{clientePOID}}" data-bs-toggle="tooltip" title="Informações sobre emitente"></i>
+                        <i class="bi bi-question-circle text-warning ms-1" data-poload="{{CONTAINER}}helper/unity/?clienteID={{clientePOID}}" data-bs-toggle="tooltip" title="Informações sobre emitente"></i>
                     </label>
                     <select class="form-select form-select-sm select2-ajax" data-recalculate="true" data-field="unidadeEmitentePOID" data-lead="{{id}}" data-ajax-update="{{CONTAINER}}service/update/" data-ajax--url="{{CONTAINER}}service/emit/">
                         {{#Emitente}}<option value="{{emitenteFantasia}}" selected="selected">{{emitenteFantasia}}</option>{{/Emitente}}
@@ -34,10 +34,10 @@
                 <!-- Transportadora -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-truck me-1 text-info"></i>
+                        <i class="bi bi-truck me-1 text-info"></i>
                         Coleta
                         <span class="label-required">*</span>
-                        <i class="fas fa-question-circle text-warning ms-1 help-icon" 
+                        <i class="bi bi-question-circle text-warning ms-1 help-icon" 
                            data-poload="{{CONTAINER}}helper/transporter/?clienteID={{clientePOID}}" 
                            data-bs-toggle="tooltip" 
                            data-bs-placement="top"
@@ -61,7 +61,7 @@
                            data-title="Simulador Correios" 
                            data-bs-target="#remoteModal"
                            data-remote="/crm/servicos/correio/simular?origem={{unidadeEmitentePOID}}&destino={{Cliente.clienteCep}}&peso={{Total.peso}}&valor={{Total.bruto}}">
-                            <i class="fas fa-calculator me-2"></i>
+                            <i class="bi bi-calculator me-2"></i>
                             Simulador Correio
                         </a>
                     </div>
@@ -69,7 +69,7 @@
                     {{#distance}}
                     <div class="distance-info mt-3">
                         <div class="info-header">
-                            <i class="fas fa-map-marker-alt me-2 text-success"></i>
+                            <i class="bi bi-geo-alt me-2 text-success"></i>
                             <strong class="info-title">Distância do Cliente</strong>
                         </div>
                         <div class="distance-grid mt-2">
@@ -105,7 +105,7 @@
                 <!-- Tipo Frete -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-shipping-fast me-1 text-info"></i>
+                        <i class="bi bi-truck me-1 text-info"></i>
                         Tipo Frete
                         <span class="label-required">*</span>
                     </label>
@@ -125,7 +125,7 @@
         <!-- Operations Section -->
         <div class="sidebar-section">
             <div class="section-header">
-                <i class="fas fa-cogs section-icon text-primary"></i>
+                <i class="bi bi-gear section-icon text-primary"></i>
                 <h6 class="section-title">Operação</h6>
                 <div class="section-badge">
                     <span class="badge bg-light text-dark">{{#machines}}3{{/machines}}{{^machines}}2{{/machines}} campos</span>
@@ -136,7 +136,7 @@
                 <!-- Data Criado -->
                 <div class="info-item modern-info-item">
                     <div class="info-header">
-                        <i class="far fa-calendar-alt me-2 text-success"></i>
+                        <i class="bi bi-calendar me-2 text-success"></i>
                         <span class="info-label">Data Criado</span>
                     </div>
                     <div class="info-content">
@@ -148,7 +148,7 @@
                 <!-- Data Entrega -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="far fa-calendar-check me-1 text-info"></i>
+                        <i class="bi bi-calendar-check me-1 text-info"></i>
                         Data p/ Entrega
                         <span class="label-required">*</span>
                     </label>
@@ -166,7 +166,7 @@
                 {{#machines}}
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-sitemap me-1 text-info"></i>
+                        <i class="bi bi-diagram-3 me-1 text-info"></i>
                         Operação
                         <span class="label-badge">NOP</span>
                         <span class="label-required">*</span>
@@ -190,7 +190,7 @@
         <!-- Payment and Terms Section -->
         <div class="sidebar-section">
             <div class="section-header">
-                <i class="fas fa-credit-card section-icon text-primary"></i>
+                <i class="bi bi-credit-card section-icon text-primary"></i>
                 <h6 class="section-title">Prazo e Pagamento</h6>
                 <div class="section-badge">
                     <span class="badge bg-light text-dark">{{#SESSION.acessoGerencial}}3{{/SESSION.acessoGerencial}}{{^SESSION.acessoGerencial}}2{{/SESSION.acessoGerencial}} campos</span>
@@ -201,10 +201,10 @@
                 <!-- Pagamento -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-money-bill-alt me-1 text-success"></i>
+                        <i class="bi bi-cash me-1 text-success"></i>
                         Pagamento
                         <span class="label-required">*</span>
-                        <i class="fas fa-question-circle text-warning ms-1 help-icon" 
+                        <i class="bi bi-question-circle text-warning ms-1 help-icon" 
                            data-poload="{{CONTAINER}}helper/payment/?clienteID={{clientePOID}}" 
                            data-bs-toggle="tooltip" 
                            data-bs-placement="top"
@@ -226,14 +226,14 @@
                 <!-- Prazo -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-business-time me-1 text-warning"></i>
+                        <i class="bi bi-clock me-1 text-warning"></i>
                         Prazo
                         <span class="label-required">*</span>
-                        <i class="fas fa-question-circle text-warning ms-1 help-icon" 
-                           data-poload="{{CONTAINER}}helper/terms/?clienteID={{clientePOID}}" 
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top"
-                           title="Informações sobre prazo"></i>
+                        <i class="bi bi-question-circle text-warning ms-1 help-icon"
+                             data-poload="{{CONTAINER}}helper/terms/?clienteID={{clientePOID}}"
+                             data-bs-toggle="tooltip" 
+                            data-bs-placement="top"
+                            title="Informações sobre prazo"></i>
                     </label>
                     <div class="input-wrapper">
                         <select class="form-select modern-select select2-ajax" 
@@ -252,7 +252,7 @@
                 {{#SESSION.acessoGerencial}}
                 <div class="form-group management-only">
                     <label class="form-label modern-label">
-                        <i class="fas fa-user me-1 text-primary"></i>
+                        <i class="bi bi-person me-1 text-primary"></i>
                         Vendedor
                         <span class="label-badge bg-primary">Gerencial</span>
                         <small class="text-muted ms-1" 
@@ -279,7 +279,7 @@
         <!-- Client Discount Section -->
         <div class="sidebar-section">
             <div class="section-header">
-                <i class="fas fa-percentage section-icon text-success"></i>
+                <i class="bi bi-percent section-icon text-success"></i>
                 <h6 class="section-title">Desconto Cliente</h6>
                 <div class="section-badge">
                     <span class="badge bg-light text-dark">{{#SESSION.acessoGerencial}}2{{/SESSION.acessoGerencial}}{{^SESSION.acessoGerencial}}1{{/SESSION.acessoGerencial}} campo{{#SESSION.acessoGerencial}}s{{/SESSION.acessoGerencial}}</span>
@@ -290,12 +290,12 @@
                 <!-- Desconto -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-tag me-1 text-success"></i>
+                        <i class="bi bi-tag me-1 text-success"></i>
                         Desconto
                         <span class="label-required">*</span>
-                        <i class="fas fa-question-circle text-warning ms-1 help-icon" 
-                           data-poload="{{CONTAINER}}helper/discount/?clienteID={{clientePOID}}" 
-                           data-bs-toggle="tooltip" 
+                        <i class="bi bi-question-circle text-warning ms-1 help-icon"
+                            data-poload="{{CONTAINER}}helper/discount/?clienteID={{clientePOID}}"
+                            data-bs-toggle="tooltip" 
                            data-bs-placement="top"
                            title="Informações sobre desconto"></i>
                     </label>
@@ -316,7 +316,7 @@
                 {{#SESSION.acessoGerencial}}
                 <div class="form-group management-only">
                     <label class="form-label modern-label">
-                        <i class="fas fa-plus-circle me-1 text-info"></i>
+                        <i class="bi bi-plus-circle me-1 text-info"></i>
                         Desconto Adicional
                         <span class="label-badge bg-primary">Gerencial</span>
                         <small class="text-muted ms-1">(%)</small>
@@ -346,7 +346,7 @@
                 <div class="discount-grid mt-3">
                     <div class="discount-item">
                         <div class="discount-label">
-                            <i class="fas fa-tag me-1"></i>
+                            <i class="bi bi-tag me-1"></i>
                             Desconto Base
                         </div>
                         <div class="discount-value">{{clienteDesconto}}%</div>
@@ -354,7 +354,7 @@
                     
                     <div class="discount-item">
                         <div class="discount-label">
-                            <i class="fas fa-car me-1"></i>
+                            <i class="bi bi-car-front me-1"></i>
                             Desconto Autopeças
                         </div>
                         <div class="discount-value">{{clienteDescontoMakAutomotive}}%</div>
@@ -362,7 +362,7 @@
                     
                     <div class="discount-item">
                         <div class="discount-label">
-                            <i class="fas fa-plus-circle me-1"></i>
+                            <i class="bi bi-plus-circle me-1"></i>
                             Sobretaxa
                         </div>
                         <div class="discount-value">{{clienteSobretaxa}}%</div>
@@ -370,7 +370,7 @@
                     
                     <div class="discount-item">
                         <div class="discount-label">
-                            <i class="fas fa-chart-line me-1"></i>
+                            <i class="bi bi-graph-up me-1"></i>
                             Juros
                         </div>
                         <div class="discount-value">{{clienteJuros}}</div>
@@ -378,7 +378,7 @@
                     
                     <div class="discount-item">
                         <div class="discount-label">
-                            <i class="fas fa-receipt me-1"></i>
+                            <i class="bi bi-receipt me-1"></i>
                             Desconto por Pedido
                         </div>
                         <div class="discount-value">{{clienteDescontoPedido}}</div>
@@ -391,7 +391,7 @@
         <!-- Fiscal Situation Section -->
         <div class="sidebar-section">
             <div class="section-header">
-                <i class="fas fa-file-invoice section-icon text-info"></i>
+                <i class="bi bi-file-earmark-text section-icon text-info"></i>
                 <h6 class="section-title">Situação Fiscal</h6>
                 <div class="section-badge">
                     <span class="badge bg-light text-dark">2 campos</span>
@@ -402,14 +402,14 @@
                 <!-- Situação Fiscal -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-receipt me-1 text-info"></i>
+                        <i class="bi bi-receipt me-1 text-info"></i>
                         Situação Fiscal
                         <span class="label-required">*</span>
-                        <i class="fas fa-question-circle text-warning ms-1 help-icon" 
-                           data-poload="{{CONTAINER}}helper/fiscal/?clienteID={{clientePOID}}" 
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top"
-                           title="Informações sobre situação fiscal"></i>
+                        <i class="bi bi-question-circle text-warning ms-1 help-icon"
+                             data-poload="{{CONTAINER}}helper/fiscal/?clienteID={{clientePOID}}"
+                             data-bs-toggle="tooltip" 
+                            data-bs-placement="top"
+                            title="Informações sobre situação fiscal"></i>
                     </label>
                     <div class="input-wrapper">
                         <select class="form-select modern-select select2-ajax" 
@@ -427,7 +427,7 @@
                 <!-- Observações -->
                 <div class="form-group">
                     <label class="form-label modern-label">
-                        <i class="fas fa-sticky-note me-1 text-secondary"></i>
+                        <i class="bi bi-sticky me-1 text-secondary"></i>
                         Observações
                         <small class="text-muted ms-1">(Opcional)</small>
                     </label>
@@ -441,7 +441,7 @@
                                   placeholder="Adicione observações sobre o lead...">{{Lead.observacoes}}</textarea>
                         <div class="input-feedback"></div>
                         <small class="form-text text-muted">
-                            <i class="fas fa-info-circle me-1"></i>
+                            <i class="bi bi-info-circle me-1"></i>
                             Máximo 500 caracteres
                         </small>
                     </div>
@@ -451,7 +451,7 @@
                 <div class="fiscal-grid mt-3">
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-shield-alt me-1"></i>
+                            <i class="bi bi-shield me-1"></i>
                             Isento ST
                         </div>
                         <div class="fiscal-value">{{clienteIsentoSt}}</div>
@@ -459,7 +459,7 @@
                     
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-industry me-1"></i>
+                            <i class="bi bi-building me-1"></i>
                             Isento IPI
                         </div>
                         <div class="fiscal-value">{{clienteIsentoIPI}}</div>
@@ -467,7 +467,7 @@
                     
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-user-tag me-1"></i>
+                            <i class="bi bi-person-badge me-1"></i>
                             Tipo Pessoa
                         </div>
                         <div class="fiscal-value">{{clienteTipoPessoa}}</div>
@@ -475,7 +475,7 @@
                     
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-balance-scale me-1"></i>
+                            <i class="bi bi-balance-scale me-1"></i>
                             Regime Fiscal
                         </div>
                         <div class="fiscal-value">{{clienteRegimeFiscal}}</div>
@@ -483,7 +483,7 @@
                     
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-star me-1"></i>
+                            <i class="bi bi-star me-1"></i>
                             ICMSST Especial
                         </div>
                         <div class="fiscal-value">{{clienteICMSSTEspecial}}</div>
@@ -491,7 +491,7 @@
                     
                     <div class="fiscal-item">
                         <div class="fiscal-label">
-                            <i class="fas fa-map me-1"></i>
+                            <i class="bi bi-map me-1"></i>
                             Suframa
                         </div>
                         <div class="fiscal-value">{{clienteSuframa}}</div>

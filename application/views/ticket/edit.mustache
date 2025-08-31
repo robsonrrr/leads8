@@ -87,7 +87,7 @@
             var $data = $form.serialize();
 
             $elem.attr("disabled", true);
-            $elem.html('<i class="fas fa-spin fa-sync"></i> Editando');
+            $elem.html('<i class="bi bi-arrow-clockwise"></i> Editando');
             // console.log('teste');
 
             $.post( $form.data('url'), { data : $data }, function(response){
@@ -101,7 +101,7 @@
                 console.log(response);
                 alert( "Erro ao Gerar Ticket Tentar Novamente, se o erro persistir informar ao TI." +response.responseText );
                 $elem.attr("disabled", false);
-                $elem.html('<i class="fas fa-save"></i> Tentar Novamente');
+                $elem.html('<i class="bi bi-floppy"></i> Tentar Novamente');
             });
 
         });

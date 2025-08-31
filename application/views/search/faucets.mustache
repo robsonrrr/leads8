@@ -2,7 +2,7 @@
     <table class="table table-sm table-bordered table-hover table-striped p-0 m-0" id="searchTable">
         <thead class="thead-custom">
             <tr>
-                <th class="align-middle h4 color-primary" scope="col" colspan="18"><i class="fas fa-search"></i> Resultado da Busca <small class="text-secondary font12">( Limite máximo da busca é 20 produtos )</small></th>
+                <th class="align-middle h4 color-primary" scope="col" colspan="18"><i class="bi bi-search"></i> Resultado da Busca <small class="text-secondary font12">( Limite máximo da busca é 20 produtos )</small></th>
             </tr>
             <tr>
                 <th class="align-middle text-center" scope="col">#</th>
@@ -54,7 +54,7 @@
                 <td class="align-middle text-center" width="10%">
                     <span class="p-0 m-0 font15 font-weight-bold {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
                         {{estoqueSelecionado}} {{unidade}}
-                        <i class="fas text-danger fa-question-circle" data-toggle="tooltip" data-placement="top"
+                        <i class="bi bi-question-circle text-danger" data-toggle="tooltip" data-placement="top"
                            title="Matriz:{{estoqueSaoPaulo}} - Loja:{{estoqueSaoPauloLoja}} - Barra Funda:{{estoqueSaoPauloBarraFunda}} - Blumenau:{{estoqueBlumenau}} - Reservado:{{estoqueReservado}}"></i>
                     </span>
                 </td>
@@ -72,7 +72,7 @@
                 <td class="align-middle text-center" width="1%">
                     <a tabindex="-1" href="javascript:void(0)" id="search-add-to-cart-{{produtoPOID}}" data-produtoPOID="{{produtoPOID}}" data-segment="{{segmentoPOID}}" data-leadPOID="{{leadID}}"
                        data-service="/services/cart/add" class="search-add-to-cart btn btn-sm btn-primary">
-                        <i class="fas fa-cart-plus"></i>
+                        <i class="bi bi-cart-plus"></i>
                     </a>
                 </td>
                 <td class="align-middle text-right" width="5%"><span class="">{{Impostos.valor_subtotal_produto}}</span> <!--<small>({{Preco.calc.produtoDescontoPromocaoPorcentagem}}%)</small>//--></td>
@@ -81,7 +81,7 @@
                 </td>
                 <td class="align-middle text-right" width="5%">
                     <span class="">{{Impostos.valor_icms_st_f}}</span>
-                    <i class="fas text-danger fa-question-circle" data-toggle="tooltip" data-placement="top"
+                    <i class="bi bi-question-circle text-danger" data-toggle="tooltip" data-placement="top"
                        title="aliquota_st {{Impostos.aliquota_st}}% - aliquota_indice_st {{Impostos.aliquota_indice_st}}% aliquota_icms {{Impostos.aliquota_icms}}% aliquota_indice_st_mva {{Impostos.aliquota_indice_st_mva}}% bc_st {{Impostos.bc_st}} ipi {{Impostos.valor_ipi}} st {{Impostos.valor_icms_st}}"></i>
                 </td>
                 <td class="align-middle text-right" width="5%">

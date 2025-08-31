@@ -4,16 +4,16 @@
     <div class="search-results-header">
         <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div class="search-title">
-                <i class="fas fa-search text-primary me-2"></i>
+                <i class="bi bi-search text-primary me-2"></i>
                 <h4 class="mb-0 text-primary">Resultado da Busca - Máquinas</h4>
                 <small class="text-muted ms-2">{{Total}} produtos encontrados</small>
             </div>
             <div class="search-actions">
                 <button class="btn btn-outline-secondary btn-sm me-2" id="toggleView" data-view="table">
-                    <i class="fas fa-th-large"></i> Cards
+                    <i class="bi bi-grid"></i> Cards
                 </button>
                 <button class="btn btn-outline-secondary btn-sm" id="exportResults">
-                    <i class="fas fa-download"></i> Exportar
+                    <i class="bi bi-download"></i> Exportar
                 </button>
             </div>
         </div>
@@ -67,7 +67,7 @@
                             <span class="stock-value {{#estoqueSelecionado}}text-success{{/estoqueSelecionado}}{{^estoqueSelecionado}}text-danger{{/estoqueSelecionado}}">
                                 {{estoqueSelecionado}} {{unidade}}
                             </span>
-                            <i class="fas fa-info-circle text-muted ms-1" data-bs-toggle="tooltip" 
+                            <i class="bi bi-info-circle text-muted ms-1" data-bs-toggle="tooltip" 
                                title="Matriz:{{estoqueSaoPaulo}} - Loja:{{estoqueSaoPauloLoja}} - Barra Funda:{{estoqueSaoPauloBarraFunda}} - Blumenau:{{estoqueBlumenau}} - Reservado:{{estoqueReservado}}"></i>
                         </div>
                     </td>
@@ -78,7 +78,7 @@
                         {{#Next}}
                         <a href="#" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" 
                            data-bs-target="#remoteModal" data-remote="{{CONTAINER}}product/arrival/{{produtoPOID}}">
-                            <i class="fas fa-check"></i> Sim
+                            <i class="bi bi-check"></i> Sim
                         </a>
                         {{/Next}}
                         {{^Next}}
@@ -101,7 +101,7 @@
                         <button type="button" id="search-add-to-cart-{{produtoPOID}}"
                                 data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}"
                                 data-service="/services/cart/add3" class="btn btn-primary btn-sm search-add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
+                            <i class="bi bi-cart-plus"></i>
                         </button>
                     </td>
 
@@ -164,7 +164,7 @@
                                      <div class="col-6">
                                          <small class="text-muted">Importação:</small><br>
                                          {{#Next}}
-                                         <span class="text-success"><i class="fas fa-check"></i> Sim</span>
+                                         <span class="text-success"><i class="bi bi-check"></i> Sim</span>
                                          {{/Next}}
                                          {{^Next}}
                                          <span class="text-muted">Não</span>
@@ -189,7 +189,7 @@
                                          <button type="button" id="mobile-add-to-cart-{{produtoPOID}}"
                                                  data-produtoPOID="{{produtoPOID}}" data-leadPOID="{{leadID}}"
                                                  data-service="/services/cart/add3" class="btn btn-primary btn-sm w-100 search-add-to-cart">
-                                             <i class="fas fa-cart-plus"></i>
+                                             <i class="bi bi-cart-plus"></i>
                                          </button>
                                      </div>
                                  </div>

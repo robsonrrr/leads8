@@ -11,7 +11,7 @@
         <div class="cart-header-content">
             <div class="cart-title-section">
                 <h2 class="cart-title">
-                    <i class="fas fa-shopping-cart"></i>
+                    <i class="bi bi-cart"></i>
                     Produtos no Carrinho
                 </h2>
                 <p class="cart-subtitle">Os itens no carrinho não são garantia de estoque</p>
@@ -25,20 +25,20 @@
                     </div>
                     
                     <button type="button" class="btn btn-outline-secondary btn-sm hide-all-empty-discounts" title="Ocultar descontos vazios">
-                        <i class="fas fa-eye-slash"></i> Ocultar Vazios
+                        <i class="bi bi-eye-slash"></i> Ocultar Vazios
                     </button>
                 </div>
                 
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="cartActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-cog"></i> Ações
+                        <i class="bi bi-gear"></i> Ações
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartActionsDropdown">
-                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/print/{{id}}"><i class="fas fa-print"></i> Imprimir</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/mail/{{id}}"><i class="fas fa-envelope"></i> Email</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/aviseme/{{id}}"><i class="fas fa-bell"></i> Avise-me</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/export/{{id}}"><i class="fas fa-download"></i> Exportar</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/clean/{{id}}"><i class="fas fa-broom"></i> Produtos Negativos</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/print/{{id}}"><i class="bi bi-printer"></i> Imprimir</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/mail/{{id}}"><i class="bi bi-envelope"></i> Email</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/aviseme/{{id}}"><i class="bi bi-bell"></i> Avise-me</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/export/{{id}}"><i class="bi bi-download"></i> Exportar</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{CONTAINER}}lead/clean/{{id}}"><i class="bi bi-brush"></i> Produtos Negativos</a></li>
                     </ul>
                 </div>
             </div>
@@ -215,7 +215,7 @@
                 {{/produtoIndisponivel}}
                 <td class="align-middle text-center" width="1%">
                     <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}">
-                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                        <i class="bi bi-trash" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>
@@ -376,7 +376,7 @@
                                     <button class="btn btn-danger btn-sm cart-remove-item" 
                                             data-lead-id="{{leadPOID}}" data-name="{{Detalhe.produtoModelo}}" 
                                             data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}">
-                                        <i class="fas fa-trash-alt"></i> Remover
+                                        <i class="bi bi-trash"></i> Remover
                                     </button>
                                 </div>
                             </div>
@@ -404,15 +404,15 @@
                 <h6 class="mb-3">Ações em Lote</h6>
                 <div class="btn-group flex-wrap" role="group" aria-label="Ações do carrinho">
                     <button type="button" class="btn btn-outline-danger btn-sm submitProducts" name="remove">
-                        <i class="fas fa-trash-alt"></i> Remover Selecionados
+                        <i class="bi bi-trash"></i> Remover Selecionados
                     </button>
                     <button type="button" class="btn btn-outline-warning btn-sm submitProducts" name="add">
-                        <i class="fas fa-check"></i> Manter Selecionados
+                        <i class="bi bi-check"></i> Manter Selecionados
                     </button>
                     <button type="button" class="btn btn-outline-danger btn-sm cart-remove" 
                             {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" 
                             data-service="/services/cart/clear/{{id}}">
-                        <i class="fas fa-trash-alt"></i> Remover Todos
+                        <i class="bi bi-trash"></i> Remover Todos
                     </button>
                 </div>
             </div>
@@ -434,7 +434,7 @@
                 {{#existProducts}}
                 <a href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}" 
                    class="btn btn-success btn-lg px-4 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
-                    <i class="fas fa-fast-forward"></i> Ir Próxima Etapa
+                    <i class="bi bi-fast-forward"></i> Ir Próxima Etapa
                 </a>
                 <div class="mt-2">
                     <small class="text-muted">+1 etapa para concluir o pedido</small>

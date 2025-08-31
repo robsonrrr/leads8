@@ -3,12 +3,60 @@
   --legacy-bg-color: #f9fafb; /* Modern gray-50 instead of legacy beige */
 }
 
-/* Modern background color */
+/* Modern Typography with Inter Font */
 body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
   background-color: var(--gray-50, #f9fafb);
   transition: background-color 0.3s ease;
   width: 97%;
   margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
+h3 { font-weight: 600; }
+h4 { font-weight: 500; }
+h5 { font-weight: 500; }
+h6 { font-weight: 500; }
+
+/* Button Typography */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Form Elements Typography */
+input, textarea, select {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* Table Typography */
+table {
+  font-family: 'Inter', sans-serif;
+}
+
+th {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+td {
+  font-weight: 400;
 }
 
 /* Ensure modern theme compatibility */

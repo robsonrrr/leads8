@@ -342,7 +342,7 @@ function autoResizeTextarea(textarea) {
 function showButtonLoading(button) {
     const originalText = button.innerHTML;
     button.dataset.originalText = originalText;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Processando...';
+    button.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Processando...';
     button.disabled = true;
 }
 
@@ -453,7 +453,7 @@ function initializeHideEmptyDiscountButtons() {
              if (toggleBtn) {
                  const icon = toggleBtn.querySelector('i');
                  const text = toggleBtn.querySelector('.toggle-text');
-                 if (icon) icon.className = 'fas fa-chevron-up me-1';
+                 if (icon) icon.className = 'bi bi-chevron-up me-1';
                  if (text) text.textContent = 'Ocultar';
              }
          });
@@ -463,7 +463,7 @@ function initializeHideEmptyDiscountButtons() {
              if (toggleBtn) {
                  const icon = toggleBtn.querySelector('i');
                  const text = toggleBtn.querySelector('.toggle-text');
-                 if (icon) icon.className = 'fas fa-chevron-down me-1';
+                 if (icon) icon.className = 'bi bi-chevron-down me-1';
                  if (text) text.textContent = 'Mostrar';
              }
          });
@@ -521,19 +521,19 @@ function updateDiscountButtonState(button, stage) {
     switch(stage) {
         case 1:
             button.className = 'btn btn-outline-danger btn-sm hide-all-empty-discounts';
-            if (icon) icon.className = 'fas fa-eye-slash';
+            if (icon) icon.className = 'bi bi-eye-slash';
             if (textNode) textNode.textContent = ' Hide Empty (=0)';
             button.title = 'Stage 1: Hide rows with discount = 0';
             break;
         case 2:
             button.className = 'btn btn-outline-warning btn-sm hide-all-empty-discounts';
-            if (icon) icon.className = 'fas fa-eye';
+            if (icon) icon.className = 'bi bi-eye';
             if (textNode) textNode.textContent = ' Hide Discounted (>0)';
             button.title = 'Stage 2: Hide rows with discount > 0';
             break;
         case 3:
             button.className = 'btn btn-outline-success btn-sm hide-all-empty-discounts';
-            if (icon) icon.className = 'fas fa-eye';
+            if (icon) icon.className = 'bi bi-eye';
             if (textNode) textNode.textContent = ' Show All';
             button.title = 'Stage 3: Show all rows';
             break;
@@ -572,7 +572,7 @@ function initializeCollapseToggles() {
             const text = leadInfoToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-up me-1';
+                icon.className = 'bi bi-chevron-up me-1';
             }
             if (text) {
                 text.textContent = 'Ocultar';
@@ -585,7 +585,7 @@ function initializeCollapseToggles() {
             const text = leadInfoToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-down me-1';
+                icon.className = 'bi bi-chevron-down me-1';
             }
             if (text) {
                 text.textContent = 'Mostrar';
@@ -604,7 +604,7 @@ function initializeCollapseToggles() {
             const text = configToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-up me-1';
+                icon.className = 'bi bi-chevron-up me-1';
             }
             if (text) {
                 text.textContent = 'Ocultar';
@@ -617,7 +617,7 @@ function initializeCollapseToggles() {
             const text = configToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-down me-1';
+                icon.className = 'bi bi-chevron-down me-1';
             }
             if (text) {
                 text.textContent = 'Mostrar';
@@ -636,7 +636,7 @@ function initializeCollapseToggles() {
             const text = orderSummaryToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-up me-1';
+                icon.className = 'bi bi-chevron-up me-1';
             }
             if (text) {
                 text.textContent = 'Ocultar';
@@ -649,7 +649,7 @@ function initializeCollapseToggles() {
             const text = orderSummaryToggle.querySelector('.toggle-text');
             
             if (icon) {
-                icon.className = 'fas fa-chevron-down me-1';
+                icon.className = 'bi bi-chevron-down me-1';
             }
             if (text) {
                 text.textContent = 'Mostrar';
@@ -687,7 +687,7 @@ function hideCollapsibleSectionsOnLoad() {
                 const text = toggle.querySelector('.toggle-text');
                 
                 if (icon) {
-                    icon.className = 'fas fa-chevron-down me-1';
+                    icon.className = 'bi bi-chevron-down me-1';
                 }
                 if (text) {
                     text.textContent = 'Mostrar';
