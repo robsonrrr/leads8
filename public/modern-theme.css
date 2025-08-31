@@ -2039,6 +2039,16 @@ tr.fading-out {
     border-bottom: 2px solid rgba(255, 193, 7, 0.3);
 }
 
+.info-section .form-label {
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.info-section .form-control-plaintext {
+    color: var(--gray-900);
+    font-weight: 500;
+}
+
 .alert-card .config-icon-wrapper {
     background: rgba(255, 193, 7, 0.1);
     border: 2px solid rgba(255, 193, 7, 0.3);
@@ -2071,6 +2081,7 @@ tr.fading-out {
   
   .config-title {
     font-size: 1.25rem;
+    font-color: var(--primary-blue-dark);
   }
   
   .modern-config-item {

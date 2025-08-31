@@ -48,62 +48,35 @@
                             </div>
                         </div>
                         <div class="config-body">
-                    <div class="row g-3">
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-card">
-                                <div class="info-card-header">
-                                    <i class="far fa-calendar-alt"></i>
-                                    <span>Data Criado</span>
+                            <div class="row g-3">
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label class="form-label small"><i class="far fa-calendar-alt me-1"></i> Data Criado</label>
+                                    <p class="form-control-plaintext form-control-sm py-0">{{dataEmissaoFormatado}} ({{dataEmissaoDias}} dia(s))</p>
                                 </div>
-                                <div class="info-card-body">
-                                    <div class="info-value">{{dataEmissaoFormatado}}</div>
-                                    <div class="info-subtitle">{{dataEmissaoDias}} dia(s)</div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label class="form-label small"><i class="fas fa-user-tie me-1"></i> Vendedor / Emissor</label>
+                                    <p class="form-control-plaintext form-control-sm py-0">{{Cliente.Gerente.UsuarioNomeCurto}} / {{Vendedor.UsuarioNomeCurto}}</p>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-card">
-                                <div class="info-card-header">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span>Vendedor / Emissor</span>
-                                </div>
-                                <div class="info-card-body">
-                                    <div class="info-value">{{Cliente.Gerente.UsuarioNomeCurto}}</div>
-                                    <div class="info-subtitle">{{Vendedor.UsuarioNomeCurto}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-card">
-                                <div class="info-card-header">
-                                    <i class="fas fa-flag"></i>
-                                    <span>Fonte</span>
-                                    <i class="fas fa-question-circle info-tooltip" 
-                                       data-bs-toggle="tooltip" 
-                                       title="Origem: 0-Desconhecido, 1-B2B, 2-B2C, 3-ML, 4-B2W, 5-Shopee, 6-Magalu, 7-Viavarejo, 8-Amazon, 9-Instagram, 10-Facebook, 11-Youtube, 12-Visita, 13-Campanha, 14-Promoção, 15-Email"></i>
-                                </div>
-                                <div class="info-card-body">
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label for="leadFonte" class="form-label small">
+                                        <i class="fas fa-flag me-1"></i> Fonte
+                                        <i class="fas fa-question-circle info-tooltip" 
+                                           data-bs-toggle="tooltip" 
+                                           title="Origem: 0-Desconhecido, 1-B2B, 2-B2C, 3-ML, 4-B2W, 5-Shopee, 6-Magalu, 7-Viavarejo, 8-Amazon, 9-Instagram, 10-Facebook, 11-Youtube, 12-Visita, 13-Campanha, 14-Promoção, 15-Email"></i>
+                                    </label>
                                     <input class="form-control form-control-sm update-field" 
                                            data-url="/leads/leads5/lead/update/Leads/{{id}}" 
                                            name="leadFonte" 
                                            id="leadFonte" 
                                            value="{{leadFonte}}">
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-card">
-                                <div class="info-card-header">
-                                    <i class="fas fa-tag"></i>
-                                    <span>Tipo</span>
-                                    <i class="fas fa-question-circle info-tooltip" 
-                                       data-bs-toggle="tooltip" 
-                                       title="1 - Ativa, 2 - Receptivo"></i>
-                                </div>
-                                <div class="info-card-body">
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label for="leadTipo" class="form-label small">
+                                        <i class="fas fa-tag me-1"></i> Tipo
+                                        <i class="fas fa-question-circle info-tooltip" 
+                                           data-bs-toggle="tooltip" 
+                                           title="1 - Ativa, 2 - Receptivo"></i>
+                                    </label>
                                     <input class="form-control form-control-sm update-field" 
                                            data-url="/leads/leads5/lead/update/Leads/{{id}}" 
                                            name="leadTipo" 
@@ -111,8 +84,6 @@
                                            value="{{leadTipo}}">
                                 </div>
                             </div>
-                        </div>
-                    </div>
                         </div>
                     </div>
                 </section>
