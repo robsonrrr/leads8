@@ -1989,45 +1989,49 @@ tr.fading-out {
 
 /* Section color variants with higher specificity */
 .info-section .config-header.bg-info {
-    background-color: rgba(13, 202, 240, 0.15) !important;
-    border-bottom: 2px solid rgba(13, 202, 240, 0.3);
+    background: rgba(138, 43, 226, 0.15) !important;
+    background-color: rgba(138, 43, 226, 0.15) !important;
+    border-bottom: 2px solid rgba(138, 43, 226, 0.3);
 }
 
 .info-section .config-icon-wrapper {
-    background: rgba(13, 202, 240, 0.1);
-    border: 2px solid rgba(13, 202, 240, 0.3);
+    background: rgba(138, 43, 226, 0.1);
+    border: 2px solid rgba(138, 43, 226, 0.3);
 }
 
 .settings-section .config-header.bg-secondary,
 .config-section .config-header.bg-secondary {
-    background-color: rgba(108, 117, 125, 0.15) !important;
-    border-bottom: 2px solid rgba(108, 117, 125, 0.3);
+    background: rgba(255, 193, 7, 0.15) !important;
+    background-color: rgba(255, 193, 7, 0.15) !important;
+    border-bottom: 2px solid rgba(255, 193, 7, 0.3);
 }
 
 .settings-section .config-icon-wrapper,
 .config-section .config-icon-wrapper {
-    background: rgba(108, 117, 125, 0.1);
-    border: 2px solid rgba(108, 117, 125, 0.3);
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid rgba(255, 193, 7, 0.3);
 }
 
 .search-section .config-header.bg-success {
-    background-color: rgba(25, 135, 84, 0.15) !important;
-    border-bottom: 2px solid rgba(25, 135, 84, 0.3);
+    background: rgba(32, 201, 151, 0.15) !important;
+    background-color: rgba(32, 201, 151, 0.15) !important;
+    border-bottom: 2px solid rgba(32, 201, 151, 0.3);
 }
 
 .search-section .config-icon-wrapper {
-    background: rgba(25, 135, 84, 0.1);
-    border: 2px solid rgba(25, 135, 84, 0.3);
+    background: rgba(32, 201, 151, 0.1);
+    border: 2px solid rgba(32, 201, 151, 0.3);
 }
 
 .cart-section .config-header.bg-primary {
-    background-color: rgba(13, 110, 253, 0.15) !important;
-    border-bottom: 2px solid rgba(13, 110, 253, 0.3);
+    background: rgba(255, 99, 132, 0.15) !important;
+    background-color: rgba(255, 99, 132, 0.15) !important;
+    border-bottom: 2px solid rgba(255, 99, 132, 0.3);
 }
 
 .cart-section .config-icon-wrapper {
-    background: rgba(13, 110, 253, 0.1);
-    border: 2px solid rgba(13, 110, 253, 0.3);
+    background: rgba(255, 99, 132, 0.1);
+    border: 2px solid rgba(255, 99, 132, 0.3);
 }
 
 /* Alert card variant */
