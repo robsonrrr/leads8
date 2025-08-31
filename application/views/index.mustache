@@ -33,81 +33,81 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <!-- Lead Information Cards -->
-                <section class="lead-info-section mb-4">
-                    <div class="modern-card config-section info-section">
-                        <div class="config-header bg-info bg-opacity-10">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="config-icon-wrapper me-3">
-                                        <i class="fas fa-info-circle"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="lead-info-section mb-4">
+                            <div class="modern-card config-section info-section">
+                                <div class="config-header bg-info bg-opacity-10">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <div class="config-icon-wrapper me-3">
+                                                <i class="fas fa-info-circle"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="config-title mb-1">Informações do Lead</h4>
+                                                <p class="config-subtitle mb-0">Dados principais do lead</p>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-sm btn-light" data-bs-toggle="collapse" href="#leadInfoCollapse" role="button" aria-expanded="true" aria-controls="leadInfoCollapse">
+                                            <i class="fas fa-chevron-up"></i>
+                                        </a>
                                     </div>
-                                    <div>
-                                        <h4 class="config-title mb-1">Informações do Lead</h4>
-                                        <p class="config-subtitle mb-0">Dados principais do lead</p>
+                                </div>
+                                <div class="collapse show" id="leadInfoCollapse">
+                                    <div class="config-body">
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="me-3">
+                                                <label class="form-label small"><i class="far fa-calendar-alt me-1"></i> Data Criado</label>
+                                                <p class="form-control-plaintext form-control-sm py-0">{{dataEmissaoFormatado}} ({{dataEmissaoDias}} dia(s))</p>
+                                            </div>
+                                            <div class="me-3">
+                                                <label class="form-label small"><i class="fas fa-user-tie me-1"></i> Vendedor / Emissor</label>
+                                                <p class="form-control-plaintext form-control-sm py-0">{{Cliente.Gerente.UsuarioNomeCurto}} / {{Vendedor.UsuarioNomeCurto}}</p>
+                                            </div>
+                                            <div class="me-3">
+                                                <label for="leadFonte" class="form-label small">
+                                                    <i class="fas fa-flag me-1"></i> Fonte
+                                                    <i class="fas fa-question-circle info-tooltip" 
+                                                       data-bs-toggle="tooltip" 
+                                                       title="Origem: 0-Desconhecido, 1-B2B, 2-B2C, 3-ML, 4-B2W, 5-Shopee, 6-Magalu, 7-Viavarejo, 8-Amazon, 9-Instagram, 10-Facebook, 11-Youtube, 12-Visita, 13-Campanha, 14-Promoção, 15-Email"></i>
+                                                </label>
+                                                <input class="form-control form-control-sm update-field" 
+                                                       data-url="/leads/leads5/lead/update/Leads/{{id}}" 
+                                                       name="leadFonte" 
+                                                       id="leadFonte" 
+                                                       value="{{leadFonte}}">
+                                            </div>
+                                            <div>
+                                                <label for="leadTipo" class="form-label small">
+                                                    <i class="fas fa-tag me-1"></i> Tipo
+                                                    <i class="fas fa-question-circle info-tooltip" 
+                                                       data-bs-toggle="tooltip" 
+                                                       title="1 - Ativa, 2 - Receptivo"></i>
+                                                </label>
+                                                <input class="form-control form-control-sm update-field" 
+                                                       data-url="/leads/leads5/lead/update/Leads/{{id}}" 
+                                                       name="leadTipo" 
+                                                       id="leadTipo" 
+                                                       value="{{leadTipo}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-sm btn-light" data-bs-toggle="collapse" href="#leadInfoCollapse" role="button" aria-expanded="true" aria-controls="leadInfoCollapse">
-                                    <i class="fas fa-chevron-up"></i>
-                                </a>
                             </div>
-                        </div>
-                        </div>
-                        <div class="collapse show" id="leadInfoCollapse">
-                            <div class="config-body">
-                            <div class="d-flex flex-wrap justify-content-between">
-                                <div class="me-3">
-                                    <label class="form-label small"><i class="far fa-calendar-alt me-1"></i> Data Criado</label>
-                                    <p class="form-control-plaintext form-control-sm py-0">{{dataEmissaoFormatado}} ({{dataEmissaoDias}} dia(s))</p>
-                                </div>
-                                <div class="me-3">
-                                    <label class="form-label small"><i class="fas fa-user-tie me-1"></i> Vendedor / Emissor</label>
-                                    <p class="form-control-plaintext form-control-sm py-0">{{Cliente.Gerente.UsuarioNomeCurto}} / {{Vendedor.UsuarioNomeCurto}}</p>
-                                </div>
-                                <div class="me-3">
-                                    <label for="leadFonte" class="form-label small">
-                                        <i class="fas fa-flag me-1"></i> Fonte
-                                        <i class="fas fa-question-circle info-tooltip" 
-                                           data-bs-toggle="tooltip" 
-                                           title="Origem: 0-Desconhecido, 1-B2B, 2-B2C, 3-ML, 4-B2W, 5-Shopee, 6-Magalu, 7-Viavarejo, 8-Amazon, 9-Instagram, 10-Facebook, 11-Youtube, 12-Visita, 13-Campanha, 14-Promoção, 15-Email"></i>
-                                    </label>
-                                    <input class="form-control form-control-sm update-field" 
-                                           data-url="/leads/leads5/lead/update/Leads/{{id}}" 
-                                           name="leadFonte" 
-                                           id="leadFonte" 
-                                           value="{{leadFonte}}">
-                                </div>
-                                <div>
-                                    <label for="leadTipo" class="form-label small">
-                                        <i class="fas fa-tag me-1"></i> Tipo
-                                        <i class="fas fa-question-circle info-tooltip" 
-                                           data-bs-toggle="tooltip" 
-                                           title="1 - Ativa, 2 - Receptivo"></i>
-                                    </label>
-                                    <input class="form-control form-control-sm update-field" 
-                                           data-url="/leads/leads5/lead/update/Leads/{{id}}" 
-                                           name="leadTipo" 
-                                           id="leadTipo" 
-                                           value="{{leadTipo}}">
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                     </div>
-                </section>
                 
                 <!-- Configuration Section -->
-                <section class="config-section mt-4">
-                    <div class="modern-card config-card">
-                        <div class="modern-card-header config-header bg-secondary bg-opacity-10">
+                <section class="config-section-h mb-4">
+                    <div class="modern-card config-section">
+                        <div class="config-header bg-primary bg-opacity-10">
                             <div class="d-flex align-items-center">
                                 <div class="config-icon-wrapper me-3">
                                     <i class="fas fa-cogs"></i>
                                 </div>
                                 <div>
-                                    <h5 class="config-title mb-0">
-                                        Configurações do Lead
-                                    </h5>
-                                    <p class="config-subtitle text-muted mb-0">Configure as opções do lead</p>
+                                    <h4 class="config-title mb-1">Configurações do Lead</h4>
+                                    <p class="config-subtitle mb-0">Ajustes e preferências</p>
                                 </div>
                             </div>
                         </div>
