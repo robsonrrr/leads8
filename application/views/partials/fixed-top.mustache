@@ -19,8 +19,41 @@
         <div class="client-info">
           <span class="label">Cliente:</span>
           <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link">{{Cliente.clienteNome}}</a>
-        </div>
+        </div>       
       </div>
+      
+      {{#Financeiro}}
+      <div class="financial-info">
+        <div class="financial-item">
+          <span class="label">Limite</span>
+          <span class="financial-value positive">R$ {{#limite}}{{.}}{{/limite}}{{^limite}}0,00{{/limite}}</span>
+        </div>
+        <div class="financial-item">
+          <span class="label">Disponível</span>
+          <span class="financial-value positive">R$ {{#disponivel}}{{.}}{{/disponivel}}{{^disponivel}}0,00{{/disponivel}}</span>
+        </div>
+        {{#atrasados}}
+        {{#atrasados_gt_100}}
+        <div class="financial-item warning">
+          <span class="label">Atrasados</span>
+          <span class="financial-value negative">R$ {{.}}</span>
+        </div>
+        {{/atrasados_gt_100}}
+        {{/atrasados}}
+        {{#pendentes}}
+        <div class="financial-item">
+          <span class="label">Pendentes</span>
+          <span class="financial-value neutral">R$ {{.}}</span>
+        </div>
+        {{/pendentes}}
+        {{#vale}}
+        <div class="financial-item">
+          <span class="label">Vale</span>
+          <span class="financial-value negative">R$ {{.}}</span>
+        </div>
+        {{/vale}}
+      </div>
+      {{/Financeiro}}
       
       <div class="segment-selector">
         <select class="btn-segment" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">

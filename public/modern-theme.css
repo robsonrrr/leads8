@@ -1345,6 +1345,60 @@ p {
   text-decoration: underline;
 }
 
+.financial-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: 15px;
+}
+
+.financial-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+  text-align: center;
+}
+
+.financial-item .label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.financial-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  white-space: nowrap;
+}
+
+.financial-value.positive {
+  color: #4ade80;
+}
+
+.financial-value.negative {
+  color: #f87171;
+}
+
+.financial-value.neutral {
+  color: #fbbf24;
+}
+
+.financial-item.warning .financial-value {
+  color: var(--error);
+}
+
 .segment-selector {
   flex-shrink: 0;
 }

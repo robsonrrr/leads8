@@ -581,7 +581,7 @@ class Controller_Lead_Build extends Controller_Lead_Base{
         $sql= sprintf("SELECT clientes.id, clientes.limite,
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND c.data < CURDATE()-5 AND ( ISNULL(c.datadep) OR MONTH(c.datadep)=0  ) GROUP BY c.idcli) AS atrasados,
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND ( YEAR(datadep)=0 OR datadep> current_date ) GROUP BY c.idcli) AS pendentes,
-                            (SELECT  SUM(h.usvale) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15  AND h.nop in (27) GROUP BY h.idcli) AS vale
+                            (SELECT  SUM(h.usvale) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15  AND h.nop in (27,28,51,76) GROUP BY h.idcli) AS vale
                             FROM clientes
                             WHERE vip < 9 AND clientes.id=%s
                             LIMIT 1
@@ -593,6 +593,11 @@ class Controller_Lead_Build extends Controller_Lead_Base{
         if ( count($response) > 0)
         {
             $response[0]['disponivel'] = $response[0]['limite'] - ( max(0, $response[0]['vale'] ) + $response[0]['pendentes'] ) ;
+            
+            // Add flag for atrasados > 100
+            if ($response[0]['atrasados'] > 100) {
+                $response[0]['atrasados_gt_100'] = true;
+            }
 
             return $response[0];
         }
