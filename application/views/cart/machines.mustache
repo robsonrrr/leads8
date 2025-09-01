@@ -101,7 +101,7 @@
     <div class="row mb-3">
         <div class="col-12 text-center">
             <button type="button" class="btn btn-outline-danger btn-sm hide-all-empty-discounts" title="Stage 1: Hide rows with discount = 0">
-                <i class="bi bi-eye-slash"></i> Hide Empty (=0)
+                <i class="bi bi-eye-slash"></i> Hide Empty (>0)
             </button>
         </div>
     </div>
@@ -145,6 +145,11 @@
                 <td class="align-middle font12" width="40%">
                     <div class="p-0 m-0">
                         <strong><a class="color-primary" href="{{CONTAINER}}{{id}}/{{segmentoPOID}}?query={{Detalhe.produtoModelo}}">{{Detalhe.produtoModelo}}</a></strong>
+                        <a href="#" class="btn btn-sm btn-outline-info ms-2" 
+                           onclick="new WinBox('Produto Info', { url: '/K3/tip/vproduct/{{produtoPOID}}/', width: 1600, height: 800, x: 'center', y: 'center' }); return false;"
+                           title="Ver informações do produto">
+                            <i class="bi bi-info-circle"></i>
+                        </a>
                         {{> partials/product-actions}}
                                      
                     </div>
@@ -398,7 +403,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
                 },
                 "columnDefs": [
-                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, sorter-false columns, and last column (Action)
+                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
                 ],
                 "pageLength": 25,
                 "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
