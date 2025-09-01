@@ -94,6 +94,18 @@ if (isset($_SERVER['KOHANA_ENV']))
 }
 
 /**
+ * Custom error handler to suppress PHP 8+ setcookie deprecation warnings
+ */
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    // Suppress setcookie null value deprecation warnings
+    if ($errno === E_DEPRECATED && strpos($errstr, 'setcookie()') !== false && strpos($errstr, 'Passing null to parameter') !== false) {
+        return true; // Suppress this specific warning
+    }
+    // Let other errors be handled normally
+    return false;
+}, E_DEPRECATED);
+
+/**
  * Initialize Kohana, setting the default options.
  *
  * The following options are available:
