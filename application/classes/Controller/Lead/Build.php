@@ -329,8 +329,8 @@ class Controller_Lead_Build extends Controller_Lead_Base{
                 $array['Lead']['Produtos'][$k]['Detalhe']['Classificacao']  = $classificacao;
             }
 
-            $solr = $this->get_solr_query( $v['produtoPOID'] );
-            $array['Lead']['Produtos'][$k]['solr'] = $solr;
+            // $solr = $this->get_solr_query( $v['produtoPOID'] );
+            // $array['Lead']['Produtos'][$k]['solr'] = $solr;
 
             if ( $this->check )
             {

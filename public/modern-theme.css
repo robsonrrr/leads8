@@ -2280,3 +2280,54 @@ tr {
 .table tbody tr[style*="display: none"] {
   opacity: 0;
 }
+
+/* ===== WINBOX CUSTOMIZATION ===== */
+
+/* WinBox header customization for client info */
+.winbox[data-title="Cliente Info"] .wb-header {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%) !important;
+  border-bottom: 2px solid var(--primary-blue-dark) !important;
+}
+
+.winbox[data-title="Cliente Info"] .wb-title {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.winbox[data-title="Cliente Info"] .wb-control {
+  color: white !important;
+}
+
+.winbox[data-title="Cliente Info"] .wb-control:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* WinBox header customization for product info */
+.winbox[data-title="Produto Info"] .wb-header {
+  background: linear-gradient(135deg, var(--machines-primary) 0%, var(--machines-secondary) 100%) !important;
+  border-bottom: 2px solid var(--machines-primary) !important;
+}
+
+.winbox[data-title="Produto Info"] .wb-title {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.winbox[data-title="Produto Info"] .wb-control {
+  color: white !important;
+}
+
+.winbox[data-title="Produto Info"] .wb-control:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* General WinBox styling improvements */
+.winbox {
+  border-radius: 8px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+.winbox .wb-body {
+  background-color: white !important;
+  border-radius: 0 0 8px 8px !important;
+}

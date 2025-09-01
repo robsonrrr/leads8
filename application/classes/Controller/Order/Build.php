@@ -97,8 +97,8 @@ class Controller_Order_Build extends Controller_Website{
             //die();
             $variedade++;
 
-            $solr = self::get_solr_query( $v['produtoPOID'] );
-            $array['Produtos'][$k]['solr'] = $solr;
+            // $solr = self::get_solr_query( $v['produtoPOID'] );
+            // $array['Produtos'][$k]['solr'] = $solr;
 
             $array['Produtos'][$k]['produtoMarcaFormatado'] = $this->clean_string( $v['Detalhe']['produtoMarca'] );
             //$array['Produtos'][$k]['produtoDescontoPorcentagem'] =  round( (1 - ( $v['pedidoValor'] / $v['pedidoValorOriginal'] ) ) * 100, 0);
