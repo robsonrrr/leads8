@@ -26,6 +26,11 @@
           <span class="label">Cliente:</span>
           <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link">{{Cliente.clienteNome}}
           {{#Cliente.clienteCidade}}<span class="client-location"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="client-location">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}</a>
+          <a href="#" class="btn btn-sm btn-outline-info ms-2" 
+             onclick="new WinBox('Cliente Info', { url: '/K3/tip/vcustomer/{{Cliente.clienteID}}/', width: 1800, height: 1200, x: 'center', y: 'center' }); return false;"
+             title="Ver informações do cliente">
+            <i class="bi bi-info-circle"></i>
+          </a>
         </div>
         
         {{#Vendedor.UsuarioNomeCurto}}
