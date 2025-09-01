@@ -163,6 +163,9 @@ class Controller_Lead_Build extends Controller_Lead_Base{
             if (isset($array['Lead']['Financeiro']['vale'])) {
                 $array['Lead']['Financeiro']['vale'] = $this->formatPrice($array['Lead']['Financeiro']['vale']);
             }
+            if (isset($array['Lead']['Financeiro']['montante'])) {
+                $array['Lead']['Financeiro']['montante'] = $this->formatPrice($array['Lead']['Financeiro']['montante']);
+            }
         }
         
         $array['Lead']['Ticket']          = self::ticket( $array[$k]['Cliente']['id'] );
@@ -606,7 +609,8 @@ class Controller_Lead_Build extends Controller_Lead_Base{
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND c.data < CURDATE()-5 AND ( ISNULL(c.datadep) OR MONTH(c.datadep)=0  ) GROUP BY c.idcli) AS atrasados,
                             (SELECT  SUM(c.valor) FROM cheques c WHERE c.idcli=clientes.id AND ( YEAR(datadep)=0 OR datadep> current_date ) GROUP BY c.idcli) AS pendentes,
                             (SELECT  SUM(h.usvale) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15  AND h.nop in (27,28,51,76) GROUP BY h.idcli) AS vale,
-                            (SELECT DATEDIFF(now(),h.data ) FROM hoje h WHERE h.idcli=clientes.id and h.prazo<>15  AND h.nop in (27,28,51,76) AND h.valor>1500 ORDER BY id DESC limit 1) AS Recencia,
+                            (SELECT  SUM(h.valor) FROM hoje h WHERE h.idcli=clientes.id  and h.prazo<>15 AND h.data >= CURDATE() - INTERVAL 90 DAY  AND h.nop in (27,28,51,76) GROUP BY h.idcli) AS montante,
+                            (SELECT DATEDIFF(now(),h.data ) FROM hoje h WHERE h.idcli=clientes.id and h.prazo<>15  AND h.nop in (27,28,51,76) AND h.valor>100 ORDER BY id DESC limit 1) AS Recencia,
                             (SELECT count(DISTINCT h.id) FROM hoje h WHERE h.idcli=clientes.id and h.prazo<>15  AND h.nop in (27,28,51,76) AND h.valor>1500 AND h.data >= CURDATE() - INTERVAL 90 DAY ORDER BY id DESC limit 1) AS Frequencia
                             FROM clientes
                             WHERE vip < 9 AND clientes.id=%s

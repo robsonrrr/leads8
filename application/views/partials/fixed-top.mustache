@@ -46,6 +46,10 @@
           <span class="label">Disponível</span>
           <span class="financial-value positive">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
         </div>
+        <div class="financial-item">
+          <span class="label">Montante 90d</span>
+          <span class="financial-value positive">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+        </div>
         {{#atrasados}}
         {{#atrasados_gt_100}}
         <div class="financial-item warning">
@@ -74,7 +78,7 @@
         {{/Recencia}}
         {{#Frequencia}}
         <div class="financial-item">
-          <span class="label">Frequência</span>
+          <span class="label">Frequência 90d</span>
           <span class="financial-value neutral">{{.}} pedidos</span>
         </div>
         {{/Frequencia}}
