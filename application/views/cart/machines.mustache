@@ -147,7 +147,7 @@
                                      
                     </div>
                     <div class="p-0 m-0">
-                        {{solr.produtoNome}} <span class="p-0 m-0 font10 text-muted"> {{solr.produtoDescricaoCurta}} </span>
+                        {{Detalhe.produtoNome}} <span class="p-0 m-0 font10 text-muted"> {{Detalhe.produtoDescricaoCurta}} </span>
                     </div>
                 </td>
                 <td class="align-middle text-center" width="5%">
@@ -292,6 +292,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td class="align-middle text-center">{{peso}}</td>
                 <td class="align-middle text-center">{{quantidade}}</td>
                 <td class="align-middle text-center"></td>
@@ -395,7 +396,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
                 },
                 "columnDefs": [
-                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
+                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, sorter-false columns, and last column (Action)
                 ],
                 "pageLength": 25,
                 "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
