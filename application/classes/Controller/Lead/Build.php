@@ -163,9 +163,6 @@ class Controller_Lead_Build extends Controller_Lead_Base{
             if (isset($array['Lead']['Financeiro']['vale'])) {
                 $array['Lead']['Financeiro']['vale'] = $this->formatPrice($array['Lead']['Financeiro']['vale']);
             }
-            if (isset($array['Lead']['Financeiro']['montante'])) {
-                $array['Lead']['Financeiro']['montante'] = $this->formatPrice($array['Lead']['Financeiro']['montante']);
-            }
         }
         
         $array['Lead']['Ticket']          = self::ticket( $array[$k]['Cliente']['id'] );

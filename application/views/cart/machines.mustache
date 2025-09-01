@@ -183,9 +183,13 @@
                     {{/SESSION.check}}
                 </td>
                 {{#produtoIndisponivel}}
-                <td class="align-middle text-center" colspan="4">
-                    Quantidade do item indisponível
-                </td>
+                <td class="align-middle text-center">-</td>
+                <td class="align-middle text-center">-</td>
+                <td class="align-middle text-center">-</td>
+                <td class="align-middle text-center">Quantidade do item indisponível</td>
+                {{#clienteDoClientePOID}}
+                <td class="align-middle text-center">-</td>
+                {{/clienteDoClientePOID}}
                 {{/produtoIndisponivel}}
                 {{^produtoIndisponivel}}
                 <td class="align-middle text-center">{{produtoVezes}}</td>
@@ -243,12 +247,25 @@
             {{/Produtos}}
             {{^Produtos}}
             <tr>
-                <td colspan="16" class="text-center p-3">
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">
                     <p>
                         <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="200" />
                     </p>
                     <span class="h4 text-muted">Seu Carrinho está vazio!</span>
                 </td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                <td class="text-center p-3">&nbsp;</td>
+                {{#clienteDoClientePOID}}
+                <td class="text-center p-3">&nbsp;</td>
+                {{/clienteDoClientePOID}}
+                <td class="text-center p-3">&nbsp;</td>
             </tr>
             {{/Produtos}}
         </tbody>
@@ -265,7 +282,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                {{#clienteDoClientePOID}}
                 <td></td>
+                {{/clienteDoClientePOID}}
                 <td></td>
             </tr>
             <tr class="font-weight-bold lead">
@@ -279,7 +298,9 @@
                 <td class="align-middle text-right"></td>
                 <td class="align-middle text-center"><strong>Avg: {{indexAvg}}</strong></td>
                 <td class="align-middle text-right">{{produto}}</td>
+                {{#clienteDoClientePOID}}
                 <td class="align-middle text-right">{{produtocc}}</td>
+                {{/clienteDoClientePOID}}
                 <td></td>
             </tr>
             <tr class="font11">
@@ -358,6 +379,41 @@
         {{/existProducts}}
     </div>
 </div>
+
+<script>
+// Wait for jQuery and DataTables to be available
+(function() {
+    function initDataTable() {
+        if (typeof $ !== 'undefined' && $.fn.DataTable) {
+            $('#cartTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "responsive": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
+                },
+                "columnDefs": [
+                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
+                ],
+                "pageLength": 25,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
+            });
+        } else {
+            // Retry after a short delay if jQuery/DataTables not ready
+            setTimeout(initDataTable, 100);
+        }
+    }
+    
+    // Start initialization when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDataTable);
+    } else {
+        initDataTable();
+    }
+})();
+</script>
 
 <!-- Modal para Enviar para Gerencia -->
 <div class="modal fade" id="modalGerencia" tabindex="-1" role="dialog" aria-labelledby="modalGerenciaLabel" aria-hidden="true">
