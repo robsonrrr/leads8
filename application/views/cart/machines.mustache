@@ -117,7 +117,9 @@
                 <th class="align-middle text-center" scope="col">Valor de Venda</th>
                 <th class="align-middle text-center" scope="col">Index</th>
                 <th class="align-middle text-right" scope="col">Subtotal Produto</th>
+                {{#clienteDoClientePOID}}
                 <th class="align-middle text-right" scope="col">Valor do Cliente</th>
+                {{/clienteDoClientePOID}}
                 <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
             </tr>
         </thead>
@@ -219,20 +221,18 @@
                     <p class="p-0 m-0 font11 text-muted">({{produtoValor}} unit.)</p>
                     {{/SESSION.acessoWebmaster}}
                 </td>
+                 {{#clienteDoClientePOID}}
                 <td class="align-middle text-center" width="10%">
-                    {{#clienteDoClientePOID}}
+                   
                     <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-dark font-weight-bolder"
                            id="qty_cart_customer_{{produtoPOID}}" data-type="pricecc" min="0" max="" maxlength="" data-product="{{produtoPOID}}"
                            data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount"
                            data-segment="{{segmentoPOID}}" value="{{produtoCCValorFormatado}}">
                     <!--<small title="Preço Cliente">Comissão {{produtoValorOriginal}}</small>//-->
-                    {{/clienteDoClientePOID}}
-                    {{^clienteDoClientePOID}}
-                    <p>
-                        <small>opção válida somente para<br> faturamento direto</small>
-                    </p>
-                    {{/clienteDoClientePOID}}
+                   
+
                 </td>
+                 {{/clienteDoClientePOID}}
                 {{/produtoIndisponivel}}
                 <td class="align-middle text-center" width="1%">
                     <a class="cart-remove-item btn btn-sm btn-danger" href="#colunm_{{POID}}" data-lead-id="{{leadPOID}}" id="colunm_remove_{{POID}}" data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" data-service="/services/cart/delete/{{POID}}/{{segmentoPOID}}">
@@ -293,7 +293,9 @@
                 <th class="align-middle text-center" scope="col">Valor Venda</th>
                 <th class="align-middle text-center" scope="col">Index</th>
                 <th class="align-middle text-right" scope="col">Subtotal Produto</th>
+                {{#clienteDoClientePOID}}
                 <th class="align-middle text-right" scope="col">Valor do Cliente</th>
+                {{/clienteDoClientePOID}}
                 <th class="align-middle text-center sorter-false filter-false" scope="col">#</th>
             </tr>
         </tfoot>
