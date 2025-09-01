@@ -1589,7 +1589,6 @@ body {
     border: 1px solid #dc3545;
     color: #dc3545;
     background-color: transparent;
-    display: none !important; /* Hidden by default */
 }
 
 .hide-all-empty-discounts:hover {
@@ -2253,6 +2252,18 @@ tr.fading-out {
 .btn-outline-success.hide-all-empty-discounts:hover {
   background-color: var(--success);
   border-color: var(--success);
+  color: white;
+}
+
+/* Secondary variant for geral template */
+.btn-outline-secondary.hide-all-empty-discounts {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary.hide-all-empty-discounts:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
   color: white;
 }
 

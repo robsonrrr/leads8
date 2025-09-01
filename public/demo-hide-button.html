@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo: Hide Empty Discounts Button</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="modern-theme.css" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .cart-simulation {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        .cart-header {
+            background: linear-gradient(135deg, #343a40, #495057);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .discount-row {
+            transition: all 0.3s ease;
+        }
+        .discount-row.hidden {
+            opacity: 0.3;
+            background-color: #f8f9fa;
+        }
+        .discount-row.completely-hidden {
+            display: none;
+        }
+        .status-indicator {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .status-empty {
+            background-color: #dc3545;
+            color: white;
+        }
+        .status-discounted {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .status-normal {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="text-center mb-4">Demo: Hide Empty Discounts Functionality</h1>
+        <p class="lead text-center">This demonstrates how the hide button works in the cart system</p>
+        
+        <!-- Cart Simulation -->
+        <div class="cart-simulation">
+            <div class="cart-header">
+                <h3 class="mb-0">🛒 3 Produto(s) no Carrinho</h3>
+                <div>
+                    <!-- Hide Button - matches geral.mustache -->
+                    <button type="button" class="btn btn-outline-secondary btn-sm hide-all-empty-discounts" title="Ocultar descontos vazios">
+                        <i class="bi bi-eye-slash"></i> Ocultar Vazios
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Produto</th>
+                            <th>Marca</th>
+                            <th>Preço</th>
+                            <th>Qtd</th>
+                            <th>Desconto</th>
+                            <th>Valor de Venda</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Product with empty discount (=0) -->
+                        <tr class="discount-row" data-discount="0">
+                            <td>1</td>
+                            <td>Rolamento 6203-2Z</td>
+                            <td>SKF</td>
+                            <td>R$ 25,00</td>
+                            <td>2</td>
+                            <td class="text-danger font-weight-bold">0%</td>
+                            <td>R$ 50,00</td>
+                            <td><span class="status-indicator status-empty">Empty Discount</span></td>
+                        </tr>
+                        
+                        <!-- Product with discount (>0) -->
+                        <tr class="discount-row" data-discount="15">
+                            <td>2</td>
+                            <td>Rolamento 6204-2Z</td>
+                            <td>FAG</td>
+                            <td>R$ 30,00</td>
+                            <td>1</td>
+                            <td class="text-warning font-weight-bold">15%</td>
+                            <td>R$ 25,50</td>
+                            <td><span class="status-indicator status-discounted">Has Discount</span></td>
+                        </tr>
+                        
+                        <!-- Another product with empty discount -->
+                        <tr class="discount-row" data-discount="0">
+                            <td>3</td>
+                            <td>Rolamento 6205-2Z</td>
+                            <td>NSK</td>
+                            <td>R$ 35,00</td>
+                            <td>1</td>
+                            <td class="text-danger font-weight-bold">0%</td>
+                            <td>R$ 35,00</td>
+                            <td><span class="status-indicator status-empty">Empty Discount</span></td>
+                        </tr>
+                        
+                        <!-- Product with normal pricing -->
+                        <tr class="discount-row" data-discount="5">
+                            <td>4</td>
+                            <td>Rolamento 6206-2Z</td>
+                            <td>TIMKEN</td>
+                            <td>R$ 40,00</td>
+                            <td>1</td>
+                            <td class="text-success font-weight-bold">5%</td>
+                            <td>R$ 38,00</td>
+                            <td><span class="status-indicator status-normal">Normal</span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-info">
+                            <td colspan="6"><strong>Total</strong></td>
+                            <td><strong>R$ 148,50</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="alert alert-info">
+            <h5><i class="bi bi-info-circle"></i> How it works:</h5>
+            <ol>
+                <li><strong>Stage 1:</strong> Click "Ocultar Vazios" to hide products with 0% discount</li>
+                <li><strong>Stage 2:</strong> Click again to hide products with any discount (>0%)</li>
+                <li><strong>Stage 3:</strong> Click once more to show all products again</li>
+            </ol>
+            <p class="mb-0"><strong>Current button style:</strong> <code>btn-outline-secondary</code> (used in geral.mustache template)</p>
+        </div>
+        
+        <!-- Button Variations -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Template Variations:</h5>
+                <div class="mb-2">
+                    <strong>geral.mustache:</strong>
+                    <button type="button" class="btn btn-outline-secondary btn-sm ml-2">
+                        <i class="bi bi-eye-slash"></i> Ocultar Vazios
+                    </button>
+                </div>
+                <div class="mb-2">
+                    <strong>machines.mustache:</strong>
+                    <button type="button" class="btn btn-outline-danger btn-sm ml-2">
+                        <i class="bi bi-eye-slash"></i> Hide Empty (=0)
+                    </button>
+                </div>
+                <div class="mb-2">
+                    <strong>bearings.mustache:</strong>
+                    <button type="button" class="btn btn-outline-danger btn-sm ml-2">
+                        <i class="bi bi-eye-slash"></i> Hide Empty (=0)
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5>Stage Indicators:</h5>
+                <div class="mb-2">
+                    <strong>Stage 1 (Hide Empty):</strong>
+                    <button type="button" class="btn btn-outline-danger btn-sm ml-2">
+                        <i class="bi bi-eye-slash"></i> Hide Empty (=0)
+                    </button>
+                </div>
+                <div class="mb-2">
+                    <strong>Stage 2 (Hide Discounted):</strong>
+                    <button type="button" class="btn btn-outline-warning btn-sm ml-2">
+                        <i class="bi bi-eye-slash"></i> Hide Discounted (>0)
+                    </button>
+                </div>
+                <div class="mb-2">
+                    <strong>Stage 3 (Show All):</strong>
+                    <button type="button" class="btn btn-outline-success btn-sm ml-2">
+                        <i class="bi bi-eye"></i> Show All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let hideStage = 0; // 0: show all, 1: hide empty, 2: hide discounted, 3: show all
+            
+            $('.hide-all-empty-discounts').click(function() {
+                const button = $(this);
+                hideStage = (hideStage + 1) % 3;
+                
+                switch(hideStage) {
+                    case 0: // Show all
+                        $('.discount-row').removeClass('hidden completely-hidden');
+                        button.removeClass('btn-outline-danger btn-outline-warning')
+                              .addClass('btn-outline-secondary')
+                              .html('<i class="bi bi-eye"></i> Mostrar Todos');
+                        setTimeout(() => {
+                            button.html('<i class="bi bi-eye-slash"></i> Ocultar Vazios');
+                        }, 1000);
+                        break;
+                        
+                    case 1: // Hide empty discounts (=0)
+                        $('.discount-row').removeClass('hidden completely-hidden');
+                        $('.discount-row[data-discount="0"]').addClass('completely-hidden');
+                        button.removeClass('btn-outline-secondary btn-outline-warning')
+                              .addClass('btn-outline-danger')
+                              .html('<i class="bi bi-eye-slash"></i> Hide Empty (=0)');
+                        break;
+                        
+                    case 2: // Hide discounted (>0)
+                        $('.discount-row').removeClass('hidden completely-hidden');
+                        $('.discount-row[data-discount!="0"]').addClass('completely-hidden');
+                        button.removeClass('btn-outline-secondary btn-outline-danger')
+                              .addClass('btn-outline-warning')
+                              .html('<i class="bi bi-eye-slash"></i> Hide Discounted (>0)');
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
