@@ -3,7 +3,7 @@
         <i class="bi bi-gear color-primary pb-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="btnGroupDrop1">
             {{#SESSION.acessoWebmaster}}
-            <a class="dropdown-item mb-1 border-bottom" target="_blank" href="http://api-v1.vallery.com.br/v1/Produtos/{{produtoPOID}}?filter[include]=Segmento&filter[include]=Classificacao">API</a>
+            <a class="dropdown-item mb-1 border-bottom" target="_blank" href="https://api-v1.vallery.com.br/v1/Produtos/{{produtoPOID}}?filter[include]=Segmento&filter[include]=Classificacao">API</a>
             <!--<a class="dropdown-item mb-1 border-bottom" target="_blank" href="https://solr.rolemak.com.br/solr/catalogo/select?indent=on&q=produtoPOID:{{produtoPOID}}&wt=json">SOLR</a>
 <a class="dropdown-item mb-1 border-bottom" target="_blank" href="/crm/v4/products?fq=produtos-moto-com-preco&title=Produtos+Motopeças+com+Preço&q={{Detalhe.produtoModelo}}"> Detalhe do Produto </a>//-->
             {{/SESSION.acessoWebmaster}}
@@ -16,7 +16,7 @@
 
             {{#SESSION.acessoDiretoria}}
             <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Detalhes do Produto"
-               data-target="#remoteModal" data-remote="/K3/tip/vproduct/{{produtoPOID}}">detalhes do produto</a>
+               data-target="#remoteModal" data-remote="https://dev.office.internut.com.br/K3/tip/vproduct/{{produtoPOID}}">detalhes do produto</a>
             {{/SESSION.acessoDiretoria}}
 
           <!--  <a class="dropdown-item mb-1 border-bottom" data-toggle="modal" data-title="Histórico de Venda do Produto"
