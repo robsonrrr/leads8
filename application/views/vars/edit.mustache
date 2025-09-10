@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-section h5 {
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .btn-save:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row bg-primary text-white mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center p-3">
+                    <div>
+                        <h1 class="h3 mb-0">
+                            <i class="fas fa-edit me-2"></i>
+                            {{page_title}}
+                        </h1>
+                        <p class="mb-0 opacity-75">Editar variável ID: {{var.id}}</p>
+                    </div>
+                    <div>
+                        <a href="/leads8/vars/" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Voltar à Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="/leads8/vars/edit/{{var.id}}">
+            <!-- Taxas de Câmbio -->
+            <div class="form-section">
+                <h5><i class="fas fa-exchange-alt me-2"></i>Taxas de Câmbio</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="Dolar" class="form-label">Dólar (R$)</label>
+                            <input type="number" step="0.01" class="form-control" id="Dolar" name="Dolar" 
+                                   value="{{var.Dolar}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="Yuan" class="form-label">Yuan (R$)</label>
+                            <input type="number" step="0.01" class="form-control" id="Yuan" name="Yuan" 
+                                   value="{{var.Yuan}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados Financeiros -->
+            <div class="form-section">
+                <h5><i class="fas fa-dollar-sign me-2"></i>Dados Financeiros</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Cash" class="form-label">Cash</label>
+                            <input type="number" class="form-control" id="Cash" name="Cash" 
+                                   value="{{var.Cash}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="FixPlus" class="form-label">Fix Plus</label>
+                            <input type="number" class="form-control" id="FixPlus" name="FixPlus" 
+                                   value="{{var.FixPlus}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="FixLess" class="form-label">Fix Less</label>
+                            <input type="number" class="form-control" id="FixLess" name="FixLess" 
+                                   value="{{var.FixLess}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Buildings" class="form-label">Buildings</label>
+                            <input type="number" class="form-control" id="Buildings" name="Buildings" 
+                                   value="{{var.Buildings}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas de Produção -->
+            <div class="form-section">
+                <h5><i class="fas fa-target me-2"></i>Metas de Produção</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Target_Machines" class="form-label">Target Máquinas</label>
+                            <input type="number" class="form-control" id="Target_Machines" name="Target_Machines" 
+                                   value="{{var.Target_Machines}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Target_Bearings" class="form-label">Target Rolamentos</label>
+                            <input type="number" class="form-control" id="Target_Bearings" name="Target_Bearings" 
+                                   value="{{var.Target_Bearings}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Target_Parts" class="form-label">Target Peças</label>
+                            <input type="number" class="form-control" id="Target_Parts" name="Target_Parts" 
+                                   value="{{var.Target_Parts}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Target_Auto" class="form-label">Target Auto</label>
+                            <input type="number" class="form-control" id="Target_Auto" name="Target_Auto" 
+                                   value="{{var.Target_Auto}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="TargetSetsMachinesDaily" class="form-label">Target Sets Máquinas Diário</label>
+                            <input type="number" class="form-control" id="TargetSetsMachinesDaily" name="TargetSetsMachinesDaily" 
+                                   value="{{var.TargetSetsMachinesDaily}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas Detalhadas por Setor -->
+            <div class="form-section">
+                <h5><i class="fas fa-chart-line me-2"></i>Metas Detalhadas por Setor</h5>
+                
+                <!-- Debug Info -->
+                <div class="alert alert-info">
+                    <strong>Debug:</strong> TargetMachinesCustomers = {{var.TargetMachinesCustomers}}, 
+                    TargetMachinesCidades = {{var.TargetMachinesCidades}}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetMachinesCustomers" class="form-label">Target Máquinas - Clientes</label>
+                            <input type="number" class="form-control" id="TargetMachinesCustomers" name="TargetMachinesCustomers" 
+                                   value="{{var.TargetMachinesCustomers}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetMachinesCidades" class="form-label">Target Máquinas - Cidades</label>
+                            <input type="number" class="form-control" id="TargetMachinesCidades" name="TargetMachinesCidades" 
+                                   value="{{var.TargetMachinesCidades}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetBearingsCustomers" class="form-label">Target Rolamentos - Clientes</label>
+                            <input type="number" class="form-control" id="TargetBearingsCustomers" name="TargetBearingsCustomers" 
+                                   value="{{var.TargetBearingsCustomers}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetBearingsCidades" class="form-label">Target Rolamentos - Cidades</label>
+                            <input type="number" class="form-control" id="TargetBearingsCidades" name="TargetBearingsCidades" 
+                                   value="{{var.TargetBearingsCidades}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetAutoCidades" class="form-label">Target Auto - Cidades</label>
+                            <input type="number" class="form-control" id="TargetAutoCidades" name="TargetAutoCidades" 
+                                   value="{{var.TargetAutoCidades}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetPartsCidades" class="form-label">Target Peças - Cidades</label>
+                            <input type="number" class="form-control" id="TargetPartsCidades" name="TargetPartsCidades" 
+                                   value="{{var.TargetPartsCidades}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetAutoCustomers" class="form-label">Target Auto - Clientes</label>
+                            <input type="number" class="form-control" id="TargetAutoCustomers" name="TargetAutoCustomers" 
+                                   value="{{var.TargetAutoCustomers}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="TargetPartsCustomers" class="form-label">Target Peças - Clientes</label>
+                            <input type="number" class="form-control" id="TargetPartsCustomers" name="TargetPartsCustomers" 
+                                   value="{{var.TargetPartsCustomers}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados do Exportador -->
+            <div class="form-section">
+                <h5><i class="fas fa-ship me-2"></i>Dados do Exportador</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="PayableExporter" class="form-label">A Pagar Exportador</label>
+                            <input type="number" step="0.01" class="form-control" id="PayableExporter" name="PayableExporter" 
+                                   value="{{var.PayableExporter}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="PaidExporter" class="form-label">Pago Exportador</label>
+                            <input type="number" step="0.01" class="form-control" id="PaidExporter" name="PaidExporter" 
+                                   value="{{var.PaidExporter}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="ReceivedExporter" class="form-label">Recebido Exportador</label>
+                            <input type="number" step="0.01" class="form-control" id="ReceivedExporter" name="ReceivedExporter" 
+                                   value="{{var.ReceivedExporter}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagamentos por Mês -->
+            <div class="form-section">
+                <h5><i class="fas fa-calendar-alt me-2"></i>Pagamentos por Mês</h5>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter1" class="form-label">Janeiro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter1" name="PayExporter1" 
+                                   value="{{var.PayExporter1}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter2" class="form-label">Fevereiro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter2" name="PayExporter2" 
+                                   value="{{var.PayExporter2}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter3" class="form-label">Março</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter3" name="PayExporter3" 
+                                   value="{{var.PayExporter3}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter4" class="form-label">Abril</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter4" name="PayExporter4" 
+                                   value="{{var.PayExporter4}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter5" class="form-label">Maio</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter5" name="PayExporter5" 
+                                   value="{{var.PayExporter5}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter6" class="form-label">Junho</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter6" name="PayExporter6" 
+                                   value="{{var.PayExporter6}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter7" class="form-label">Julho</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter7" name="PayExporter7" 
+                                   value="{{var.PayExporter7}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter8" class="form-label">Agosto</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter8" name="PayExporter8" 
+                                   value="{{var.PayExporter8}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter9" class="form-label">Setembro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter9" name="PayExporter9" 
+                                   value="{{var.PayExporter9}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter10" class="form-label">Outubro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter10" name="PayExporter10" 
+                                   value="{{var.PayExporter10}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter11" class="form-label">Novembro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter11" name="PayExporter11" 
+                                   value="{{var.PayExporter11}}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="PayExporter12" class="form-label">Dezembro</label>
+                            <input type="number" step="0.01" class="form-control" id="PayExporter12" name="PayExporter12" 
+                                   value="{{var.PayExporter12}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funcionários por Setor -->
+            <div class="form-section">
+                <h5><i class="fas fa-users me-2"></i>Funcionários por Setor</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Workers_Machines" class="form-label">Funcionários Máquinas</label>
+                            <input type="number" class="form-control" id="Workers_Machines" name="Workers_Machines" 
+                                   value="{{var.Workers_Machines}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Workers_Bearings" class="form-label">Funcionários Rolamentos</label>
+                            <input type="number" class="form-control" id="Workers_Bearings" name="Workers_Bearings" 
+                                   value="{{var.Workers_Bearings}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Workers_Parts" class="form-label">Funcionários Peças</label>
+                            <input type="number" class="form-control" id="Workers_Parts" name="Workers_Parts" 
+                                   value="{{var.Workers_Parts}}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="Workers_Auto" class="form-label">Funcionários Auto</label>
+                            <input type="number" class="form-control" id="Workers_Auto" name="Workers_Auto" 
+                                   value="{{var.Workers_Auto}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações de Produção -->
+            <div class="form-section">
+                <h5><i class="fas fa-cogs me-2"></i>Configurações de Produção</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="TargetSetsMachinesDaily" class="form-label">Target Sets Máquinas Diário</label>
+                            <input type="number" class="form-control" id="TargetSetsMachinesDaily" name="TargetSetsMachinesDaily" 
+                                   value="{{var.TargetSetsMachinesDaily}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <a href="/leads8/vars/" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-save text-white">
+                            <i class="fas fa-save me-1"></i>
+                            Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validação do formulário
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = ['Dolar', 'Yuan', 'Cash', 'FixPlus', 'FixLess', 'Buildings'];
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value || input.value.trim() === '') {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Por favor, preencha todos os campos obrigatórios.');
+            }
+        });
+
+        // Formatação automática de valores monetários
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value && !isNaN(this.value)) {
+                    if (this.id === 'Dolar' || this.id === 'Yuan') {
+                        this.value = parseFloat(this.value).toFixed(2);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

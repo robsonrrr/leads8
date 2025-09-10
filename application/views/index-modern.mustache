@@ -1,0 +1,130 @@
+{{>partials/header-tailwind}}
+
+<!-- Hidden spinner -->
+<div id="spinner" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+</div>
+
+<!-- Lead ID input -->
+<input type="hidden" id="leadID" value="{{id}}">
+
+{{>partials/fixed-top}}
+
+<div class="container mx-auto px-4 pt-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Lead ID -->
+        <div class="bg-white rounded-lg p-4 shadow-sm animate-fade-in-up hover-lift transition-all duration-300 animate-stagger-1">
+            <p><i class="fas fa-hashtag"></i> Lead ID:</p>
+            <input class="border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" value="{{id}}" readonly style="width:80px">
+        </div>
+        
+        <!-- Lead Name -->
+        <div class="bg-white rounded-lg p-4 shadow-sm animate-slide-in-left hover-lift transition-all duration-300 animate-stagger-2">
+            <p><i class="fas fa-user"></i> Nome:</p>
+            <input class="border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm update transition-all duration-300" data-url="/leads8/lead/show/lead/update/Leads/{{id}}" name="leadNome" id="leadNome" value="{{leadNome}}" style="width:200px">
+        </div>
+        
+        <!-- Lead Source -->
+        <div class="bg-white rounded-lg p-4 shadow-sm animate-fade-in-up hover-lift transition-all duration-300 animate-stagger-3">
+            <p><i class="fab fa-font-awesome-flag"></i> Fonte: <i class="fas text-red-600 fa-question-circle cursor-help" title="Origem do pedido: 0 - desconhecido, 1 - B2B, 2 - B2C, 3 - Mercado Livre, 4 - B2W, 5 - Shopee, 6 - Magalu, 7 - Viavarejo, 8 - Amazon, 9 - Instagram, 10 - Facebook, 11 - Youtube, 12 - Visita, 13 - Campanha, 14 - Promoção, 15 - Email marketing"></i></p>
+            <input class="border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm update transition-all duration-300" data-url="/leads8/lead/show/lead/update/Leads/{{id}}" name="leadFonte" id="leadFonte" value="{{leadFonte}}" style="width:80px">
+        </div>
+        
+        <!-- Lead Type -->
+        <div class="bg-white rounded-lg p-4 shadow-sm animate-slide-in-left hover-lift transition-all duration-300 animate-stagger-4">
+            <p><i class="fas fa-font"></i> Tipo: <i class="fas text-red-600 fa-question-circle cursor-help" title="1 - Ativa, 2 - Receptivo"></i></p>
+            <input class="border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm update transition-all duration-300" data-url="/leads8/lead/show/lead/update/Leads/{{id}}" name="leadTipo" id="leadTipo" value="{{leadTipo}}" style="width:80px">
+        </div>
+    </div>
+    
+    <!-- Search and Filter Section -->
+    <div class="mt-6 bg-white rounded-lg p-6 shadow-sm">
+        <div class="flex flex-wrap items-center gap-6">
+            <div class="flex items-center space-x-3">
+                <label class="text-sm font-medium text-gray-700">Buscar:</label>
+                <input type="text" id="searchInput" class="border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all duration-300" placeholder="Digite para buscar..." style="width:200px">
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <input type="radio" id="hideZeroRevenda" name="filterOption" value="hideZero" class="text-blue-600 focus:ring-blue-500">
+                <label for="hideZeroRevenda" class="text-sm text-gray-700">Ocultar Zero Revenda</label>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <input type="radio" id="showAll" name="filterOption" value="showAll" class="text-blue-600 focus:ring-blue-500" checked>
+                <label for="showAll" class="text-sm text-gray-700">Mostrar Todos</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Alert Messages -->
+    <div id="alertContainer" class="mt-4"></div>
+    
+    <!-- Cart Sections -->
+    <div class="mt-6">
+        {{>cart/moto}}
+        {{>cart/geral}}
+    </div>
+    
+    <!-- Total Section -->
+    {{>partials/total}}
+</div>
+
+{{>partials/modal}}
+{{>partials/footer}}
+
+<script>
+// Toggle Zero Revenda Global Function
+function toggleZeroRevendaGlobal() {
+    const hideZeroRevenda = document.getElementById('hideZeroRevenda').checked;
+    const products = document.querySelectorAll('[data-revenda]');
+    
+    products.forEach(product => {
+        const revendaValue = parseFloat(product.dataset.revenda) || 0;
+        if (hideZeroRevenda && revendaValue === 0) {
+            product.style.display = 'none';
+        } else {
+            product.style.display = 'block';
+        }
+    });
+}
+
+// Sync and Apply Filter Function
+function syncAndApplyFilter() {
+    toggleZeroRevendaGlobal();
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter radio buttons
+    document.querySelectorAll('input[name="filterOption"]').forEach(radio => {
+        radio.addEventListener('change', syncAndApplyFilter);
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const products = document.querySelectorAll('[data-searchable]');
+            
+            products.forEach(product => {
+                const text = product.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Initialize filters
+    syncAndApplyFilter();
+});
+
+// Window load event
+window.addEventListener('load', function() {
+    syncAndApplyFilter();
+});
+</script>

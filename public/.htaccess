@@ -27,7 +27,7 @@ RewriteEngine On
 <IfModule mod_headers.c>
     ###Disable displaying webpage in Iframes -> prevents Clickjacking
     ###https://www.owasp.org/index.php/Clickjacking
-    #Header set X-Frame-Options SAMEORIGIN
+    Header set X-Frame-Options "SAMEORIGIN"
 
     ###Block requests with incorrect MIME-types
     ###https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#X-Content-Type-Options

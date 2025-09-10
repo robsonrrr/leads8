@@ -1,0 +1,240 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                
+                    
+                    <!-- Filtros -->
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label>Data Início:</label>
+                            <input type="date" class="form-control" id="dataInicio" value="{{filtros.data_inicio}}">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Data Fim:</label>
+                            <input type="date" class="form-control" id="dataFim" value="{{filtros.data_fim}}">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Produto ISBN:</label>
+                            <input type="text" class="form-control" id="produtoISBN" value="{{filtros.produto}}" placeholder="ISBN do produto">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Limite:</label>
+                            <select class="form-control" id="limite">
+                                <option value="10" {{#filtros.limit}}{{#eq filtros.limit 10}}selected{{/eq}}{{/filtros.limit}}>10</option>
+                                <option value="25" {{#filtros.limit}}{{#eq filtros.limit 25}}selected{{/eq}}{{/filtros.limit}}>25</option>
+                                <option value="50" {{#filtros.limit}}{{#eq filtros.limit 50}}selected{{/eq}}{{/filtros.limit}}>50</option>
+                                <option value="100" {{#filtros.limit}}{{#eq filtros.limit 100}}selected{{/eq}}{{/filtros.limit}}>100</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary" onclick="filtrarHistorico()">Filtrar</button>
+                            <button type="button" class="btn btn-secondary" onclick="limparFiltros()">Limpar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Resumo -->
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="alert alert-info">
+                                <strong>Total de Registros:</strong> {{totalRegistros}}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="alert alert-success">
+                                <strong>Quantidade Total:</strong> {{totalQuantidade}}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="alert alert-warning">
+                                <strong>Valor Total:</strong> R$ {{totalValor}}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-info" onclick="carregarResumo()">Ver Resumo Detalhado</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabela de Histórico -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Data Venda</th>
+                                    <th>Cliente</th>
+                                    <th>Produto</th>
+                                    <th>ISBN</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Base</th>
+                                    <th>Valor Total</th>
+                                    <th>Vendedor</th>
+                                    <th>Estado</th>
+                                    <th>Município</th>
+                                    <th>Emitente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#response}}
+                                <tr>
+                                    <td>{{count}}</td>
+                                    <td>{{DataVenda}}</td>
+                                    <td>{{ClienteNome}}</td>
+                                    <td title="{{ProdutoNome}}">
+                                        {{#ProdutoNome}}
+                                            {{#gt ProdutoNome.length 30}}
+                                                {{substring ProdutoNome 0 30}}...
+                                            {{else}}
+                                                {{ProdutoNome}}
+                                            {{/gt}}
+                                        {{/ProdutoNome}}
+                                    </td>
+                                    <td>{{ProdutoISBN}}</td>
+                                    <td class="text-right">{{Quantidade}}</td>
+                                    <td class="text-right">R$ {{ValorBase}}</td>
+                                    <td class="text-right"><strong>R$ {{ValorTotal}}</strong></td>
+                                    <td>{{VendedorNome}}</td>
+                                    <td>{{EstadoNome}}</td>
+                                    <td>{{MunicipioNome}}</td>
+                                    <td>{{EmitenteNome}}</td>
+                                </tr>
+                                {{/response}}
+                                {{^response}}
+                                <tr>
+                                    <td colspan="12" class="text-center">
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            Nenhum registro encontrado para os filtros aplicados.
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/response}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Resumo Detalhado -->
+<div class="modal fade" id="modalResumo" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Resumo Detalhado de Vendas</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="resumoContent">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filtrarHistorico() {
+    const clienteID = '{{clienteID}}';
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
+    const produtoISBN = document.getElementById('produtoISBN').value;
+    const limite = document.getElementById('limite').value;
+    
+    let url = `/leads8/lead/show/sales/history/${clienteID}?`;
+    
+    const params = [];
+    if (dataInicio) params.push(`data_inicio=${dataInicio}`);
+    if (dataFim) params.push(`data_fim=${dataFim}`);
+    if (produtoISBN) params.push(`produto=${produtoISBN}`);
+    if (limite) params.push(`limit=${limite}`);
+    
+    url += params.join('&');
+    
+    window.location.href = url;
+}
+
+function limparFiltros() {
+    document.getElementById('dataInicio').value = '';
+    document.getElementById('dataFim').value = '';
+    document.getElementById('produtoISBN').value = '';
+    document.getElementById('limite').value = '50';
+    
+    const clienteID = '{{clienteID}}';
+    window.location.href = `/leads8/sales/history/${clienteID}`;
+}
+
+function carregarResumo() {
+    const clienteID = '{{clienteID}}';
+    
+    $('#modalResumo').modal('show');
+    
+    fetch(`/leads8/sales/history/summary/${clienteID}?meses=12`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById('resumoContent').innerHTML = 
+                    `<div class="alert alert-danger">${data.error}</div>`;
+                return;
+            }
+            
+            let html = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Resumo Geral (últimos 12 meses)</h6>
+                        <table class="table table-sm">
+                            <tr><td><strong>Total de Pedidos:</strong></td><td>${data.resumo.totalPedidos || 0}</td></tr>
+                            <tr><td><strong>Quantidade Total:</strong></td><td>${data.resumo.totalQuantidade || 0}</td></tr>
+                            <tr><td><strong>Valor Total:</strong></td><td>R$ ${parseFloat(data.resumo.totalValor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td></tr>
+                            <tr><td><strong>Ticket Médio:</strong></td><td>R$ ${parseFloat(data.resumo.ticketMedio || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td></tr>
+                            <tr><td><strong>Última Compra:</strong></td><td>${data.resumo.ultimaCompra || 'N/A'}</td></tr>
+                            <tr><td><strong>Produtos Distintos:</strong></td><td>${data.resumo.produtosDistintos || 0}</td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Produtos Mais Comprados</h6>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Produto</th>
+                                        <th>Qtd</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+            
+            data.produtosMaisComprados.forEach(produto => {
+                html += `
+                    <tr>
+                        <td title="${produto.ProdutoNome}">${produto.ProdutoNome.length > 20 ? produto.ProdutoNome.substring(0, 20) + '...' : produto.ProdutoNome}</td>
+                        <td>${produto.totalQuantidade}</td>
+                        <td>R$ ${parseFloat(produto.totalValor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                    </tr>`;
+            });
+            
+            html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+            
+            document.getElementById('resumoContent').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('resumoContent').innerHTML = 
+                `<div class="alert alert-danger">Erro ao carregar resumo: ${error.message}</div>`;
+        });
+}
+</script>

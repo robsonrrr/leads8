@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    {{> partials/header-tailwind}}
+    <title>Gerenciador de Vendas - leads8</title>
+    <style>
+        .module-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .module-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .module-card.blue { border-left-color: #3b82f6; }
+        .module-card.green { border-left-color: #10b981; }
+        .module-card.purple { border-left-color: #8b5cf6; }
+        .module-card.orange { border-left-color: #f59e0b; }
+        .module-card.red { border-left-color: #ef4444; }
+        .module-card.gray { border-left-color: #6b7280; }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .stat-card.green {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .stat-card.orange {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-card.purple {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-gray-900 flex items-center">
+                            <i class="fas fa-chart-line mr-3 text-blue-600"></i>
+                            Gerenciador de Vendas
+                        </h1>
+                        <span class="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            leads8 System
+                        </span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-gray-900">{{user.name}}</div>
+                            <div class="text-xs text-gray-500">Nível {{user.level}} • ID: {{user.id}}</div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm font-medium">Total de Leads</p>
+                            <p class="text-3xl font-bold">{{stats.total_leads}}</p>
+                        </div>
+                        <i class="fas fa-users text-2xl text-blue-200"></i>
+                    </div>
+                </div>
+                
+                <div class="stat-card green rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-green-100 text-sm font-medium">Pedidos Pendentes</p>
+                            <p class="text-3xl font-bold">{{stats.pending_orders}}</p>
+                        </div>
+                        <i class="fas fa-clock text-2xl text-green-200"></i>
+                    </div>
+                </div>
+                
+                <div class="stat-card orange rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-pink-100 text-sm font-medium">Vendas do Mês</p>
+                            <p class="text-3xl font-bold">{{stats.monthly_sales}}</p>
+                        </div>
+                        <i class="fas fa-chart-bar text-2xl text-pink-200"></i>
+                    </div>
+                </div>
+                
+                <div class="stat-card purple rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-cyan-100 text-sm font-medium">Tickets Ativos</p>
+                            <p class="text-3xl font-bold">{{stats.active_tickets}}</p>
+                        </div>
+                        <i class="fas fa-ticket-alt text-2xl text-cyan-200"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-bolt mr-2 text-yellow-500"></i>
+                    Ações Rápidas
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="/lead/add" class="flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                        <i class="fas fa-plus-circle text-blue-600 text-xl mr-3"></i>
+                        <span class="font-medium text-blue-900">Novo Lead</span>
+                    </a>
+                    <a href="/lead/search" class="flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                        <i class="fas fa-search text-green-600 text-xl mr-3"></i>
+                        <span class="font-medium text-green-900">Buscar Leads</span>
+                    </a>
+                    <a href="/lead/statistics" class="flex items-center p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                        <i class="fas fa-chart-line text-purple-600 text-xl mr-3"></i>
+                        <span class="font-medium text-purple-900">Estatísticas</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modules Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {{#modules}}
+                {{#leads}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/leads}}
+                
+                {{#products}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/products}}
+                
+                {{#orders}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/orders}}
+                
+                {{#sales}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/sales}}
+                
+                {{#tickets}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/tickets}}
+                
+                {{#admin}}
+                <div class="module-card {{color}} bg-white rounded-lg shadow-sm p-6 lg:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="{{icon}} text-2xl text-{{color}}-600 mr-3"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">{{title}}</h3>
+                        <span class="ml-3 px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Admin</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {{#controllers}}
+                        <a href="{{url}}" class="flex items-center p-3 bg-gray-50 hover:bg-{{../color}}-50 rounded-md transition-colors group">
+                            <i class="{{icon}} text-gray-600 group-hover:text-{{../../color}}-600 mr-3"></i>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-{{../../color}}-700">{{name}}</span>
+                        </a>
+                        {{/controllers}}
+                    </div>
+                </div>
+                {{/admin}}
+                {{/modules}}
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        © 2024 leads8 System - Gerenciador de Vendas
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Versão 6.0 • Última atualização: {{#stats}}{{today}}{{/stats}}
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-refresh statistics every 5 minutes
+        setInterval(function() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(data => {
+                    // Update statistics cards if needed
+                    console.log('Stats updated:', data);
+                })
+                .catch(error => console.error('Error updating stats:', error));
+        }, 300000); // 5 minutes
+    </script>
+</body>
+</html>

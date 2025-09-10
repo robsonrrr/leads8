@@ -1,0 +1,1013 @@
+{{>partials/header-tailwind}}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        🏆 Top Produtos por Valor Total
+                    </h1>
+                    <p class="text-gray-600">Produtos do período selecionado ordenados por valor total (maiores valores primeiro)</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Voltar
+                    </button>
+                    <div id="realtime-clock" class="flex items-center text-2xl font-bold text-gray-800 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-lg border border-blue-200 shadow-sm hover:shadow-md transition-all duration-300">
+                        <span class="mr-2 animate-pulse">🕐</span>
+                        <span id="clock-time" class="font-mono">--:--:--</span>
+                    </div>
+                    <div id="refresh-indicator" class="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-2 rounded-lg">
+                        <span class="animate-pulse mr-2">🔄</span>
+                        <span id="refresh-countdown">60s</span>
+                        <button id="toggle-refresh" onclick="toggleAutoRefresh()" class="ml-2 text-blue-600 hover:text-blue-800" title="Pausar/Retomar Auto-refresh">
+                            ⏸️
+                        </button>
+                    </div>
+                    <button onclick="exportarCSV()" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Exportar CSV
+                    </button>
+                    <button onclick="carregarAPI()" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                        Ver JSON
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">🔍 Filtros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Data Início</label>
+                    <input type="date" id="dataInicio" value="{{filtros.data_inicio}}" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Data Fim</label>
+                    <input type="date" id="dataFim" value="{{filtros.data_fim}}" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Segmento</label>
+                    <select id="segmento" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Segmentos</option>
+                        <option value="1" {{#filtros.segmento_1}}selected{{/filtros.segmento_1}}>🏭 Máquinas</option>
+                        <option value="2" {{#filtros.segmento_2}}selected{{/filtros.segmento_2}}>⚙️ Rolamentos</option>
+                        <option value="3" {{#filtros.segmento_3}}selected{{/filtros.segmento_3}}>🔧 Peças</option>
+                        <option value="4" {{#filtros.segmento_4}}selected{{/filtros.segmento_4}}>🏗️ Metais</option>
+                        <option value="5" {{#filtros.segmento_5}}selected{{/filtros.segmento_5}}>🚗 Autopeças</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select id="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Status</option>
+                        <option value="1" {{#filtros.status_1}}selected{{/filtros.status_1}}>✅ Autorizado</option>
+                        <option value="0" {{#filtros.status_0}}selected{{/filtros.status_0}}>⏳ Pendente</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Limite</label>
+                    <select id="limite" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="10">10 registros</option>
+                        <option value="25">25 registros</option>
+                        <option value="50" selected>50 registros</option>
+                        <option value="100">100 registros</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button onclick="filtrarEstatisticas()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                        </svg>
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas Resumidas -->
+        <div class="flex flex-wrap gap-4 mb-8">
+            <!-- Total de Produtos -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md p-3 text-white flex items-center min-w-0 flex-1">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                        <div class="bg-green-400 bg-opacity-30 p-1.5 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-green-100 text-xs font-medium">Total de Produtos</p>
+                            <p class="text-lg font-bold">{{stats.total_produtos}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valor Total -->
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-md p-3 text-white flex items-center min-w-0 flex-1">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                        <div class="bg-orange-400 bg-opacity-30 p-1.5 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-orange-100 text-xs font-medium">Valor Total</p>
+                            <p class="text-lg font-bold">R$ {{stats.total_valor_formatado}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantidade Total -->
+            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-lg shadow-md p-3 text-white flex items-center min-w-0 flex-1">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                        <div class="bg-indigo-400 bg-opacity-30 p-1.5 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-indigo-100 text-xs font-medium">Qtd Total</p>
+                            <p class="text-lg font-bold">{{stats.total_quantidade}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valor Médio -->
+            <div class="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg shadow-md p-3 text-white flex items-center min-w-0 flex-1">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                        <div class="bg-pink-400 bg-opacity-30 p-1.5 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-pink-100 text-xs font-medium">Valor Médio</p>
+                            <p class="text-lg font-bold">R$ {{stats.valor_medio_formatado}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Produtos -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">🏆 Top Produtos por Valor Total</h3>
+                        <p class="text-sm text-gray-600 mt-1">Produtos do período selecionado ordenados por valor total (maiores valores primeiro)</p>
+                    </div>
+                    <div id="filter-controls" class="flex items-center space-x-2" style="display: none;">
+                        <span class="text-xs text-gray-500">Filtros ativos:</span>
+                        <button onclick="clearAllFilters()" 
+                                class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors">
+                            🗑️ Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 table-fixed w-full"
+                       style="min-width: 1900px;">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-14"># Nº</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                                <a href="javascript:void(0)" onclick="sortTable('data_emissao')" class="hover:text-blue-600 cursor-pointer">
+                                    📅 Data Emissão <span id="sort-data_emissao" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+                                <a href="javascript:void(0)" onclick="sortTable('hora_emissao')" class="hover:text-blue-600 cursor-pointer">
+                                    🕐 Hora <span id="sort-hora_emissao" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">
+                                <a href="javascript:void(0)" onclick="sortTable('pedido_poid')" class="hover:text-blue-600 cursor-pointer">
+                                    📋 Pedido POID <span id="sort-pedido_poid" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+                                <a href="javascript:void(0)" onclick="sortTable('tipo_lead')" class="hover:text-blue-600 cursor-pointer">
+                                    🏷️ Tipo <span id="sort-tipo_lead" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">
+                                <a href="javascript:void(0)" onclick="sortTable('produto_poid')" class="hover:text-blue-600 cursor-pointer">
+                                    Produto POID <span id="sort-produto_poid" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">
+                                <a href="javascript:void(0)" onclick="sortTable('produto_segmento_nome')" class="hover:text-blue-600 cursor-pointer">
+                                    🏷️ Segmento <span id="sort-produto_segmento_nome" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">
+                                <a href="javascript:void(0)" onclick="sortTable('cliente_nome')" class="hover:text-blue-600 cursor-pointer">
+                                    Cliente Nome <span id="sort-cliente_nome" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                                <a href="javascript:void(0)" onclick="sortTable('cliente_cidade')" class="hover:text-blue-600 cursor-pointer">
+                                    🏙️ Cidade <span id="sort-cliente_cidade" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+                                <a href="javascript:void(0)" onclick="sortTable('cliente_estado')" class="hover:text-blue-600 cursor-pointer">
+                                    🗺️ Estado <span id="sort-cliente_estado" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                                <a href="javascript:void(0)" onclick="sortTable('usuario_apelido')" class="hover:text-blue-600 cursor-pointer">
+                                    Usuário <span id="sort-usuario_apelido" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">
+                                <a href="javascript:void(0)" onclick="sortTable('produto_modelo')" class="hover:text-blue-600 cursor-pointer">
+                                    🏷️ Modelo <span id="sort-produto_modelo" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+                                <a href="javascript:void(0)" onclick="sortTable('total_quantidade')" class="hover:text-blue-600 cursor-pointer">
+                                    Quantidade <span id="sort-total_quantidade" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                                <a href="javascript:void(0)" onclick="sortTable('valor_medio')" class="hover:text-blue-600 cursor-pointer">
+                                    💵 Valor Unitário <span id="sort-valor_medio" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                                <a href="javascript:void(0)" onclick="sortTable('valor_total_item')" class="hover:text-blue-600 cursor-pointer">
+                                    💰 Valor Total <span id="sort-valor_total_item" class="sort-icon">⇅</span>
+                                </a>
+                            </th>
+                        </tr>
+                        <!-- Linha de filtros -->
+                        <tr class="bg-gray-100 border-b border-gray-300">
+                            <th class="px-3 py-2 w-14"></th>
+                            <th class="px-3 py-2 w-32"></th>
+                            <th class="px-3 py-2 w-24"></th>
+                            <th class="px-3 py-2 w-28">
+                                <input type="text" 
+                                       id="filter-pedido-poid" 
+                                       value="{{filtros.filter_pedido_poid}}"
+                                       placeholder="Filtrar..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('pedido_poid', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-24">
+                                <select id="filter-tipo-lead" 
+                                        class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                        onchange="debounceFilter('tipo_lead', this.value)">
+                                    <option value="">Todos</option>
+                                    <option value="Consulta">💬 Consulta</option>
+                                    <option value="Pedido">🛒 Pedido</option>
+                                </select>
+                            </th>
+                            <th class="px-3 py-2 w-28">
+                                <input type="text" 
+                                       id="filter-produto-poid" 
+                                       value="{{filtros.filter_produto_poid}}"
+                                       placeholder="Filtrar..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('produto_poid', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-40">
+                                <input type="text" 
+                                       id="filter-produto-segmento-nome" 
+                                       value="{{filtros.filter_produto_segmento_nome}}"
+                                       placeholder="Filtrar segmento..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('produto_segmento_nome', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-48">
+                                <input type="text" 
+                                       id="filter-cliente-nome" 
+                                       value="{{filtros.filter_cliente_nome}}"
+                                       placeholder="Filtrar cliente..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('cliente_nome', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-32">
+                                <input type="text" 
+                                       id="filter-cliente-cidade" 
+                                       value="{{filtros.filter_cliente_cidade}}"
+                                       placeholder="Filtrar cidade..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('cliente_cidade', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-24">
+                                <input type="text" 
+                                       id="filter-cliente-estado" 
+                                       value="{{filtros.filter_cliente_estado}}"
+                                       placeholder="Filtrar estado..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('cliente_estado', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-32">
+                                <input type="text" 
+                                       id="filter-usuario-apelido" 
+                                       value="{{filtros.filter_usuario_apelido}}"
+                                       placeholder="Filtrar usuário..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('usuario_apelido', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-48">
+                                <input type="text" 
+                                       id="filter-produto-modelo" 
+                                       value="{{filtros.filter_produto_modelo}}"
+                                       placeholder="Filtrar modelo..."
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:border-blue-500 filter-input"
+                                       onkeyup="debounceFilter('produto_modelo', this.value)">
+                            </th>
+                            <th class="px-3 py-2 w-24"></th>
+                            <th class="px-3 py-2 w-32"></th>
+                            <th class="px-3 py-2 w-32"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{#topProdutos}}
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 row-number">{{@index}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-blue-600">{{data_emissao}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-orange-600">{{hora_emissao}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                {{#pedido_poid}}
+                                <a href="javascript:void(0)" 
+                                   onclick="openOrderDetails('{{pedido_poid}}')"
+                                   class="text-blue-600 hover:text-blue-800 font-medium cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-sm">
+                                    📋 {{pedido_poid}}
+                                </a>
+                                {{/pedido_poid}}
+                                {{^pedido_poid}}
+                                <span class="text-gray-400 text-xs">-</span>
+                                {{/pedido_poid}}
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{#pedido_poid}}bg-green-100 text-green-800{{/pedido_poid}}
+                                    {{^pedido_poid}}bg-blue-100 text-blue-800{{/pedido_poid}}">
+                                    {{#pedido_poid}}🛒 Pedido{{/pedido_poid}}
+                                    {{^pedido_poid}}💬 Consulta{{/pedido_poid}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">{{produto_poid}}</td>
+                            <td class="px-3 py-4 text-sm text-gray-900">{{produto_segmento_nome}}</td>
+                            <td class="px-3 py-4 text-sm text-gray-900">{{cliente_nome}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">{{cliente_cidade}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{{cliente_estado}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <a href="javascript:void(0)" 
+                                   onclick="openUsuarioDetails('{{usuario_poid}}', '1', '{{usuario_apelido}}')"
+                                   class="text-blue-600 hover:text-blue-800 font-medium cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-sm">
+                                    👨‍💼 {{usuario_apelido}}
+                                </a>
+                            </td>
+                            <td class="px-3 py-4 text-sm text-gray-900 font-medium">{{produto_modelo}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900 text-right">{{total_quantidade_formatado}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-purple-600">R$ {{valor_medio_formatado}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-green-600">R$ {{total_valor_formatado}}</td>
+                        </tr>
+                        {{/topProdutos}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginador para Produtos -->
+            {{#topProdutosPagination}}
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Mostrando {{current_page}} de {{total_pages}} páginas
+                        ({{total}} registros no total)
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changePage('produtos', {{current_page}} - 1)" 
+                                class="px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                {{^has_previous}}disabled{{/has_previous}}>
+                            ← Anterior
+                        </button>
+                        
+                        <button onclick="changePage('produtos', {{current_page}})" 
+                                class="px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                {{^has_next}}disabled{{/has_next}}>
+                            Próximo →
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{/topProdutosPagination}}
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal para JSON -->
+<div id="jsonModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-medium text-gray-900">📄 Dados em JSON</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="bg-gray-100 rounded-lg p-4 max-h-96 overflow-y-auto">
+                <pre id="jsonContent" class="text-sm text-gray-800"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filtrarEstatisticas() {
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
+    const segmento = document.getElementById('segmento').value;
+    const status = document.getElementById('status').value;
+    const limite = document.getElementById('limite').value;
+    
+    const params = new URLSearchParams({
+        data_inicio: dataInicio,
+        data_fim: dataFim,
+        segmento: segmento,
+        status: status,
+        limit: limite
+    });
+    
+    // Reset paginação ao filtrar
+    params.delete('offset');
+    
+    window.location.href = '/leads8/lead/statistics/top_produtos?' + params.toString();
+}
+
+function exportarCSV() {
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
+    const segmento = document.getElementById('segmento').value;
+    const status = document.getElementById('status').value;
+    
+    const params = new URLSearchParams({
+        data_inicio: dataInicio,
+        data_fim: dataFim,
+        segmento: segmento,
+        status: status
+    });
+    
+    window.location.href = '/leads8/lead/statistics/export?' + params.toString();
+}
+
+function carregarAPI() {
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
+    const segmento = document.getElementById('segmento').value;
+    const status = document.getElementById('status').value;
+    
+    const params = new URLSearchParams({
+        data_inicio: dataInicio,
+        data_fim: dataFim,
+        segmento: segmento,
+        status: status
+    });
+    
+    fetch('/leads8/lead/statistics/api?' + params.toString())
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('jsonContent').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('jsonModal').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao carregar dados da API');
+        });
+}
+
+function closeModal() {
+    document.getElementById('jsonModal').classList.add('hidden');
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('jsonModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+
+// Numerar linhas da tabela começando em 1
+document.addEventListener('DOMContentLoaded', function() {
+    const rowNumbers = document.querySelectorAll('.row-number');
+    rowNumbers.forEach((cell, index) => {
+        cell.textContent = index + 1;
+    });
+});
+
+// Auto-refresh a cada 1 minuto (60 segundos)
+let refreshInterval;
+let countdownInterval;
+let countdownSeconds = 60;
+
+function startAutoRefresh() {
+    // Iniciar contagem regressiva
+    startCountdown();
+    
+    refreshInterval = setInterval(function() {
+        console.log('🔄 Auto-refresh: Recarregando página...');
+        window.location.reload();
+    }, 60000); // 60 segundos = 1 minuto
+}
+
+function startCountdown() {
+    countdownSeconds = 60;
+    updateCountdownDisplay();
+    
+    countdownInterval = setInterval(function() {
+        countdownSeconds--;
+        updateCountdownDisplay();
+        
+        if (countdownSeconds <= 0) {
+            countdownSeconds = 60; // Reset para próximo ciclo
+        }
+    }, 1000);
+}
+
+function updateCountdownDisplay() {
+    const countdownElement = document.getElementById('refresh-countdown');
+    if (countdownElement) {
+        countdownElement.textContent = countdownSeconds + 's';
+        
+        // Mudar cor baseado no tempo restante
+        if (countdownSeconds <= 10) {
+            countdownElement.className = 'text-red-600 font-bold';
+        } else if (countdownSeconds <= 30) {
+            countdownElement.className = 'text-orange-600 font-medium';
+        } else {
+            countdownElement.className = 'text-gray-600';
+        }
+    }
+}
+
+function stopAutoRefresh() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+        console.log('⏹️ Auto-refresh: Parado');
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        console.log('⏹️ Contagem regressiva: Parada');
+    }
+}
+
+let isAutoRefreshActive = true;
+let clockInterval;
+
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
+    const clockElement = document.getElementById('clock-time');
+    if (clockElement) {
+        // Efeito de destaque quando os segundos mudam
+        clockElement.style.transform = 'scale(1.05)';
+        clockElement.style.color = '#1f2937';
+        
+        setTimeout(() => {
+            clockElement.style.transform = 'scale(1)';
+            clockElement.style.color = '#1f2937';
+        }, 200);
+        
+        clockElement.textContent = timeString;
+    }
+}
+
+function startClock() {
+    updateClock(); // Atualizar imediatamente
+    clockInterval = setInterval(updateClock, 1000); // Atualizar a cada segundo
+}
+
+function stopClock() {
+    if (clockInterval) {
+        clearInterval(clockInterval);
+    }
+}
+
+function toggleAutoRefresh() {
+    const toggleButton = document.getElementById('toggle-refresh');
+    
+    if (isAutoRefreshActive) {
+        stopAutoRefresh();
+        toggleButton.textContent = '▶️';
+        toggleButton.title = 'Retomar Auto-refresh';
+        document.getElementById('refresh-countdown').textContent = 'Pausado';
+        console.log('⏸️ Auto-refresh pausado pelo usuário');
+    } else {
+        startAutoRefresh();
+        toggleButton.textContent = '⏸️';
+        toggleButton.title = 'Pausar Auto-refresh';
+        console.log('▶️ Auto-refresh retomado pelo usuário');
+    }
+    
+    isAutoRefreshActive = !isAutoRefreshActive;
+}
+
+// Iniciar auto-refresh e relógio quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    startAutoRefresh();
+    startClock();
+    console.log('🔄 Auto-refresh iniciado: 1 minuto');
+    console.log('🕐 Relógio em tempo real iniciado');
+});
+
+// JavaScript para ordenação da tabela
+function sortTable(column) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentOrderBy = urlParams.get('order_by') || 'valor_total_item';
+    const currentOrderDir = urlParams.get('order_dir') || 'DESC';
+    
+    let newOrderDir = 'DESC';
+    
+    // Se clicou na mesma coluna, inverte a direção
+    if (currentOrderBy === column) {
+        newOrderDir = (currentOrderDir === 'DESC') ? 'ASC' : 'DESC';
+    }
+    
+    // Atualizar URL com novos parâmetros de ordenação
+    urlParams.set('order_by', column);
+    urlParams.set('order_dir', newOrderDir);
+    
+    window.location.search = urlParams.toString();
+}
+
+function updateSortIcons() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentOrderBy = urlParams.get('order_by') || 'valor_total_item';
+    const currentOrderDir = urlParams.get('order_dir') || 'DESC';
+    
+    // Reset all icons
+    document.querySelectorAll('.sort-icon').forEach(icon => {
+        icon.textContent = '⇅';
+        icon.style.color = '#9CA3AF';
+    });
+    
+    // Set active icon
+    const activeIcon = document.getElementById('sort-' + currentOrderBy);
+    if (activeIcon) {
+        if (currentOrderDir === 'DESC') {
+            activeIcon.textContent = '↓';
+            activeIcon.style.color = '#3B82F6';
+        } else {
+            activeIcon.textContent = '↑';
+            activeIcon.style.color = '#3B82F6';
+        }
+    }
+}
+
+// Atualizar ícones quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    updateSortIcons();
+    updateFilterControls();
+});
+
+function updateFilterControls() {
+    const filterControls = document.getElementById('filter-controls');
+    if (hasActiveFilters()) {
+        filterControls.style.display = 'flex';
+    } else {
+        filterControls.style.display = 'none';
+    }
+}
+
+// Sistema de filtros com debounce
+let filterTimeout = null;
+
+function debounceFilter(column, value) {
+    // Limpar timeout anterior
+    if (filterTimeout) {
+        clearTimeout(filterTimeout);
+    }
+    
+    // Aguardar 800ms após última digitação
+    filterTimeout = setTimeout(function() {
+        applyFilter(column, value);
+    }, 800);
+}
+
+function applyFilter(column, value) {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Atualizar ou remover filtro
+    if (value && value.trim() !== '') {
+        urlParams.set('filter_' + column, value.trim());
+    } else {
+        urlParams.delete('filter_' + column);
+    }
+    
+    // Reset página para primeira página quando filtrar
+    urlParams.delete('offset');
+    
+    // Aplicar filtros
+    window.location.search = urlParams.toString();
+}
+
+function clearAllFilters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Remover todos os filtros
+    urlParams.delete('filter_cliente_nome');
+    urlParams.delete('filter_cliente_cidade');
+    urlParams.delete('filter_cliente_estado');
+    urlParams.delete('filter_usuario_apelido');
+    urlParams.delete('filter_produto_modelo');
+    urlParams.delete('filter_produto_poid');
+    urlParams.delete('filter_pedido_poid');
+    urlParams.delete('filter_produto_segmento_nome');
+    
+    // Reset paginação
+    urlParams.delete('offset');
+    
+    window.location.search = urlParams.toString();
+}
+
+function hasActiveFilters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('filter_cliente_nome') ||
+           urlParams.get('filter_cliente_cidade') ||
+           urlParams.get('filter_cliente_estado') ||
+           urlParams.get('filter_usuario_apelido') ||
+           urlParams.get('filter_produto_modelo') ||
+           urlParams.get('filter_produto_poid') ||
+           urlParams.get('filter_pedido_poid') ||
+           urlParams.get('filter_produto_segmento_nome');
+}
+
+// Função para navegar entre páginas
+function changePage(tableType, page) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const limit = urlParams.get('limit') || 50;
+    
+    urlParams.set('offset', (page * limit).toString());
+    
+    window.location.search = urlParams.toString();
+}
+
+// Função para abrir detalhes do pedido em uma janela WinBox
+function openOrderDetails(pedidoPoid) {
+    // Usar URL completa para garantir que carregue
+    const url = `https://dev.office.internut.com.br/K3/tip/order/${pedidoPoid}/`;
+    
+    console.log('📋 Abrindo detalhes do Pedido:', pedidoPoid);
+    console.log('📍 URL:', url);
+    
+    // Bloquear scroll da página pai imediatamente
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Criar janela WinBox com configurações avançadas
+    const winbox = new WinBox({
+        title: `📋 Detalhes do Pedido #${pedidoPoid}`,
+        url: url,
+        width: '90%',
+        height: '85%',
+        class: "iframe",    
+        x: 'center',
+        y: 'top',
+        top: '5%',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        border: '3px',
+        modal: true,
+        minwidth: 1000,
+        minheight: 700,
+        maxwidth: '95%',
+        maxheight: '90%',
+        onclose: function() {
+            console.log(`Janela do Pedido #${pedidoPoid} fechada`);
+            // Reativar scroll da página pai
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        },
+        onload: function() {
+            console.log(`✅ Conteúdo carregado para Pedido #${pedidoPoid}`);
+        }
+    });
+    
+    console.log(`📋 Janela WinBox criada para Pedido #${pedidoPoid}`);
+    console.log(`📍 URL: ${url}`);
+}
+
+// Função para abrir detalhes do usuário/vendedor em uma janela WinBox
+function openUsuarioDetails(vendedorPoid, produtoSegmentoId, usuarioApelido) {
+    // Usar URL fornecida para CRM
+    const url = `/crm/v506/Index/index/${vendedorPoid}/${produtoSegmentoId}/`;
+    
+    console.log('👨‍💼 Abrindo detalhes do Usuário:', usuarioApelido);
+    console.log('📍 URL:', url);
+    console.log('🆔 Vendedor POID:', vendedorPoid);
+    console.log('🏷️ Produto Segmento ID:', produtoSegmentoId);
+    
+    // Bloquear scroll da página pai imediatamente
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Criar janela WinBox com configurações avançadas
+    const winbox = new WinBox({
+        title: `👨‍💼 CRM do Usuário: ${usuarioApelido}`,
+        url: url,
+        width: '90%',
+        height: '85%',
+        class: "iframe",    
+        x: 'center',
+        y: 'top',
+        top: '5%',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        border: '3px',
+        modal: true,
+        minwidth: 1000,
+        minheight: 700,
+        maxwidth: '95%',
+        maxheight: '90%',
+        onclose: function() {
+            console.log(`Janela do Usuário ${usuarioApelido} fechada`);
+            // Reativar scroll da página pai
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        },
+        onload: function() {
+            console.log(`✅ Conteúdo carregado para Usuário ${usuarioApelido}`);
+        }
+    });
+    
+    console.log(`👨‍💼 Janela WinBox criada para Usuário ${usuarioApelido}`);
+    console.log(`📍 URL: ${url}`);
+}
+</script>
+
+<!-- WinBox.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.min.js"></script>
+
+<!-- CSS para indicadores de ordenação -->
+<style>
+/* Estilos personalizados para WinBox */
+.winbox {
+    overflow: visible !important;
+    z-index: 99999 !important;
+    position: fixed !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.wb-header {
+    z-index: 100000 !important;
+    position: relative !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    flex-shrink: 0 !important;
+    order: -1 !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    cursor: move !important;
+    user-select: none !important;
+}
+
+.wb-control {
+    z-index: 100001 !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+}
+
+.wb-title {
+    z-index: 100000 !important;
+    position: relative !important;
+}
+
+.wb-body {
+    overflow: hidden !important;
+    z-index: 99998 !important;
+    position: relative !important;
+    margin-top: 0 !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    isolation: isolate !important;
+    background: #f8fafc !important;
+    border-radius: 0 0 8px 8px !important;
+    padding: 0 !important;
+}
+
+.wb-body iframe {
+    z-index: 99997 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    background: white !important;
+    overflow: auto !important;
+    display: block !important;
+}
+
+.winbox.modal {
+    z-index: 99999 !important;
+}
+
+.winbox .wb-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100000 !important;
+}
+
+.sort-icon {
+    font-size: 12px;
+    margin-left: 4px;
+    color: #9CA3AF;
+    transition: color 0.2s;
+}
+
+.cursor-pointer:hover .sort-icon {
+    color: #3B82F6 !important;
+}
+
+th a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+}
+
+th a:hover {
+    text-decoration: none;
+}
+
+/* Estilos para inputs de filtro */
+.filter-input {
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+
+.filter-input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
+}
+
+.filter-input:not(:placeholder-shown) {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    font-weight: 500;
+}
+
+/* Indicador visual para filtros ativos */
+.bg-gray-100 {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+/* Animação suave para controles de filtro */
+#filter-controls {
+    transition: all 0.3s ease;
+}
+
+.table-container {
+    position: relative;
+}
+
+.filter-active-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: #3b82f6;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+</style>

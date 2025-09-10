@@ -8,12 +8,12 @@ class Controller_Website extends Controller_Session  {
     {
         parent::before();
 
-        // Redirect to leads6 if Userid is 11111111
+        // Redirect to leads8 if Userid is 11111111
         // if (isset($_SESSION['MM_Userid']) && $_SESSION['MM_Userid'] == 1) {
         //     // Get the dynamic number from the current request
         //     $dynamicNumber = $this->request->param('id');
         //     if ($dynamicNumber) {
-        //         $redirectUrl = "https://dev.office.internut.com.br/leads6/lead/index/{$dynamicNumber}/1";
+        //         $redirectUrl = "https://dev.office.internut.com.br/leads8/lead/index/{$dynamicNumber}/1";
         //         $this->redirect($redirectUrl);
         //     }
         // }

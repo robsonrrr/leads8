@@ -1,0 +1,562 @@
+{{>partials/header-tailwind}}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        📊 Dashboard Comercial - Performance de Vendas
+                    </h1>
+                    <p class="text-gray-600">Análise completa de vendas, giro de estoque e oportunidades comerciais</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="exportarDados()" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Exportar
+                    </button>
+                    <a href="/leads8/lead/statistics" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Voltar ao Sistema
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPIs Principais -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Produtos -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total de Produtos</p>
+                        <p class="text-3xl font-bold text-blue-600">{{kpis.total_produtos}}</p>
+                        <p class="text-sm text-gray-500">{{kpis.produtos_com_vendas}} com vendas</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendas do Período -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Vendas {{filtros_ativos.periodo}} dias</p>
+                        <p class="text-3xl font-bold text-green-600">{{kpis.vendas_total_periodo}}</p>
+                        <p class="text-sm text-gray-500">{{kpis.percentual_com_vendas}}% produtos venderam</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giro Médio -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Giro Médio</p>
+                        <p class="text-3xl font-bold text-purple-600">{{kpis.giro_medio_meses}}</p>
+                        <p class="text-sm text-gray-500">meses de estoque</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atingimento de Meta -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Atingimento Anual</p>
+                        <p class="text-3xl font-bold text-orange-600">{{kpis.percentual_atingimento}}%</p>
+                        <p class="text-sm text-gray-500">da previsão do ano</p>
+                    </div>
+                    <div class="bg-orange-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análise por Segmentos de Giro de Estoque -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    📊 Análise de Valor por Giro de Estoque
+                </h3>
+                <div class="text-right text-sm text-gray-600">
+                    <div>Total: <span class="font-semibold">R$ {{segmentos_giro.totais.valor_total_geral_formatado}}</span></div>
+                    <div>{{segmentos_giro.totais.produtos_total_geral_formatado}} produtos</div>
+                </div>
+            </div>
+            
+            <!-- Grid de Segmentos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{#segmentos_giro.segmentos}}
+                <div class="border rounded-lg p-4 {{cor_segmento}}">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="text-lg font-semibold">{{segmento_giro}}</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{cor_badge}} text-white">
+                                {{status_segmento}}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold">{{percentual_valor}}%</div>
+                            <div class="text-xs text-gray-600">do valor total</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- Valor Total -->
+                        <div class="bg-white bg-opacity-60 rounded-lg p-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Valor Total:</span>
+                                <span class="text-lg font-bold">R$ {{valor_total_formatado}}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Métricas -->
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Produtos:</div>
+                                <div class="font-semibold">{{total_produtos}}</div>
+                                <div class="text-xs">{{percentual_produtos}}%</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Estoque:</div>
+                                <div class="font-semibold">{{total_estoque_formatado}}</div>
+                                <div class="text-xs">{{percentual_estoque}}%</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Giro Médio:</div>
+                                <div class="font-semibold">{{giro_medio_formatado}} meses</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Vendas 30D:</div>
+                                <div class="font-semibold">{{vendas_30_dias}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/segmentos_giro.segmentos}}
+            </div>
+            
+            <!-- Resumo dos Segmentos -->
+            <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                <h4 class="text-lg font-semibold text-gray-900 mb-3">📈 Resumo dos Segmentos</h4>
+                
+
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Giro Rápido + Médio</div>
+                        <div class="text-lg font-bold text-green-600" id="valor-giro-bom">Calculando...</div>
+                        <div class="text-xs text-gray-500">Situação ideal</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Giro Lento</div>
+                        <div class="text-lg font-bold text-yellow-600" id="valor-giro-atencao">Calculando...</div>
+                        <div class="text-xs text-gray-500">Necessita atenção</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Estoque Parado</div>
+                        <div class="text-lg font-bold text-red-600" id="valor-giro-critico">Calculando...</div>
+                        <div class="text-xs text-gray-500">Ação imediata</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Total Analisado</div>
+                        <div class="text-lg font-bold text-blue-600">R$ {{segmentos_giro.totais.valor_total_geral_formatado}}</div>
+                        <div class="text-xs text-gray-500">{{segmentos_giro.totais.produtos_total_geral_formatado}} produtos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análise de Totais por Marca -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    🏷️ Análise de Totais por Marca
+                </h3>
+                <div class="text-right text-sm text-gray-600">
+                    <div>{{totais_por_marca.totais.total_marcas}} marcas analisadas</div>
+                    <div>Total: <span class="font-semibold">R$ {{totais_por_marca.totais.valor_total_geral_formatado}}</span></div>
+                </div>
+            </div>
+            
+            <!-- Resumo por Status -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="text-center p-3 bg-green-50 rounded-lg border border-green-200">
+                    <div class="text-sm text-gray-600">Marcas Excelentes</div>
+                    <div class="text-2xl font-bold text-green-600" id="marcas-excelentes">0</div>
+                    <div class="text-xs text-gray-500">≤3 meses giro + 50%+ vendas</div>
+                </div>
+                <div class="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div class="text-sm text-gray-600">Marcas Boas</div>
+                    <div class="text-2xl font-bold text-blue-600" id="marcas-boas">0</div>
+                    <div class="text-xs text-gray-500">≤6 meses giro + 30%+ vendas</div>
+                </div>
+                <div class="text-center p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <div class="text-sm text-gray-600">Marcas Regulares</div>
+                    <div class="text-2xl font-bold text-yellow-600" id="marcas-regulares">0</div>
+                    <div class="text-xs text-gray-500">≤12 meses giro + 20%+ vendas</div>
+                </div>
+                <div class="text-center p-3 bg-red-50 rounded-lg border border-red-200">
+                    <div class="text-sm text-gray-600">Marcas Atenção</div>
+                    <div class="text-2xl font-bold text-red-600" id="marcas-atencao">0</div>
+                    <div class="text-xs text-gray-500">Necessita revisão</div>
+                </div>
+            </div>
+
+            <!-- Top 20 Marcas -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Valor Estoque</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">% Valor</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Produtos</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vendas 30D</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Giro Médio</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">% c/ Vendas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{#totais_por_marca.marcas}}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{marca}}</div>
+                                        <div class="text-sm text-gray-500">{{tamanho_marca}} | {{total_produtos}} produtos</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{cor_status}}">
+                                    {{status_marca}}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-gray-900">
+                                R$ {{valor_total_formatado}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{percentual_valor}}%
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{total_produtos}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{vendas_30_dias_formatado}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{giro_medio_formatado}} meses
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <div class="text-sm font-medium text-gray-900">{{percentual_produtos_com_vendas}}%</div>
+                                <div class="text-xs text-gray-500">{{produtos_com_vendas_30d}}/{{total_produtos}}</div>
+                            </td>
+                        </tr>
+                        {{/totais_por_marca.marcas}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Totais Consolidados -->
+            <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                <h4 class="text-lg font-semibold text-gray-900 mb-3">📈 Totais Consolidados</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Valor Total</div>
+                        <div class="text-lg font-bold text-purple-600">R$ {{totais_por_marca.totais.valor_total_geral_formatado}}</div>
+                        <div class="text-xs text-gray-500">das top 20 marcas</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Total Produtos</div>
+                        <div class="text-lg font-bold text-blue-600">{{totais_por_marca.totais.produtos_total_geral_formatado}}</div>
+                        <div class="text-xs text-gray-500">produtos analisados</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Vendas 30 Dias</div>
+                        <div class="text-lg font-bold text-green-600">{{totais_por_marca.totais.vendas_total_30d_formatado}}</div>
+                        <div class="text-xs text-gray-500">unidades vendidas</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-600">Vendas Ano</div>
+                        <div class="text-lg font-bold text-orange-600">{{totais_por_marca.totais.vendas_total_ano_formatado}}</div>
+                        <div class="text-xs text-gray-500">unidades no ano</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Análises -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            
+            <!-- Top Produtos por Vendas -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
+                    <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                        <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                        🏆 Top Produtos por Vendas
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1">Últimos {{filtros_ativos.periodo}} dias</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        {{#top_produtos_vendas}}
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">{{model_code}}</h4>
+                                    <p class="text-sm text-gray-600">{{brand_name}} - {{product_name}}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-green-600">{{vendas_periodo}}</div>
+                                    <div class="text-sm text-gray-500">unidades</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-600">Receita:</span>
+                                    <span class="font-medium text-green-600">R$ {{receita_periodo_formatada}}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Estoque:</span>
+                                    <span class="font-medium">{{total_stock}} un</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Margem:</span>
+                                    <span class="font-medium text-blue-600">{{margem_percentual_formatada}}%</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Tendência:</span>
+                                    <span class="font-medium text-gray-600">{{tendencia_vendas}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{/top_produtos_vendas}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produtos de Baixo Giro -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-red-50 to-red-100">
+                    <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                        <svg class="w-6 h-6 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        🐌 Produtos de Baixo Giro
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1">Sem vendas há mais de 90 dias</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        {{#produtos_baixo_giro}}
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">{{model_code}}</h4>
+                                    <p class="text-sm text-gray-600">{{brand_name}}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold text-red-600">R$ {{total_value_formatado}}</div>
+                                    <div class="text-sm text-gray-500">valor parado</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-600">Última venda:</span>
+                                    <span class="font-medium text-red-600">{{categoria_giro}}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Estoque:</span>
+                                    <span class="font-medium">{{total_stock}} un</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{/produtos_baixo_giro}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produtos com Queda nas Vendas -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-orange-50 to-orange-100">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-orange-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                    </svg>
+                    📉 Produtos com Queda nas Vendas
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">Comparação últimos 30 dias vs média trimestral</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produto</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vendas 30D</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Média Mensal</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Queda %</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{#produtos_queda_vendas}}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">{{model_code}}</div>
+                                    <div class="text-sm text-gray-500">{{brand_name}}</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-red-600">
+                                {{sales_last_30_days}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{media_mensal_90_dias}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    {{percentual_queda}}%
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{total_stock}}
+                            </td>
+                        </tr>
+                        {{/produtos_queda_vendas}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Resumo Final -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-8 text-white text-center">
+            <h2 class="text-2xl font-bold mb-4">🎯 Dashboard Comercial Ativo!</h2>
+            <p class="text-lg opacity-90">
+                Monitorando {{kpis.total_produtos}} produtos • 
+                {{kpis.vendas_total_periodo}} vendas ({{filtros_ativos.periodo}}d) • 
+                Giro médio: {{kpis.giro_medio_meses}} meses
+            </p>
+            <div class="mt-6">
+                <a href="/leads8/lead/statistics" class="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Voltar ao Sistema Principal
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function exportarDados() {
+    alert('Funcionalidade de exportação será implementada em breve!');
+}
+
+// Auto-refresh a cada 5 minutos
+setInterval(() => {
+    window.location.reload();
+}, 300000);
+
+// Calcular resumos dos segmentos
+function calcularResumoSegmentos() {
+    let giroBom = 0, giroAtencao = 0, giroCritico = 0;
+    
+    {{#segmentos_giro.segmentos}}
+    const valor = parseFloat({{valor_total_segmento}}) || 0;
+    if ({{ordem_segmento}} <= 3) {
+        giroBom += valor;
+    } else if ({{ordem_segmento}} <= 5) {
+        giroAtencao += valor;
+    } else {
+        giroCritico += valor;
+    }
+    {{/segmentos_giro.segmentos}}
+    
+    // Atualizar elementos
+    document.getElementById('valor-giro-bom').textContent = 
+        'R$ ' + giroBom.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('valor-giro-atencao').textContent = 
+        'R$ ' + giroAtencao.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('valor-giro-critico').textContent = 
+        'R$ ' + giroCritico.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+// Calcular resumo das marcas
+function calcularResumoMarcas() {
+    let excelentes = 0, boas = 0, regulares = 0, atencao = 0;
+    
+    {{#totais_por_marca.marcas}}
+    if ('{{status_marca}}' === 'Excelente') {
+        excelentes++;
+    } else if ('{{status_marca}}' === 'Bom') {
+        boas++;
+    } else if ('{{status_marca}}' === 'Regular') {
+        regulares++;
+    } else if ('{{status_marca}}' === 'Atenção') {
+        atencao++;
+    }
+    {{/totais_por_marca.marcas}}
+    
+    // Atualizar elementos
+    document.getElementById('marcas-excelentes').textContent = excelentes;
+    document.getElementById('marcas-boas').textContent = boas;
+    document.getElementById('marcas-regulares').textContent = regulares;
+    document.getElementById('marcas-atencao').textContent = atencao;
+}
+
+// Animações de entrada
+document.addEventListener('DOMContentLoaded', function() {
+    // Calcular resumos
+    calcularResumoSegmentos();
+    calcularResumoMarcas();
+    
+    // Animações
+    const cards = document.querySelectorAll('.rounded-xl');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+});
+</script>

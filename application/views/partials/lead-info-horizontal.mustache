@@ -1,0 +1,215 @@
+<link rel="stylesheet" href="/leads8/css/lead-info-horizontal.css">
+
+<div class="lead-info-horizontal" id="lead-info-horizontal-{{id}}" role="region" aria-label="Lead Information">
+    <!-- Data Criado -->
+    <div class="lead-info-item">
+        <i class="far fa-calendar-alt"></i>
+        <div>
+            <div class="label">Data Criado</div>
+            <div class="value">{{dataEmissaoFormatado}}, {{dataEmissaoDias}} dia(s)</div>
+        </div>
+    </div>
+
+    <!-- Vendedor/Emissor -->
+    <div class="lead-info-item">
+        <i class="fas fa-user-tie"></i>
+        <div>
+            <div class="label">Vendedor/Emissor</div>
+            <div class="value">{{#Cliente.Gerente}}{{UsuarioNomeCurto}}{{/Cliente.Gerente}}{{#Vendedor}} / {{UsuarioNomeCurto}}{{/Vendedor}}</div>
+        </div>
+    </div>
+
+    <!-- Financeiro -->
+    <div class="lead-info-item">
+        <i class="far fa-money-bill-alt"></i>
+        <div>
+            <div class="label">Financeiro</div>
+            <div class="value">
+                {{#Financeiro}}
+                <span title="limite total">{{limite}}</span> /
+                <span title="limite disponível">{{disponivel}}</span> /
+                {{#atrasados}}<span class="text-danger">{{atrasados}}</span>{{/atrasados}}
+                {{^atrasados}}<span class="text-success">0</span>{{/atrasados}}
+                {{/Financeiro}}
+                {{^Financeiro}}—{{/Financeiro}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Cadastro -->
+    <div class="lead-info-item">
+        <i class="fas fa-users-cog"></i>
+        <div>
+            <div class="label">Cadastro</div>
+            <div class="value">
+                {{#Cliente}}
+                <strong>Descontos:</strong> {{clienteDesconto}}, {{clienteDescontoMakAutomotive}}, {{clienteDescontoPedido}} |
+                <strong>Juros:</strong> {{clienteJuros}} | <strong>Sobretaxa:</strong> {{clienteSobretaxa}}
+                {{/Cliente}}
+                {{^Cliente}}—{{/Cliente}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Fonte -->
+    <div class="lead-info-item">
+        <i class="fab fa-font-awesome-flag"></i>
+        <div>
+            <div class="label" id="label-fonte-{{id}}">Fonte <i class="fas fa-question-circle has-tooltip" aria-hidden="true" title="0 - desconhecido, 1 - B2B, 2 - B2C, 3 - ML, 4 - B2W, 5 - Shopee, 6 - Magalu, 7 - Viavarejo, 8 - Amazon, 9 - Instagram, 10 - Facebook, 11 - Youtube, 12 - Visita, 13 - Campanha, 14 - Promoção, 15 - Email marketing"></i></div>
+            <input type="text" class="form-control form-control-sm update" value="{{leadFonte}}"
+                   data-url="/leads8/lead/show/lead/update/Leads/{{id}}"
+                   name="leadFonte" id="leadFonte"
+                   aria-labelledby="label-fonte-{{id}}">
+        </div>
+    </div>
+
+    <!-- Tipo -->
+    <div class="lead-info-item">
+        <i class="fas fa-tag"></i>
+        <div>
+            <div class="label" id="label-tipo-{{id}}">Tipo <i class="fas fa-question-circle has-tooltip" title="1 - Ativa, 2 - Receptivo"></i></div>
+            <input type="text" class="form-control form-control-sm update" value="{{leadTipo}}"
+                   data-url="/leads8/lead/show/lead/update/Leads/{{id}}"
+                   name="leadTipo" id="leadTipo"
+                   aria-labelledby="label-tipo-{{id}}">
+        </div>
+    </div>
+
+    <!-- Emitente -->
+    <div class="lead-info-item">
+        <i class="fas fa-building"></i>
+        <div>
+            <div class="label" id="label-emitente-{{id}}">Emitente</div>
+            {{#machines}}
+<select class="form-select form-select-sm select2-ajax"
+        data-field="unidadeEmitentePOID"
+        data-lead="{{id}}"
+        data-ajax-update="{{CONTAINER}}service/update/"
+        data-ajax--url="{{CONTAINER}}service/emit/"
+        aria-labelledby="label-emitente-{{id}}">
+    {{#Emitente}}<option value="{{emitenteFantasia}}" selected="selected">{{emitenteFantasia}}</option>{{/Emitente}}
+</select>
+{{/machines}}
+{{^machines}}
+<select class="form-select form-select-sm select2-ajax"
+        data-field="unidadeEmitentePOID"
+        data-lead="{{id}}"
+        data-ajax-update="{{CONTAINER}}service/update/"
+        data-ajax--url="{{CONTAINER}}service/emit/"
+        data-recalculate="true"
+        data-recalculate-price="true"
+        aria-label="Emitente">
+    {{#Emitente}}<option value="{{emitenteFantasia}}" selected="selected">{{emitenteFantasia}}</option>{{/Emitente}}
+</select>
+{{/machines}}
+        </div>
+    </div>
+
+    {{#machines}}
+    <!-- Faturar para -->
+    <div class="lead-info-item">
+        <i class="fas fa-file-invoice"></i>
+        <div>
+            <div class="label" id="label-faturar-para-{{id}}">Faturar para</div>
+            <select class="form-select form-select-sm select2-ajax"
+                    data-field="clienteDoClientePOID"
+                    data-lead="{{id}}"
+                    data-ajax-update="{{CONTAINER}}service/update/"
+                    data-ajax--url="{{CONTAINER}}service/auto/cc_{{clientePOID}}/"
+                    aria-labelledby="label-faturar-para-{{id}}">
+                {{#ClienteDoCliente}}<option value="{{clienteNome}}" selected="selected">{{clienteNome}}</option>{{/ClienteDoCliente}}
+                {{^ClienteDoCliente}}<option value="{{Cliente.clienteNome}}" data-recalculate="true" selected="selected">{{Cliente.clienteNome}}</option>{{/ClienteDoCliente}}
+            </select>
+        </div>
+    </div>
+{{/machines}}
+
+    <!-- Payment Terms (for bearings segment) -->
+    {{#bearings}}
+    <div class="lead-info-item">
+        <i class="fas fa-business-time"></i>
+        <div>
+            <div class="label" id="label-prazo-{{id}}">Prazo <i class="fas text-red-600 fa-question-circle has-tooltip" aria-hidden="true" data-poload="{{CONTAINER}}helper/terms/?clienteID={{clientePOID}}"></i></div>
+            <select class="form-select form-select-sm select2-ajax"
+                    data-recalculate="false"
+                    data-field="prazoPagamentoVezes"
+                    data-lead="{{id}}"
+                    data-ajax-update="{{CONTAINER}}service/update/"
+                    data-ajax--url="{{CONTAINER}}service/prazo/"
+                    aria-labelledby="label-prazo-{{id}}">
+                {{#Prazo}}<option value="{{PrazoTermos}}" selected="selected">{{PrazoTermos}}</option>{{/Prazo}}
+            </select>
+        </div>
+    </div>
+    {{/bearings}}
+
+    <!-- Operation/NOP (for machines/parts or managerial access) -->
+    {{#SESSION.acessoGerencial}}
+    <div class="lead-info-item">
+        <i class="fas fa-sitemap"></i>
+        <div>
+            <div class="label" id="label-operacao-{{id}}">Operação <small class="text-gray-500">(NOP)</small></div>
+            <select class="form-select form-select-sm select2-ajax"
+                    data-recalculate="true"
+                    data-field="naturezaOperacaoPOID"
+                    data-lead="{{id}}"
+                    data-ajax-update="{{CONTAINER}}service/update/"
+                    data-ajax--url="{{CONTAINER}}service/nop/">
+                {{#Natureza}}<option value="{{naturezaOperacao}}" selected="selected">{{naturezaOperacao}}</option>{{/Natureza}}
+            </select>
+        </div>
+    </div>
+
+    <!-- Authorization (for managerial access) -->
+    <div class="lead-info-item">
+        <i class="fas fa-key"></i>
+        <div>
+            <div class="label">Autorizado <i class="fas text-red-600 fa-question-circle has-tooltip cursor-help" title="Se o Lead for autorizado pela gerência não haverá checagem de 'Lead Vencido' na hora de emissão do pedido. Para Autorizar o Lead coloque 1."></i></div>
+            <input type="text" class="form-control form-control-sm update"
+                   data-url="/leads8/lead/show/lead/update/Leads/{{id}}"
+                   name="leadAutorizado" id="leadAutorizado"
+                   value="{{leadAutorizado}}">
+        </div>
+    </div>
+    {{/SESSION.acessoGerencial}}
+    {{^SESSION.acessoGerencial}}
+        {{#machines}}
+        <div class="lead-info-item">
+            <i class="fas fa-sitemap"></i>
+            <div>
+                <div class="label">Operação <small class="text-gray-500">(NOP)</small></div>
+                <select class="form-select form-select-sm select2-ajax"
+                        data-recalculate="true"
+                        data-field="naturezaOperacaoPOID"
+                        data-lead="{{id}}"
+                        data-ajax-update="{{CONTAINER}}service/update/"
+                        data-ajax--url="{{CONTAINER}}service/nop/"
+                        aria-labelledby="label-operacao-{{id}}">
+                    {{#Natureza}}<option value="{{naturezaOperacao}}" selected="selected">{{naturezaOperacao}}</option>{{/Natureza}}
+                </select>
+            </div>
+        </div>
+        {{/machines}}
+        {{#parts}}
+        <div class="lead-info-item">
+            <i class="fas fa-sitemap"></i>
+            <div>
+                <div class="label">Operação <small class="text-gray-500">(NOP)</small></div>
+                <select class="form-select form-select-sm select2-ajax"
+                        data-recalculate="true"
+                        data-field="naturezaOperacaoPOID"
+                        data-lead="{{id}}"
+                        data-ajax-update="{{CONTAINER}}service/update/"
+                        data-ajax--url="{{CONTAINER}}service/nop/"
+                        aria-labelledby="label-operacao-{{id}}">
+                    {{#Natureza}}<option value="{{naturezaOperacao}}" selected="selected">{{naturezaOperacao}}</option>{{/Natureza}}
+                </select>
+            </div>
+        </div>
+        {{/parts}}
+    {{/SESSION.acessoGerencial}}
+</div>
+
+
+
+

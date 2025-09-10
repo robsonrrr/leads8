@@ -1,0 +1,107 @@
+<!-- Formulário Compacto -->
+<link rel="stylesheet" href="/leads8/css/compact-form.css">
+
+<div class="compact-form">
+    <!-- Data e Status -->
+    <div class="form-group field-data">
+        <label>
+            <i class="fas fa-calendar"></i>
+            Data Criado
+        </label>
+        <div class="input-group">
+            <input type="text" class="form-control" value="{{dataCriado}}" readonly>
+            <span class="input-group-text">{{diasAtras}} dia(s)</span>
+        </div>
+    </div>
+
+    <!-- Vendedor/Emissor -->
+    <div class="form-group field-vendedor">
+        <label>
+            <i class="fas fa-user"></i>
+            Vendedor / Emissor
+        </label>
+        <input type="text" class="form-control" value="{{vendedor}}" readonly>
+    </div>
+
+    <!-- Financeiro -->
+    <div class="form-group field-financeiro">
+        <label>
+            <i class="fas fa-money-bill"></i>
+            Financeiro
+            <i class="fas fa-info-circle tooltip-icon" title="Informações financeiras"></i>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text">{{financeiro.codigo}}</span>
+            <input type="text" class="form-control text-end" value="{{financeiro.valor}}" readonly>
+            <span class="input-group-text">{{financeiro.status}}</span>
+        </div>
+    </div>
+
+    <!-- Cadastro -->
+    <div class="form-group field-cadastro">
+        <label>
+            <i class="fas fa-cog"></i>
+            Cadastro
+            <i class="fas fa-info-circle tooltip-icon" title="Configurações de cadastro"></i>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text">Descontos</span>
+            <input type="text" class="form-control text-end" value="{{cadastro.descontos}}" readonly>
+            <span class="input-group-text">Juros</span>
+            <input type="text" class="form-control text-end" value="{{cadastro.juros}}" readonly>
+            <span class="input-group-text">Sobretaxa</span>
+            <input type="text" class="form-control text-end" value="{{cadastro.sobretaxa}}" readonly>
+        </div>
+    </div>
+
+    <!-- Fonte -->
+    <div class="form-group">
+        <label>
+            <i class="fas fa-filter"></i>
+            Fonte
+            <i class="fas fa-info-circle tooltip-icon" title="Fonte da operação"></i>
+        </label>
+        <input type="text" class="form-control" value="{{fonte}}" readonly>
+    </div>
+
+    <!-- Tipo -->
+    <div class="form-group">
+        <label>
+            <i class="fas fa-tag"></i>
+            Tipo
+        </label>
+        <input type="text" class="form-control" value="{{tipo}}" readonly>
+    </div>
+
+    <!-- Emitente -->
+    <div class="form-group">
+        <label>
+            <i class="fas fa-building"></i>
+            Emitente
+        </label>
+        <input type="text" class="form-control" value="{{emitente}}" readonly>
+    </div>
+
+    <!-- Faturar para -->
+    <div class="form-group">
+        <label>
+            <i class="fas fa-file-invoice"></i>
+            Faturar para
+        </label>
+        <input type="text" class="form-control" value="{{faturarPara}}" readonly>
+    </div>
+</div>
+
+<script>
+// Inicializar tooltips do Bootstrap
+$(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip();
+    $('.tooltip-icon').tooltip();
+});
+</script>
+
+
+
+
+
+

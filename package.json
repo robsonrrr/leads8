@@ -1,0 +1,12 @@
+{
+  "name": "leads8",
+  "version": "1.0.0",
+  "description": "Leads management system",
+  "scripts": {
+    "build-css": "tailwindcss -i ./resources/input.css -o ./public/assets/css/tailwind.css --watch",
+    "build-css-prod": "tailwindcss -i ./resources/input.css -o ./public/assets/css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^2.2.19"
+  }
+}

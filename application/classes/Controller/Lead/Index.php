@@ -6,6 +6,11 @@ class Controller_Lead_Index extends Controller_Website {
         parent::before();
     }
 
+    public function after()
+    {
+        parent::after();
+    }
+
     public function action_index()
     {
         $leadID    = $this->request->param('id');

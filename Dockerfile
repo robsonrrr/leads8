@@ -16,9 +16,13 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . /var/www/html/
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/application/cache \
-    && chown -R www-data:www-data /var/www/html/application/logs
+# Create necessary directories and set permissions
+RUN mkdir -p /var/www/html/application/cache \
+    && mkdir -p /var/www/html/application/logs \
+    && chown -R www-data:www-data /var/www/html/application/cache \
+    && chown -R www-data:www-data /var/www/html/application/logs \
+    && chmod -R 777 /var/www/html/application/cache \
+    && chmod -R 777 /var/www/html/application/logs
 
 # Expose port 80
 EXPOSE 80

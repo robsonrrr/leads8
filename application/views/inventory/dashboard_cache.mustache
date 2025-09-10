@@ -1,0 +1,396 @@
+{{>partials/header-tailwind}}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        ⚡ Dashboard Comercial - Cache Ultra-Rápido
+                    </h1>
+                    <p class="text-gray-600">Performance otimizada com cache SQL - Resposta em {{execution_time_ms}}ms</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="updateCache()" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Atualizar Cache
+                    </button>
+                    <a href="/leads8/inventory" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Dashboard Original
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cache Status -->
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl shadow-lg p-4 mb-8 text-white">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="font-semibold">Cache Status: ATIVO</span>
+                </div>
+                <div class="text-right text-sm">
+                    <div>Tempo de Resposta: {{execution_time_ms}}ms</div>
+                    <div>Última Atualização: <span id="cache-last-update">Carregando...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPIs Principais -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Produtos -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total de Produtos</p>
+                        <p class="text-3xl font-bold text-blue-600">{{kpis.total_products}}</p>
+                        <p class="text-sm text-gray-500">{{kpis.products_with_sales_30d}} com vendas</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendas do Período -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Vendas {{filtros_ativos.periodo}} dias</p>
+                        <p class="text-3xl font-bold text-green-600">{{kpis.total_sales_30d}}</p>
+                        <p class="text-sm text-gray-500">{{kpis.percentual_com_vendas}}% produtos venderam</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giro Médio -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Giro Médio</p>
+                        <p class="text-3xl font-bold text-purple-600">{{kpis.avg_stock_life_months}}</p>
+                        <p class="text-sm text-gray-500">meses de estoque</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atingimento de Meta -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Atingimento Anual</p>
+                        <p class="text-3xl font-bold text-orange-600">{{kpis.achievement_percentage}}%</p>
+                        <p class="text-sm text-gray-500">da previsão do ano</p>
+                    </div>
+                    <div class="bg-orange-100 p-3 rounded-full">
+                        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análise por Segmentos de Giro de Estoque -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    📊 Análise de Valor por Giro de Estoque (Cache)
+                </h3>
+                <div class="text-right text-sm text-gray-600">
+                    <div>Total: <span class="font-semibold">R$ {{segmentos_giro.totais.valor_total_geral_formatado}}</span></div>
+                    <div>{{segmentos_giro.totais.produtos_total_geral_formatado}} produtos</div>
+                </div>
+            </div>
+            
+            <!-- Grid de Segmentos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{#segmentos_giro.segmentos}}
+                <div class="border rounded-lg p-4 {{status_color}}">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="text-lg font-semibold">{{segment_name}}</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{badge_color}} text-white">
+                                {{segment_status}}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold">{{percentage_value}}%</div>
+                            <div class="text-xs text-gray-600">do valor total</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- Valor Total -->
+                        <div class="bg-white bg-opacity-60 rounded-lg p-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Valor Total:</span>
+                                <span class="text-lg font-bold">R$ {{valor_total_formatado}}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Métricas -->
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Produtos:</div>
+                                <div class="font-semibold">{{total_products}}</div>
+                                <div class="text-xs">{{percentage_products}}%</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Estoque:</div>
+                                <div class="font-semibold">{{total_estoque_formatado}}</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Giro Médio:</div>
+                                <div class="font-semibold">{{giro_medio_formatado}} meses</div>
+                            </div>
+                            <div class="bg-white bg-opacity-40 rounded p-2">
+                                <div class="text-xs text-gray-600">Vendas 30D:</div>
+                                <div class="font-semibold">{{sales_30d}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/segmentos_giro.segmentos}}
+            </div>
+        </div>
+
+        <!-- Análise de Totais por Marca -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    🏷️ Top 10 Marcas (Cache)
+                </h3>
+                <div class="text-right text-sm text-gray-600">
+                    <div>{{totais_por_marca.totais.total_marcas}} marcas analisadas</div>
+                    <div>Total: <span class="font-semibold">R$ {{totais_por_marca.totais.valor_total_geral_formatado}}</span></div>
+                </div>
+            </div>
+            
+            <!-- Top 10 Marcas -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Valor Estoque</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">% Valor</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Produtos</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vendas 30D</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{#totais_por_marca.marcas}}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{brand_name}}</div>
+                                        <div class="text-sm text-gray-500">{{brand_size}} | {{total_products}} produtos</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{status_color}}">
+                                    {{brand_status}}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-gray-900">
+                                R$ {{valor_total_formatado}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{percentage_value}}%
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{total_products}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
+                                {{vendas_30_dias_formatado}}
+                            </td>
+                        </tr>
+                        {{/totais_por_marca.marcas}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Top Produtos por Vendas -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
+                <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                    <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    🏆 Top Produtos por Vendas (Cache)
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">Últimos {{filtros_ativos.periodo}} dias</p>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {{#top_produtos_vendas}}
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">{{model_code}}</h4>
+                                <p class="text-sm text-gray-600">{{brand_name}} - {{product_name}}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-green-600">{{vendas_periodo}}</div>
+                                <div class="text-sm text-gray-500">unidades</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-600">Receita:</span>
+                                <span class="font-medium text-green-600">R$ {{receita_periodo_formatada}}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Estoque:</span>
+                                <span class="font-medium">{{total_stock}} un</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Margem:</span>
+                                <span class="font-medium text-blue-600">{{margem_percentual_formatada}}%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Ranking:</span>
+                                <span class="font-medium text-purple-600">#{{ranking_position}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/top_produtos_vendas}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Footer -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-8 text-white text-center">
+            <h2 class="text-2xl font-bold mb-4">⚡ Dashboard Ultra-Rápido Ativo!</h2>
+            <p class="text-lg opacity-90">
+                Carregado em {{execution_time_ms}}ms • Cache SQL Otimizado • 
+                {{kpis.total_products}} produtos analisados
+            </p>
+            <div class="mt-6 flex justify-center space-x-4">
+                <button onclick="updateCache()" class="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Atualizar Cache Agora
+                </button>
+                <a href="/leads8/lead/statistics" class="inline-flex items-center px-6 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-600 transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Voltar ao Sistema
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// Função para atualizar cache via AJAX
+async function updateCache() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    // Mostrar loading
+    button.innerHTML = '<svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Atualizando...';
+    button.disabled = true;
+    
+    try {
+        const response = await fetch('/leads8/inventorycache/update_cache');
+        const result = await response.json();
+        
+        if (result.success) {
+            // Mostrar sucesso
+            button.innerHTML = '✅ Cache Atualizado!';
+            button.classList.remove('bg-green-600', 'hover:bg-green-700');
+            button.classList.add('bg-green-500');
+            
+            // Recarregar página após 2 segundos
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        // Mostrar erro
+        button.innerHTML = '❌ Erro: ' + error.message;
+        button.classList.remove('bg-green-600');
+        button.classList.add('bg-red-600');
+        
+        // Restaurar botão após 3 segundos
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+            button.classList.remove('bg-red-600');
+            button.classList.add('bg-green-600', 'hover:bg-green-700');
+        }, 3000);
+    }
+}
+
+// Carregar informações do cache
+async function loadCacheInfo() {
+    try {
+        const response = await fetch('/leads8/inventorycache/cache_status');
+        const result = await response.json();
+        
+        if (result.success && result.cache_info.length > 0) {
+            const lastUpdate = new Date(result.cache_info[0].last_update);
+            document.getElementById('cache-last-update').textContent = 
+                lastUpdate.toLocaleString('pt-BR');
+        }
+    } catch (error) {
+        console.log('Erro ao carregar info do cache:', error);
+    }
+}
+
+// Animações de entrada
+document.addEventListener('DOMContentLoaded', function() {
+    // Carregar info do cache
+    loadCacheInfo();
+    
+    // Animações
+    const cards = document.querySelectorAll('.rounded-xl');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 50);
+    });
+});
+</script>

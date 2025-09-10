@@ -11,7 +11,7 @@ docker service create \
     --name leads8  \
     --network traefik-net   \
     --label  traefik.enable=true   \
-    --label  'traefik.http.routers.leads8.rule=Host(`dev.office.internut.com.br`) && PathPrefix(`/leads8`)'  \
+    --label  'traefik.http.routers.leads8.rule=Host(`dev.office.internut.com.br`) && PathPrefix(`/leads8/`)'  \
     --label  traefik.http.routers.leads8.entrypoints=websecure  \
     --label  traefik.http.routers.leads8.tls=true   \
     --label  traefik.http.routers.leads8.tls.certresolver=myresolver \

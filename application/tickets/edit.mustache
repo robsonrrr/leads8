@@ -1,0 +1,92 @@
+{{>partials/header-tailwind}}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        ✏️ Editar Ticket #{{ticket.id}}
+                    </h1>
+                    <p class="text-gray-600">Atualizar informações do ticket</p>
+                </div>
+                <div>
+                    <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Voltar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <form action="/leads8/tickets/edit/{{ticket.id}}" method="POST">
+                <!-- Informações do Cliente -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">👤 Informações do Cliente</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Cliente</label>
+                            <input type="text" value="{{ticket.cliente_nome}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ID do Cliente</label>
+                            <input type="text" value="{{ticket.cliente_id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes do Ticket -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">🎫 Detalhes do Ticket</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Data de Abertura</label>
+                            <input type="text" value="{{ticket.data}} {{ticket.hora}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Data de Retorno</label>
+                            <input type="datetime-local" name="data_retorno" value="{{ticket.data_retorno}}T{{ticket.hora_retorno}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select name="status_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="1" {{#status_1}}selected{{/status_1}}>✅ Aberto</option>
+                                <option value="2" {{#status_2}}selected{{/status_2}}>⏳ Em Andamento</option>
+                                <option value="3" {{#status_3}}selected{{/status_3}}>🔄 Aguardando</option>
+                                <option value="4" {{#status_4}}selected{{/status_4}}>✔️ Fechado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Assunto</label>
+                            <input type="text" value="{{ticket.assunto}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes e Observações -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">📝 Detalhes e Observações</h3>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Detalhes</label>
+                        <textarea name="detalhes" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ticket.detalhes}}</textarea>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="window.history.back()" class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

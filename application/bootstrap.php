@@ -109,7 +109,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 KO7::init([
-    'base_url'   => '/leads8/',
+    'base_url'   => '/',
     'index_file' => FALSE,
 ]);
 

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}} - ID: {{var.id}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .field-value {
+            padding: 8px;
+            border-radius: 4px;
+            display: inline-block;
+            min-width: 100px;
+            text-align: center;
+        }
+        .category-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <a href="/leads8/vars_simple/" class="btn btn-primary back-button">
+        <i class="fas fa-arrow-left me-2"></i>Voltar
+    </a>
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-4">
+                    <h1 class="display-4 text-primary">
+                        <i class="fas fa-eye me-3"></i>{{page_title}}
+                    </h1>
+                    <p class="lead">Registro ID: <span class="badge bg-primary fs-5">{{var.id}}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taxas de Câmbio -->
+        <div class="category-section">
+            <h3 class="text-primary mb-3">
+                <i class="fas fa-exchange-alt me-2"></i>Taxas de Câmbio
+            </h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Dólar (USD):</label>
+                    <div class="field-value">
+                        <span class="badge bg-warning fs-4">R$ {{var.Dolar}}</span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Yuan (CNY):</label>
+                    <div class="field-value">
+                        <span class="badge bg-warning fs-4">R$ {{var.Yuan}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados Financeiros -->
+        <div class="category-section">
+            <h3 class="text-success mb-3">
+                <i class="fas fa-dollar-sign me-2"></i>Dados Financeiros
+            </h3>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Cash:</label>
+                    <div class="field-value">
+                        <span class="badge bg-success fs-4">{{var.Cash}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Fix Plus:</label>
+                    <div class="field-value">
+                        <span class="badge bg-primary fs-4">{{var.FixPlus}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Fix Less:</label>
+                    <div class="field-value">
+                        <span class="badge bg-primary fs-4">{{var.FixLess}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Buildings:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">{{var.Buildings}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metas de Produção -->
+        <div class="category-section">
+            <h3 class="text-info mb-3">
+                <i class="fas fa-target me-2"></i>Metas de Produção
+            </h3>
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Sets Machines Daily:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetSetsMachinesDaily}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Machines:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.Target_Machines}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Bearings:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.Target_Bearings}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Parts:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.Target_Parts}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Auto:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.Target_Auto}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metas Detalhadas por Setor -->
+        <div class="category-section">
+            <h3 class="text-warning mb-3">
+                <i class="fas fa-chart-line me-2"></i>Metas Detalhadas por Setor
+            </h3>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Machines Customers:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetMachinesCustomers}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Machines Cidades:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetMachinesCidades}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Bearings Customers:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetBearingsCustomers}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Bearings Cidades:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetBearingsCidades}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Auto Cidades:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetAutoCidades}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Parts Cidades:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetPartsCidades}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Auto Customers:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetAutoCustomers}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Target Parts Customers:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.TargetPartsCustomers}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funcionários por Setor -->
+        <div class="category-section">
+            <h3 class="text-dark mb-3">
+                <i class="fas fa-users me-2"></i>Funcionários por Setor
+            </h3>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Workers Machines:</label>
+                    <div class="field-value">
+                        <span class="badge bg-primary fs-4">{{var.Workers_Machines}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Workers Bearings:</label>
+                    <div class="field-value">
+                        <span class="badge bg-dark fs-4">{{var.Workers_Bearings}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Workers Parts:</label>
+                    <div class="field-value">
+                        <span class="badge bg-success fs-4">{{var.Workers_Parts}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Workers Auto:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">{{var.Workers_Auto}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados do Exportador -->
+        <div class="category-section">
+            <h3 class="text-danger mb-3">
+                <i class="fas fa-shipping-fast me-2"></i>Dados do Exportador
+            </h3>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Payable Exporter:</label>
+                    <div class="field-value">
+                        <span class="badge bg-danger fs-4">R$ {{var.PayableExporter}}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Paid Exporter:</label>
+                    <div class="field-value">
+                        <span class="badge bg-success fs-4">R$ {{var.PaidExporter}}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Received Exporter:</label>
+                    <div class="field-value">
+                        <span class="badge bg-info fs-4">R$ {{var.ReceivedExporter}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagamentos Mensais -->
+        <div class="category-section">
+            <h3 class="text-secondary mb-3">
+                <i class="fas fa-calendar-alt me-2"></i>Pagamentos por Mês
+            </h3>
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Janeiro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter1}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Fevereiro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter2}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Março:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter3}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Abril:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter4}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Maio:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter5}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Junho:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter6}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Julho:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter7}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Agosto:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter8}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Setembro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter9}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Outubro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter10}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Novembro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter11}}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label fw-bold">Dezembro:</label>
+                    <div class="field-value">
+                        <span class="badge bg-secondary fs-4">R$ {{var.PayExporter12}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="/leads8/vars_simple/" class="btn btn-primary btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar à Lista
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

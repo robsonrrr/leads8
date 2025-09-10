@@ -1,0 +1,633 @@
+{{>partials/header-tailwind}}
+
+<!-- WinBox Library -->
+<script src="https://unpkg.com/winbox@0.2.82/dist/js/winbox.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/winbox@0.2.82/dist/css/winbox.min.css">
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        🎫 Dashboard de Tickets
+                    </h1>
+                    <p class="text-gray-600">Acompanhamento e gestão de tickets do dia</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Voltar
+                    </button>
+                    <div id="realtime-clock" class="flex items-center text-2xl font-bold text-gray-800 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-lg border border-blue-200 shadow-sm hover:shadow-md transition-all duration-300">
+                        <span class="mr-2 animate-pulse">🕐</span>
+                        <span id="clock-time" class="font-mono">--:--:--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">🔍 Filtros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Data</label>
+                    <input type="date" id="data" value="{{filtros.data}}" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select id="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Status</option>
+                        <option value="1" {{#filtros.status_1}}selected{{/filtros.status_1}}>✅ Aberto</option>
+                        <option value="2" {{#filtros.status_2}}selected{{/filtros.status_2}}>⏳ Em Andamento</option>
+                        <option value="3" {{#filtros.status_3}}selected{{/filtros.status_3}}>🔄 Aguardando</option>
+                        <option value="4" {{#filtros.status_4}}selected{{/filtros.status_4}}>✔️ Fechado</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Canal</label>
+                    <select id="canal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Canais</option>
+                        <option value="1" {{#filtros.canal_1}}selected{{/filtros.canal_1}}>📱 WhatsApp</option>
+                        <option value="2" {{#filtros.canal_2}}selected{{/filtros.canal_2}}>📧 Email</option>
+                        <option value="3" {{#filtros.canal_3}}selected{{/filtros.canal_3}}>📞 Telefone</option>
+                        <option value="4" {{#filtros.canal_4}}selected{{/filtros.canal_4}}>🌐 Site</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Evento</label>
+                    <select id="evento" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Eventos</option>
+                        <option value="1" {{#filtros.evento_1}}selected{{/filtros.evento_1}}>🔍 Consulta</option>
+                        <option value="2" {{#filtros.evento_2}}selected{{/filtros.evento_2}}>🛒 Pedido</option>
+                        <option value="3" {{#filtros.evento_3}}selected{{/filtros.evento_3}}>❓ Dúvida</option>
+                        <option value="4" {{#filtros.evento_4}}selected{{/filtros.evento_4}}>⚠️ Reclamação</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Situação</label>
+                    <select id="situacao" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todas as Situações</option>
+                        <option value="Ativo" {{#filtros.situacao_ativo}}selected{{/filtros.situacao_ativo}}>✅ Ativo</option>
+                        <option value="Inativo" {{#filtros.situacao_inativo}}selected{{/filtros.situacao_inativo}}>❌ Inativo</option>
+                        <option value="Pendente" {{#filtros.situacao_pendente}}selected{{/filtros.situacao_pendente}}>⏳ Pendente</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Processo</label>
+                    <select id="processo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="">Todos os Processos</option>
+                        <option value="Vendas" {{#filtros.processo_vendas}}selected{{/filtros.processo_vendas}}>💰 Vendas</option>
+                        <option value="Suporte" {{#filtros.processo_suporte}}selected{{/filtros.processo_suporte}}>🛠️ Suporte</option>
+                        <option value="Financeiro" {{#filtros.processo_financeiro}}selected{{/filtros.processo_financeiro}}>💳 Financeiro</option>
+                        <option value="Logística" {{#filtros.processo_logistica}}selected{{/filtros.processo_logistica}}>🚚 Logística</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Limite</label>
+                    <select id="limite" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <option value="10">10 registros</option>
+                        <option value="25">25 registros</option>
+                        <option value="50" selected>50 registros</option>
+                        <option value="100">100 registros</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button onclick="filtrarTickets()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                        </svg>
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas Resumidas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <!-- Total de Tickets -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md p-3 text-white">
+                <div class="flex items-center">
+                    <div class="bg-blue-400 bg-opacity-30 p-2 rounded-full mr-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-blue-100 text-xs font-medium">🎫 Total Tickets</p>
+                        <p class="text-xl font-bold">{{stats.total_tickets}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tickets Abertos -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md p-3 text-white">
+                <div class="flex items-center">
+                    <div class="bg-green-400 bg-opacity-30 p-2 rounded-full mr-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-green-100 text-xs font-medium">✅ Abertos</p>
+                        <p class="text-xl font-bold">{{stats.tickets_abertos}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tickets Fechados -->
+            <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-md p-3 text-white">
+                <div class="flex items-center">
+                    <div class="bg-red-400 bg-opacity-30 p-2 rounded-full mr-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-red-100 text-xs font-medium">❌ Fechados</p>
+                        <p class="text-xl font-bold">{{stats.tickets_fechados}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tickets com Retorno -->
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-md p-3 text-white">
+                <div class="flex items-center">
+                    <div class="bg-purple-400 bg-opacity-30 p-2 rounded-full mr-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-purple-100 text-xs font-medium">🔄 Com Retorno</p>
+                        <p class="text-xl font-bold">{{stats.tickets_com_retorno}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Tickets -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">📋 Lista de Tickets</h3>
+                        <p class="text-sm text-gray-600 mt-1">Tickets do período selecionado</p>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-14"># ID</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Data/Hora</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Retorno</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Cliente</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Usuário</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Canal</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Evento</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Situação</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Processo</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Consulta ID</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Origem</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Assunto</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">Detalhes</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Status</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{#tickets}}
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">{{id}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-blue-600">{{data}}</span>
+                                    <span class="text-xs text-orange-600">{{hora}}</span>
+                                </div>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                {{#data_retorno}}
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-blue-600">{{data_retorno}}</span>
+                                    <span class="text-xs text-orange-600">{{hora_retorno}}</span>
+                                </div>
+                                {{/data_retorno}}
+                                {{^data_retorno}}
+                                <span class="text-gray-400">Sem retorno</span>
+                                {{/data_retorno}}
+                            </td>
+                            <td class="px-3 py-4 text-sm text-gray-900 font-medium">{{cliente_nome}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">{{usuario_nome}}</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    {{canal}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    {{evento}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    {{situacao}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                                    {{processo}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                {{#consulta_id}}
+                                <a href="javascript:void(0)" 
+                                   onclick="openConsultaDetails('{{consulta_id}}')"
+                                   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-sm">
+                                    🔍 {{consulta_id}}
+                                </a>
+                                {{/consulta_id}}
+                                {{^consulta_id}}
+                                <span class="text-gray-400">-</span>
+                                {{/consulta_id}}
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                    {{origem}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 text-sm text-gray-900">{{assunto}}</td>
+                            <td class="px-3 py-4 text-sm text-gray-700">
+                                {{#detalhes}}
+                                <div class="max-w-xs truncate" title="{{detalhes}}">{{detalhes}}</div>
+                                {{/detalhes}}
+                                {{^detalhes}}
+                                <span class="text-gray-400 italic">Sem detalhes</span>
+                                {{/detalhes}}
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{#status_aberto}}bg-green-100 text-green-800{{/status_aberto}}
+                                    {{#status_andamento}}bg-yellow-100 text-yellow-800{{/status_andamento}}
+                                    {{#status_aguardando}}bg-orange-100 text-orange-800{{/status_aguardando}}
+                                    {{#status_fechado}}bg-red-100 text-red-800{{/status_fechado}}">
+                                    {{status}}
+                                </span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <div class="flex items-center space-x-2">
+                                    <a href="/leads8/tickets/edit/{{id}}" class="text-blue-600 hover:text-blue-900">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </a>
+                                    <button onclick="finishTicket({{id}}, this)" class="text-green-600 hover:text-green-900" title="Finalizar Ticket">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/tickets}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginação -->
+            {{#ticketsPagination}}
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Mostrando {{current_page}} de {{total_pages}} páginas
+                        ({{total}} tickets no total)
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changePage({{current_page}} - 1)" 
+                                class="px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                {{^has_previous}}disabled{{/has_previous}}>
+                            ← Anterior
+                        </button>
+                        
+                        <button onclick="changePage({{current_page}} + 1)" 
+                                class="px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                {{^has_next}}disabled{{/has_next}}>
+                            Próximo →
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{/ticketsPagination}}
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Confirmar Exclusão</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">
+                    Tem certeza que deseja excluir este ticket?
+                </p>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
+                    Excluir
+                </button>
+                <button onclick="closeDeleteModal()" class="mt-3 px-4 py-2 bg-gray-100 text-gray-700 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filtrarTickets() {
+    const data = document.getElementById('data').value;
+    const status = document.getElementById('status').value;
+    const canal = document.getElementById('canal').value;
+    const evento = document.getElementById('evento').value;
+    const situacao = document.getElementById('situacao').value;
+    const processo = document.getElementById('processo').value;
+    const limite = document.getElementById('limite').value;
+    
+    const params = new URLSearchParams({
+        data: data,
+        status: status,
+        canal: canal,
+        evento: evento,
+        situacao: situacao,
+        processo: processo,
+        limit: limite
+    });
+    
+    // Reset paginação ao filtrar
+    params.delete('offset');
+    
+    window.location.href = '/leads8/tickets?' + params.toString();
+}
+
+function changePage(page) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const limit = urlParams.get('limit') || 50;
+    
+    urlParams.set('offset', (page * limit).toString());
+    
+    window.location.search = urlParams.toString();
+}
+
+function confirmDelete(id) {
+    const modal = document.getElementById('deleteModal');
+    modal.classList.remove('hidden');
+    
+    document.getElementById('confirmDelete').onclick = function() {
+        window.location.href = `/leads8/tickets/delete/${id}`;
+    };
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+}
+
+// Relógio em tempo real
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
+    const clockElement = document.getElementById('clock-time');
+    if (clockElement) {
+        clockElement.style.transform = 'scale(1.05)';
+        clockElement.style.color = '#1f2937';
+        
+        setTimeout(() => {
+            clockElement.style.transform = 'scale(1)';
+            clockElement.style.color = '#1f2937';
+        }, 200);
+        
+        clockElement.textContent = timeString;
+    }
+}
+
+// Iniciar relógio quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    updateClock();
+    setInterval(updateClock, 1000);
+});
+
+// Função para finalizar ticket
+function finishTicket(ticketId, button) {
+    // Desabilitar o botão durante a requisição
+    button.disabled = true;
+    button.style.opacity = '0.5';
+    
+    // Fazer requisição AJAX
+    fetch('/leads8/tickets/updateStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'id=' + encodeURIComponent(ticketId)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Encontrar a linha da tabela
+            const row = button.closest('tr');
+            if (row) {
+                // Adicionar animação de fade out
+                row.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                
+                // Remover a linha após a animação
+                setTimeout(() => {
+                    row.style.height = row.offsetHeight + 'px';
+                    row.style.transition = 'height 0.3s ease-out, padding 0.3s ease-out, margin 0.3s ease-out';
+                    row.style.height = '0';
+                    row.style.paddingTop = '0';
+                    row.style.paddingBottom = '0';
+                    row.style.marginTop = '0';
+                    row.style.marginBottom = '0';
+                    
+                    setTimeout(() => {
+                        row.remove();
+                    }, 300);
+                }, 500);
+            }
+        } else {
+            alert('Erro ao finalizar ticket: ' + (data.error || 'Erro desconhecido'));
+            // Reabilitar o botão em caso de erro
+            button.disabled = false;
+            button.style.opacity = '1';
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao finalizar ticket. Tente novamente.');
+        // Reabilitar o botão em caso de erro
+        button.disabled = false;
+        button.style.opacity = '1';
+    });
+}
+
+// Função para abrir detalhes da consulta em uma janela WinBox
+function openConsultaDetails(consultaId) {
+    // Usar URL completa para garantir que carregue
+    const url = `https://dev.office.internut.com.br/leads8/lead/index/${consultaId}/1`;
+    
+    console.log('🔍 Abrindo detalhes da Consulta:', consultaId);
+    console.log('📍 URL:', url);
+    
+    // Bloquear scroll da página pai imediatamente
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Criar janela WinBox com configurações avançadas
+    const winbox = new WinBox({
+        title: `🔍 Detalhes da Consulta #${consultaId}`,
+        url: url,
+        width: '90%',
+        height: '85%',
+        class: "iframe",    
+        x: 'center',
+        y: 'top',
+        top: '5%',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        border: '3px',
+        modal: true,
+        minwidth: 1000,
+        minheight: 700,
+        maxwidth: '95%',
+        maxheight: '90%',
+        onclose: function() {
+            console.log(`Janela da Consulta #${consultaId} fechada`);
+            // Reativar scroll da página pai
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        },
+        onload: function() {
+            console.log(`✅ Conteúdo carregado para Consulta #${consultaId}`);
+        }
+    });
+    
+    console.log(`🔍 Janela WinBox criada para Consulta #${consultaId}`);
+    console.log(`📍 URL: ${url}`);
+}
+</script>
+
+<style>
+/* Estilos personalizados para WinBox */
+.winbox {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.wb-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    cursor: move !important;
+    user-select: none !important;
+}
+
+.wb-control {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+}
+
+.wb-control span {
+    width: 20px !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border-radius: 3px !important;
+    transition: background-color 0.2s !important;
+}
+
+/* Scrollbar personalizada */
+.wb-body::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.wb-body::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+    border-radius: 4px !important;
+}
+
+.wb-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 4px !important;
+}
+
+.wb-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+/* Estados da janela */
+.winbox.max {
+    border-radius: 0 !important;
+}
+
+.winbox.max .wb-body {
+    border-radius: 0 !important;
+}
+
+.winbox.min {
+    border-radius: 8px !important;
+}
+
+/* Scrollbar personalizada para o iframe */
+.wb-body iframe {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+}
+
+/* Garantir que o conteúdo do iframe seja scrollável */
+.wb-body iframe::-webkit-scrollbar {
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.wb-body iframe::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+    border-radius: 6px !important;
+}
+
+.wb-body iframe::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 6px !important;
+    border: 2px solid #f1f5f9 !important;
+}
+
+.wb-body iframe::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+.wb-body iframe::-webkit-scrollbar-corner {
+    background: #f1f5f9 !important;
+}
+</style>

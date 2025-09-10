@@ -1,0 +1,301 @@
+{{>partials/header-tailwind}}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+<div class="space-y-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900">✏️ Editando: {{filename}}</h2>
+                <p class="text-gray-600 mt-1">
+                    {{#view_name}}
+                        View: <span class="font-mono text-blue-600">{{view_name}}</span>
+                    {{/view_name}}
+                    {{^view_name}}
+                        <span class="text-amber-600">⚠️ Nome da view não detectado automaticamente</span>
+                    {{/view_name}}
+                </p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="/leads8/view/editor" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Voltar à Lista
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editor Form -->
+    <form id="editorForm" method="POST" action="/leads8/view/editor/save">
+        <input type="hidden" name="filename" value="{{filename}}">
+        
+        <!-- Editor Container -->
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-medium text-gray-900">📝 Editor SQL</h3>
+                    <div class="flex items-center space-x-2">
+                        <button type="button" onclick="testSQL()" class="inline-flex items-center px-3 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-medium rounded-md transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Testar SQL
+                        </button>
+                        <button type="button" onclick="saveOnly()" class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            Salvar Arquivo
+                        </button>
+                        <button type="button" onclick="saveAndApply()" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                            Salvar e Aplicar View
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <textarea id="sqlEditor" name="content" class="w-full h-96 font-mono text-sm">{{content}}</textarea>
+            </div>
+        </div>
+        
+        <input type="hidden" name="apply_changes" id="applyChanges" value="0">
+    </form>
+
+    <!-- Information Panel -->
+    <div class="bg-amber-50 border border-amber-200 rounded-lg p-6">
+        <div class="flex items-start">
+            <svg class="w-5 h-5 text-amber-500 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+            <div>
+                <h3 class="text-sm font-medium text-amber-900 mb-2">⚠️ Instruções Importantes</h3>
+                <ul class="text-sm text-amber-800 space-y-1">
+                    <li>• <strong>Testar SQL:</strong> Sempre teste a sintaxe antes de aplicar mudanças</li>
+                    <li>• <strong>Salvar Arquivo:</strong> Salva apenas o arquivo .sql sem modificar a view no banco</li>
+                    <li>• <strong>Salvar e Aplicar:</strong> Salva o arquivo E recria a view no banco de dados</li>
+                    <li>• <strong>Backup:</strong> Um backup automático da view atual será criado antes da aplicação</li>
+                    <li>• <strong>Cuidado:</strong> Aplicar mudanças afetará imediatamente a view no banco de dados</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Panel -->
+    <div id="statusPanel" class="hidden">
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+            <div class="flex items-center">
+                <div id="statusIcon" class="mr-3"></div>
+                <div>
+                    <h3 id="statusTitle" class="text-sm font-medium text-gray-900"></h3>
+                    <p id="statusMessage" class="text-sm text-gray-600 mt-1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let editor;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize CodeMirror
+    const textarea = document.getElementById('sqlEditor');
+    editor = CodeMirror.fromTextArea(textarea, {
+        mode: 'text/x-sql',
+        theme: 'monokai',
+        lineNumbers: true,
+        indentUnit: 4,
+        smartIndent: true,
+        lineWrapping: true,
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        extraKeys: {
+            "Ctrl-Space": "autocomplete",
+            "Ctrl-S": function(cm) {
+                saveOnly();
+            },
+            "Ctrl-Shift-S": function(cm) {
+                saveAndApply();
+            },
+            "F5": function(cm) {
+                testSQL();
+            }
+        }
+    });
+    
+    // Auto-resize editor
+    editor.setSize(null, 'auto');
+    
+    // Set minimum height
+    editor.getWrapperElement().style.minHeight = '400px';
+});
+
+function testSQL() {
+    const content = editor.getValue();
+    
+    if (!content.trim()) {
+        showStatus('Erro', 'Conteúdo SQL está vazio', 'error');
+        return;
+    }
+    
+    showStatus('Testando...', 'Validando sintaxe SQL...', 'loading');
+    
+    fetch('/leads8/view/editor/test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'content=' + encodeURIComponent(content)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showStatus('✅ Sintaxe Válida', data.message + (data.view_name ? ` (View: ${data.view_name})` : ''), 'success');
+            showToast(data.message, 'success');
+        } else {
+            showStatus('❌ Erro de Sintaxe', data.message, 'error');
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showStatus('❌ Erro', 'Erro ao testar SQL: ' + error.message, 'error');
+        showToast('Erro ao testar SQL', 'error');
+        console.error('Error:', error);
+    });
+}
+
+function saveOnly() {
+    document.getElementById('applyChanges').value = '0';
+    submitForm();
+}
+
+function saveAndApply() {
+    if (confirm('⚠️ ATENÇÃO: Isso irá recriar a view no banco de dados.\n\nTem certeza que deseja continuar?')) {
+        document.getElementById('applyChanges').value = '1';
+        submitForm();
+    }
+}
+
+function submitForm() {
+    // Update textarea with editor content
+    editor.save();
+    
+    const form = document.getElementById('editorForm');
+    const formData = new FormData(form);
+    
+    showStatus('Salvando...', 'Processando alterações...', 'loading');
+    
+    fetch('/leads8/view/editor/save', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let message = 'Arquivo salvo com sucesso!';
+            if (data.view_applied) {
+                message += ` View '${data.view_name}' foi recriada no banco de dados.`;
+            }
+            showStatus('✅ Sucesso', message, 'success');
+            showToast(data.message, 'success');
+        } else {
+            showStatus('❌ Erro', data.message, 'error');
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showStatus('❌ Erro', 'Erro ao salvar: ' + error.message, 'error');
+        showToast('Erro ao salvar arquivo', 'error');
+        console.error('Error:', error);
+    });
+}
+
+function showStatus(title, message, type) {
+    const panel = document.getElementById('statusPanel');
+    const icon = document.getElementById('statusIcon');
+    const titleEl = document.getElementById('statusTitle');
+    const messageEl = document.getElementById('statusMessage');
+    
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    
+    // Set icon and colors based on type
+    if (type === 'success') {
+        icon.innerHTML = '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+        panel.className = 'bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500';
+    } else if (type === 'error') {
+        icon.innerHTML = '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+        panel.className = 'bg-white rounded-lg shadow-sm p-6 border-l-4 border-red-500';
+    } else if (type === 'loading') {
+        icon.innerHTML = '<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>';
+        panel.className = 'bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500';
+    } else {
+        icon.innerHTML = '<svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+        panel.className = 'bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500';
+    }
+    
+    panel.classList.remove('hidden');
+    
+    // Scroll to status panel
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Keyboard shortcuts help
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        if (e.shiftKey) {
+            saveAndApply();
+        } else {
+            saveOnly();
+        }
+    } else if (e.key === 'F5') {
+        e.preventDefault();
+        testSQL();
+    }
+});
+
+// Show keyboard shortcuts on load
+window.addEventListener('load', function() {
+    showToast('Atalhos: Ctrl+S (Salvar) | Ctrl+Shift+S (Salvar e Aplicar) | F5 (Testar)', 'info');
+});
+
+// Toast notification functions
+function showToast(message, type = 'info') {
+    console.log(`Toast: ${message} (${type})`);
+    // TODO: Implement toast system or use alert for now
+    if (type === 'error') {
+        alert('Erro: ' + message);
+    }
+}
+</script>
+
+    </div>
+</div>
+
+<!-- CodeMirror CSS and JS for syntax highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sql/sql.min.js"></script>
+
+<style>
+.CodeMirror {
+    height: auto;
+    min-height: 400px;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+}
+.CodeMirror-focused {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+</style>
