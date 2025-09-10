@@ -172,7 +172,16 @@ class KO7_Cookie {
 	 */
 	protected static function _setcookie($name, $value, $expire, $path, $domain, $secure, $httponly)
 	{
-		return setcookie($name, (string) $value, $expire, $path, $domain, $secure, $httponly);
+		// Ensure all string parameters are properly cast for PHP 8+ compatibility
+		return setcookie(
+			(string) $name,
+			(string) $value,
+			$expire,
+			(string) $path,
+			(string) $domain,
+			(bool) $secure,
+			(bool) $httponly
+		);
 	}
 
 }
