@@ -1,21 +1,21 @@
 
 
-<div id="cartContent" class="container">
+<div id="cartContent" class="container-fluid">
 
     <div class="row">
-        <div class="col-3">
-            <p class="h2 color-primary">
+        <div class="col-12 col-md-3">
+            <p class="h4 h2-md color-primary">
                 <i class="bi bi-cart"></i> {{Total.variedade}} Produto(s) no Carrinho <i class="bi bi-arrow-down"></i>
             </p>
         </div>
-        <div class="col-2">
+        <div class="col-12 col-md-2 mb-2 mb-md-0">
             <div class="custom-control custom-switch mt-2">
                 <input type="checkbox" class="custom-control-input" id="customSwitch1" data-update="{{CONTAINER}}lead/session/{{id}}" {{#SESSION.check}}checked{{/SESSION.check}}>
                 <label class="custom-control-label" for="customSwitch1">Verificar Estoque</label>
             </div>
         </div>
 
-        <div class="col-7 text-right">
+        <div class="col-12 col-md-7 text-center text-md-right">
             <div class="btn-group btn-group-sm my-2" role="group" aria-label="Small button group">
                  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                         <div class="btn-group btn-sm mt-1 p-2" role="group">
@@ -106,6 +106,134 @@
         </div>
     </div>
 
+    <!-- Mobile Card View (visible only on small screens) -->
+    <div class="d-block d-lg-none">
+        {{#Produtos}}
+        <div class="card mb-3 {{#produtoIndisponivel}}border-danger{{/produtoIndisponivel}}" id="card_{{POID}}">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="text-center mb-2">
+                            <input class="checkBoxClass" name="product" type="checkbox" id="product_mobile_{{POID}}" value="{{POID}}">
+                            <span class="d-block small text-muted">#{{produtoContagem}}</span>
+                        </div>
+                        <a href="#" data-toggle="modal" data-title="Produto Informações" data-target="#remoteModal"
+                           data-remote="{{CONTAINER}}lead/product/{{produtoPOID}}/{{segmentoPOID}}/{{Lead.clientePOID}}">
+                            <img src="{{ENV.img}}id/w96/{{produtoPOID}}.jpg?version={{VERSION}}" class="img-fluid rounded">
+                        </a>
+                    </div>
+                    <div class="col-9">
+                        <h6 class="card-title mb-1">
+                            <strong>{{Detalhe.produtoModelo}}</strong>
+                            <a href="#" class="btn btn-sm btn-outline-info ms-1" 
+                               onclick="new WinBox('Produto Info', { url: 'https://dev.office.internut.com.br/K3/tip/vproduct/{{produtoPOID}}/', width: '90%', height: '90%', x: 'center', y: 'center' }); return false;"
+                               title="Ver informações do produto">
+                                <i class="bi bi-info-circle"></i>
+                            </a>
+                        </h6>
+                        <p class="card-text small mb-2">{{Detalhe.produtoNome}} <span class="text-muted">{{Detalhe.produtoDescricaoCurta}}</span></p>
+                        
+                        <div class="row small">
+                            <div class="col-6">
+                                <strong>Marca:</strong><br>
+                                {{#Detalhe.produtoMarcaFormatado}}
+                                <img width="30" src="{{ENV.cdn}}svg/marca/{{Detalhe.produtoMarcaFormatado}}.svg?version={{VERSION}}" title="{{Detalhe.produtoMarca}}" alt="{{Detalhe.produtoMarca}}"/>
+                                {{/Detalhe.produtoMarcaFormatado}}
+                                {{^Detalhe.produtoMarcaFormatado}}
+                                s/m
+                                {{/Detalhe.produtoMarcaFormatado}}
+                            </div>
+                            <div class="col-6">
+                                <strong>Peso:</strong> {{Detalhe.produtoPeso}}<br>
+                                {{#SESSION.acessoFinanceiro}}
+                                <small class="text-danger">Frete: {{produtoFrete}}/{{produtoFreteTotal}}</small>
+                                {{/SESSION.acessoFinanceiro}}
+                            </div>
+                        </div>
+                        
+                        {{^produtoIndisponivel}}
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label class="small"><strong>Qtd:</strong></label>
+                                <input type="text" class="form-control form-control-sm qty-cart text-center mask-qty" 
+                                       data-update="/services/cart/update/{{POID}}" data-lead="{{id}}"
+                                       data-product="{{produtoPOID}}" data-times="{{produtoVezes}}" 
+                                       id="qty_cart_mobile_{{produtoPOID}}" value="{{produtoQuantidade}}" 
+                                       name="produtoQuantidade" min="1" max="999999" maxlength="5">
+                                {{#SESSION.check}}
+                                <small class="text-muted d-block">Est: {{stock.estoqueEcommerce}}/{{stock.estoqueComercial}}</small>
+                                {{/SESSION.check}}
+                            </div>
+                            <div class="col-4">
+                                <label class="small"><strong>Vezes:</strong></label>
+                                <div class="text-center pt-2">{{produtoVezes}}</div>
+                            </div>
+                            <div class="col-4">
+                                <label class="small"><strong>Index:</strong></label>
+                                <div class="text-center pt-2">{{produtoIndex}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <label class="small"><strong>Valor de Venda:</strong></label>
+                                {{#produtoPrecoAjustado}}
+                                <input type="text" class="form-control form-control-sm text-center product-discount color-primary font-weight-bolder"
+                                       id="qty_cart_discount_mobile_{{produtoPOID}}" data-type="price" 
+                                       data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" 
+                                       data-url="{{CONTAINER}}lead/discount" data-segment="{{segmentoPOID}}" 
+                                       value="{{produtoValorFormatado}}">
+                                {{/produtoPrecoAjustado}}
+                                {{^produtoPrecoAjustado}}
+                                <input type="text" class="form-control form-control-sm text-center product-discount text-dark font-weight-bolder"
+                                       id="qty_cart_discount_mobile_{{produtoPOID}}" data-type="price" 
+                                       data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" 
+                                       data-url="{{CONTAINER}}lead/discount" data-segment="{{segmentoPOID}}" 
+                                       value="{{produtoValorFormatado}}">
+                                {{/produtoPrecoAjustado}}
+                                <small class="d-block text-muted">Original: {{produtoValorOriginal}}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-8">
+                                <strong class="text-success">Subtotal: {{produtoValorSubtotal}}</strong>
+                                {{#SESSION.acessoWebmaster}}
+                                <small class="d-block text-muted">({{produtoValor}} unit.)</small>
+                                {{/SESSION.acessoWebmaster}}
+                            </div>
+                            <div class="col-4 text-end">
+                                <a class="cart-remove-item btn btn-sm btn-danger" href="#card_{{POID}}" 
+                                   data-lead-id="{{leadPOID}}" id="card_remove_{{POID}}" 
+                                   data-name="{{Detalhe.produtoModelo}}" data-product-id="{{POID}}" 
+                                   data-service="/services/cart/delete/{{POID}}/{{segmentoPOID}}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {{/produtoIndisponivel}}
+                        
+                        {{#produtoIndisponivel}}
+                        <div class="alert alert-danger mt-2 mb-0">
+                            <small>Quantidade do item indisponível</small>
+                        </div>
+                        {{/produtoIndisponivel}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/Produtos}}
+        
+        {{^Produtos}}
+        <div class="text-center py-5">
+            <img src="{{ENV.cdn}}media/r6/carrinho-vazio.svg" width="150" class="mb-3" />
+            <h4 class="text-muted">Seu Carrinho está vazio!</h4>
+        </div>
+        {{/Produtos}}
+    </div>
+
+    <!-- Desktop Table View (hidden on small screens) -->
+    <div class="d-none d-lg-block">
     <table class="table table-sm table-bordered table-hover table-striped contentSearchHighlight" id="cartTable">
         <thead class="thead-custom">
             <tr>
@@ -330,6 +458,7 @@
         </tfoot>
         {{/Total}}
     </table>
+    </div>
 
 </div>
 
@@ -362,23 +491,24 @@
 {{/ClienteDoCliente}}
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-9 text-left">
-            <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0">Remover Produtos Selecionados </button>
-            <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0">Manter Produtos Selecionados </button>
-            <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me </button>
-            <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0">Salvar Produtos como Itens Perdidos</button>
-            <!--<button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0">Avise-me</button>//-->
-            <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
-                <i class="bi bi-trash" aria-hidden="true"></i> Remover Todos Produtos
-            </button>
+        <div class="col-12 col-lg-9">
+            <div class="d-flex flex-wrap gap-2 mb-2">
+                <button id="" name="remove" class="btn btn-secondary btn-sm submitProducts rounded-0 flex-fill flex-lg-grow-0">Remover Selecionados</button>
+                <button id="" name="add" class="btn btn-secondary btn-sm submitProducts rounded-0 flex-fill flex-lg-grow-0">Manter Selecionados</button>
+                <button id="" name="notify" class="btn btn-secondary btn-sm submitProducts rounded-0 flex-fill flex-lg-grow-0">Avise-me</button>
+                <button id="" name="lost" class="btn btn-secondary btn-sm submitProducts rounded-0 flex-fill flex-lg-grow-0">Salvar como Perdidos</button>
+                <button type="button" class="btn btn-danger btn-sm cart-remove rounded-0 flex-fill flex-lg-grow-0" href="#cart_remove" {{^existProducts}}disabled{{/existProducts}} data-lead-id="{{id}}" id="cart_remove" data-service="/services/cart/clear/{{id}}">
+                    <i class="bi bi-trash" aria-hidden="true"></i> <span class="d-none d-sm-inline">Remover Todos</span>
+                </button>
+            </div>
         </div>
 
         {{#existProducts}}
-        <div class="col-3 text-right">
+        <div class="col-12 col-lg-3 text-center text-lg-right">
             <a type="" href="{{CONTAINER}}order/checkout/{{id}}/{{segmentoPOID}}"
-               class="btn btn-custom btn-lg btn-primary font-weight-bold mt-1 {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
+               class="btn btn-custom btn-lg btn-primary font-weight-bold w-100 w-lg-auto {{^SESSION.check}}disabled{{/SESSION.check}} {{#existPendencies}}disabled{{/existPendencies}} {{#multiple}}disabled{{/multiple}}">
                 <i class="bi bi-fast-forward"></i> ir Próxima Etapa
             </a>
             <br>
@@ -388,37 +518,179 @@
     </div>
 </div>
 
+<style>
+/* Mobile-specific improvements */
+@media (max-width: 991.98px) {
+    .h2-md {
+        font-size: 1.5rem !important;
+    }
+    
+    .card {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-group .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    .dropdown-toggle::after {
+        margin-left: 0.5rem;
+    }
+    
+    /* Improve button spacing on mobile */
+    .d-flex.flex-wrap.gap-2 {
+        gap: 0.5rem !important;
+    }
+    
+    .flex-fill {
+        min-width: calc(50% - 0.25rem);
+    }
+    
+    /* Better form controls on mobile */
+    .form-control-sm {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.5rem;
+    }
+    
+    /* Improve image display */
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Better alert styling */
+    .alert {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 4px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .flex-fill {
+        min-width: 100%;
+    }
+    
+    .h4 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Ensure proper gap support fallback */
+.d-flex.flex-wrap.gap-2 > * {
+    margin-bottom: 0.5rem;
+}
+
+.d-flex.flex-wrap.gap-2 > *:not(:last-child) {
+    margin-right: 0.5rem;
+}
+
+/* Better table responsiveness */
+@media (min-width: 992px) {
+    .table-responsive {
+        overflow-x: visible;
+    }
+}
+
+/* Improve WinBox sizing for mobile */
+@media (max-width: 768px) {
+    .winbox {
+        width: 95% !important;
+        height: 90% !important;
+        left: 2.5% !important;
+        top: 5% !important;
+    }
+}
+</style>
+
 <script>
 // Wait for jQuery and DataTables to be available
 (function() {
     function initDataTable() {
         if (typeof $ !== 'undefined' && $.fn.DataTable) {
-            $('#cartTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "responsive": true,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
-                },
-                "columnDefs": [
-                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
-                ],
-                "pageLength": 25,
-                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
-            });
+            // Only initialize DataTable on desktop
+            if (window.innerWidth >= 992) {
+                $('#cartTable').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "responsive": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
+                    },
+                    "columnDefs": [
+                        { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
+                    ],
+                    "pageLength": 25,
+                    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
+                });
+            }
         } else {
             // Retry after a short delay if jQuery/DataTables not ready
             setTimeout(initDataTable, 100);
         }
     }
     
+    // Sync mobile and desktop checkboxes
+    function syncCheckboxes() {
+        $(document).on('change', '.checkBoxClass', function() {
+            const value = $(this).val();
+            const isChecked = $(this).is(':checked');
+            
+            // Sync between mobile and desktop versions
+            $(`input[value="${value}"].checkBoxClass`).prop('checked', isChecked);
+        });
+    }
+    
+    // Handle window resize to reinitialize DataTable if needed
+    function handleResize() {
+        let resizeTimer;
+        $(window).on('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                // Destroy and reinitialize DataTable on significant size changes
+                if ($.fn.DataTable.isDataTable('#cartTable')) {
+                    $('#cartTable').DataTable().destroy();
+                }
+                initDataTable();
+            }, 250);
+        });
+    }
+    
     // Start initialization when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDataTable);
+        document.addEventListener('DOMContentLoaded', function() {
+            initDataTable();
+            syncCheckboxes();
+            handleResize();
+        });
     } else {
         initDataTable();
+        syncCheckboxes();
+        handleResize();
     }
 })();
 </script>

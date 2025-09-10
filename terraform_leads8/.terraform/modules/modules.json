@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"build_image","Source":"./modules/build","Dir":"modules/build"},{"Key":"docker_service","Source":"./modules/docker","Dir":"modules/docker"},{"Key":"traefik_config","Source":"./modules/traefik","Dir":"modules/traefik"}]}

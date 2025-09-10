@@ -113,18 +113,6 @@ KO7::init([
     'index_file' => FALSE,
 ]);
 
-/**
- * Custom error handler to suppress PHP 8+ setcookie deprecation warnings
- * This must be set after KO7::init() to override KO7's error handler
- */
-set_error_handler(function($errno, $errstr, $errfile, $errline) {
-    // Suppress setcookie null value deprecation warnings
-    if ($errno === E_DEPRECATED && strpos($errstr, 'setcookie()') !== false && strpos($errstr, 'Passing null to parameter') !== false) {
-        return true; // Suppress this specific warning
-    }
-    // Let other errors be handled normally by KO7
-    return KO7_Core::error_handler($errno, $errstr, $errfile, $errline);
-}, E_DEPRECATED);
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
