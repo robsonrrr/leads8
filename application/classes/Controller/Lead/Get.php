@@ -337,7 +337,7 @@ class Controller_Lead_Get extends Controller_Website {
             ];
 
             // Log the detailed error
-            Kohana::$log->add(Log::ERROR, 'Lead Get Error: ' . json_encode($debug));
+            KO7::$log->add(Log::ERROR, 'Lead Get Error: ' . json_encode($debug));
 
             // Prepare a structured error response
             $this->response->status(500);
