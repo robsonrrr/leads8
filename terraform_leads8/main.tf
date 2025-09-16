@@ -18,8 +18,9 @@ provider "docker" {
 }
 
 # Import modules
-# Build the Docker image first
+# Build the Docker image first (only when not using bind mounts)
 module "build_image" {
+  count = var.use_bind_mounts ? 0 : 1
   source = "./modules/build"
   
   service_name = var.service_name
@@ -28,8 +29,9 @@ module "build_image" {
   save_image   = var.save_image
 }
 
-# Deploy the Docker service after image is built
-module "docker_service" {
+# Deploy the Docker service (with build dependency)
+module "docker_service_with_build" {
+  count = var.use_bind_mounts ? 0 : 1
   source = "./modules/docker"
   
   service_name          = var.service_name
@@ -40,12 +42,34 @@ module "docker_service" {
   host_domain           = var.host_domain
   path_prefix           = var.path_prefix
   container_port        = var.container_port
-  conflicting_services  = ["leads8"]  # Lista de serviços que podem conflitar
+  conflicting_services  = []
+  use_bind_mounts       = var.use_bind_mounts
+  source_path           = var.source_path
   
-  depends_on = [module.build_image]
+  depends_on = [module.build_image[0]]
 }
 
-module "traefik_config" {
+# Deploy the Docker service (with bind mounts, no build)
+module "docker_service_bind_mount" {
+  count = var.use_bind_mounts ? 1 : 0
+  source = "./modules/docker"
+  
+  service_name          = var.service_name
+  image_name            = var.image_name
+  image_tag             = var.image_tag
+  network_name          = var.network_name
+  replicas              = var.replicas
+  host_domain           = var.host_domain
+  path_prefix           = var.path_prefix
+  container_port        = var.container_port
+  conflicting_services  = []
+  use_bind_mounts       = var.use_bind_mounts
+  source_path           = var.source_path
+}
+
+# Traefik config for build-based deployment
+module "traefik_config_with_build" {
+  count = var.use_bind_mounts ? 0 : 1
   source = "./modules/traefik"
   
   service_name   = var.service_name
@@ -53,5 +77,18 @@ module "traefik_config" {
   path_prefix    = var.path_prefix
   container_port = var.container_port
   
-  depends_on = [module.docker_service]
+  depends_on = [module.docker_service_with_build[0]]
+}
+
+# Traefik config for bind mount deployment
+module "traefik_config_bind_mount" {
+  count = var.use_bind_mounts ? 1 : 0
+  source = "./modules/traefik"
+  
+  service_name   = var.service_name
+  host_domain    = var.host_domain
+  path_prefix    = var.path_prefix
+  container_port = var.container_port
+  
+  depends_on = [module.docker_service_bind_mount[0]]
 }

@@ -109,7 +109,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 KO7::init([
-    'base_url'   => '/',
+    'base_url'   => '/leads8/',
     'index_file' => FALSE,
 ]);
 
@@ -242,14 +242,14 @@ Route::set('segment', 'segment(/<id>)')
         'action'     => 'index',
     ]);
 
-Route::set('leads8', 'leads8(/<controller>(/<id>(/<segment>(/<complement>))))')
+Route::set('leads8', 'leads8(/<controller>(/<action>(/<id>(/<segment>))))')
     ->defaults([
         'directory'  => 'lead',
         'controller' => 'index',
         'action'     => 'index',
     ]);
 
-Route::set('default', '<id>(/<segment>)')
+Route::set('default', '(<controller>(/<action>(/<id>)))')
     ->defaults([
         'directory'  => 'lead',
         'controller' => 'index',

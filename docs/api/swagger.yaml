@@ -1,0 +1,1274 @@
+openapi: 3.0.0
+info:
+  title: Leads8 Mobile API
+  description: |
+    API para acesso mobile ao sistema Leads8.
+    
+    Esta API permite:
+    - Autenticação de usuários
+    - Gerenciamento de leads
+    - Consulta de produtos
+    - Gerenciamento de carrinho
+    - Consulta de clientes
+  version: 1.0.0
+  contact:
+    name: Suporte Leads8
+    email: suporte@leads8.com.br
+
+servers:
+  - url: https://api.leads8.com.br/v1
+    description: Produção
+  - url: https://api.staging.leads8.com.br/v1
+    description: Homologação
+  - url: http://localhost:8000/v1
+    description: Desenvolvimento
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT obtido no endpoint de autenticação
+  
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Mensagem de erro"
+    
+    Success:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: false
+        data:
+          type: object
+          description: Dados da resposta
+    
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          example: "john@example.com"
+        role:
+          type: string
+          enum: [admin, manager, sales]
+          example: "sales"
+        permissions:
+          type: array
+          items:
+            type: string
+          example: ["create_lead", "edit_lead"]
+    
+    Lead:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        customer_id:
+          type: integer
+          example: 100
+        status:
+          type: string
+          enum: [pending, completed, cancelled]
+          example: "pending"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-09-10T10:00:00Z"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeadItem"
+        customer:
+          $ref: "#/components/schemas/Customer"
+        totals:
+          $ref: "#/components/schemas/LeadTotals"
+    
+    LeadItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 100
+        quantity:
+          type: integer
+          example: 2
+        unit_price:
+          type: number
+          format: float
+          example: 100.00
+        discount:
+          type: number
+          format: float
+          example: 10.00
+        total:
+          type: number
+          format: float
+          example: 190.00
+        product:
+          $ref: "#/components/schemas/Product"
+    
+    LeadTotals:
+      type: object
+      properties:
+        total_items:
+          type: integer
+          example: 2
+        total_quantity:
+          type: integer
+          example: 5
+        total_value:
+          type: number
+          format: float
+          example: 500.00
+        total_discount:
+          type: number
+          format: float
+          example: 50.00
+    
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        code:
+          type: string
+          example: "PROD001"
+        name:
+          type: string
+          example: "Product Name"
+        description:
+          type: string
+          example: "Product description"
+        price:
+          type: number
+          format: float
+          example: 100.00
+        stock:
+          type: integer
+          example: 50
+        category:
+          type: string
+          example: "Category 1"
+        brand:
+          type: string
+          example: "Brand 1"
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductImage"
+    
+    ProductImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          enum: [main, gallery]
+          example: "main"
+        url:
+          type: string
+          example: "https://example.com/image.jpg"
+    
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        name:
+          type: string
+          example: "Customer Name"
+        email:
+          type: string
+          example: "customer@example.com"
+        document:
+          type: string
+          example: "12345678901"
+        type:
+          type: string
+          enum: [pf, pj]
+          example: "pf"
+        status:
+          type: string
+          enum: [active, inactive, blocked]
+          example: "active"
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        contacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Contact"
+    
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          enum: [billing, shipping]
+          example: "billing"
+        street:
+          type: string
+          example: "Street Name"
+        number:
+          type: string
+          example: "123"
+        complement:
+          type: string
+          example: "Apt 4B"
+        district:
+          type: string
+          example: "District"
+        city:
+          type: string
+          example: "City"
+        state:
+          type: string
+          example: "ST"
+        country:
+          type: string
+          example: "BR"
+        zipcode:
+          type: string
+          example: "12345678"
+        is_main:
+          type: boolean
+          example: true
+    
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Contact Name"
+        role:
+          type: string
+          example: "Manager"
+        email:
+          type: string
+          example: "contact@example.com"
+        phone:
+          type: string
+          example: "1199999999"
+        mobile:
+          type: string
+          example: "11999999999"
+        is_main:
+          type: boolean
+          example: true
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth:
+    post:
+      tags:
+        - Autenticação
+      summary: Autenticação de usuário
+      description: Autentica um usuário e retorna um token JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "password123"
+                device_id:
+                  type: string
+                  example: "device_123"
+      responses:
+        "200":
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                          user:
+                            $ref: "#/components/schemas/User"
+        "401":
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /refresh-token:
+    post:
+      tags:
+        - Autenticação
+      summary: Atualiza token
+      description: Gera um novo token JWT usando o token atual
+      responses:
+        "200":
+          description: Token atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        "401":
+          description: Token inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /logout:
+    post:
+      tags:
+        - Autenticação
+      summary: Logout
+      description: Invalida o token atual
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device_id:
+                  type: string
+                  example: "device_123"
+      responses:
+        "200":
+          description: Logout realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+  
+  /leads:
+    get:
+      tags:
+        - Leads
+      summary: Lista leads
+      description: Retorna lista paginada de leads
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, completed, cancelled]
+        - name: date_start
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: date_end
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Lista de leads
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 100
+                          page:
+                            type: integer
+                            example: 1
+                          limit:
+                            type: integer
+                            example: 20
+                          total_pages:
+                            type: integer
+                            example: 5
+                          leads:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Lead"
+    
+    post:
+      tags:
+        - Leads
+      summary: Cria lead
+      description: Cria um novo lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - customer_id
+                - items
+              properties:
+                customer_id:
+                  type: integer
+                  example: 100
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - product_id
+                      - quantity
+                    properties:
+                      product_id:
+                        type: integer
+                        example: 100
+                      quantity:
+                        type: integer
+                        example: 2
+                      unit_price:
+                        type: number
+                        format: float
+                        example: 100.00
+                      discount:
+                        type: number
+                        format: float
+                        example: 10.00
+                notes:
+                  type: string
+                  example: "Observações do lead"
+      responses:
+        "201":
+          description: Lead criado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Lead"
+  
+  /leads/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    get:
+      tags:
+        - Leads
+      summary: Detalhes do lead
+      description: Retorna detalhes de um lead específico
+      responses:
+        "200":
+          description: Detalhes do lead
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Lead"
+        "404":
+          description: Lead não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
+    put:
+      tags:
+        - Leads
+      summary: Atualiza lead
+      description: Atualiza dados de um lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [pending, completed, cancelled]
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product_id:
+                        type: integer
+                      quantity:
+                        type: integer
+                      unit_price:
+                        type: number
+                        format: float
+                      discount:
+                        type: number
+                        format: float
+                notes:
+                  type: string
+      responses:
+        "200":
+          description: Lead atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Lead"
+        "404":
+          description: Lead não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
+    delete:
+      tags:
+        - Leads
+      summary: Remove lead
+      description: Remove um lead
+      responses:
+        "200":
+          description: Lead removido com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        "404":
+          description: Lead não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /products:
+    get:
+      tags:
+        - Produtos
+      summary: Lista produtos
+      description: Retorna lista paginada de produtos
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: integer
+        - name: brand
+          in: query
+          schema:
+            type: integer
+        - name: stock
+          in: query
+          schema:
+            type: string
+            enum: [available, unavailable]
+        - name: min_price
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: max_price
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [code, name, price, stock]
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+        "200":
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 100
+                          page:
+                            type: integer
+                            example: 1
+                          limit:
+                            type: integer
+                            example: 20
+                          total_pages:
+                            type: integer
+                            example: 5
+                          products:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Product"
+                          filters:
+                            type: object
+                            properties:
+                              categories:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
+                              brands:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
+  
+  /products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    get:
+      tags:
+        - Produtos
+      summary: Detalhes do produto
+      description: Retorna detalhes de um produto específico
+      responses:
+        "200":
+          description: Detalhes do produto
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Product"
+        "404":
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /product/barcode:
+    get:
+      tags:
+        - Produtos
+      summary: Busca produto por código de barras
+      description: Retorna produto pelo código de barras
+      parameters:
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Product"
+        "404":
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /product/code:
+    get:
+      tags:
+        - Produtos
+      summary: Busca produto por código
+      description: Retorna produto pelo código
+      parameters:
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Product"
+        "404":
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /cart:
+    get:
+      tags:
+        - Carrinho
+      summary: Obtém carrinho
+      description: Retorna itens do carrinho atual
+      responses:
+        "200":
+          description: Carrinho
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          items:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/LeadItem"
+                          totals:
+                            $ref: "#/components/schemas/LeadTotals"
+    
+    post:
+      tags:
+        - Carrinho
+      summary: Adiciona item
+      description: Adiciona item ao carrinho
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - product_id
+                - quantity
+              properties:
+                product_id:
+                  type: integer
+                  example: 100
+                quantity:
+                  type: integer
+                  example: 2
+                price:
+                  type: number
+                  format: float
+                  example: 100.00
+                discount:
+                  type: number
+                  format: float
+                  example: 10.00
+      responses:
+        "200":
+          description: Item adicionado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          items:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/LeadItem"
+                          totals:
+                            $ref: "#/components/schemas/LeadTotals"
+    
+    put:
+      tags:
+        - Carrinho
+      summary: Atualiza item
+      description: Atualiza item do carrinho
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - item_id
+              properties:
+                item_id:
+                  type: integer
+                  example: 1
+                quantity:
+                  type: integer
+                  example: 3
+                price:
+                  type: number
+                  format: float
+                  example: 90.00
+                discount:
+                  type: number
+                  format: float
+                  example: 15.00
+      responses:
+        "200":
+          description: Item atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          items:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/LeadItem"
+                          totals:
+                            $ref: "#/components/schemas/LeadTotals"
+    
+    delete:
+      tags:
+        - Carrinho
+      summary: Limpa carrinho
+      description: Remove todos os itens do carrinho
+      responses:
+        "200":
+          description: Carrinho limpo com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          items:
+                            type: array
+                            items: {}
+                          totals:
+                            $ref: "#/components/schemas/LeadTotals"
+  
+  /cart/{item_id}:
+    parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    delete:
+      tags:
+        - Carrinho
+      summary: Remove item
+      description: Remove item do carrinho
+      responses:
+        "200":
+          description: Item removido com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          items:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/LeadItem"
+                          totals:
+                            $ref: "#/components/schemas/LeadTotals"
+        "404":
+          description: Item não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /customers:
+    get:
+      tags:
+        - Clientes
+      summary: Lista clientes
+      description: Retorna lista paginada de clientes
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, blocked]
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [pf, pj]
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [name, email, document]
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+        "200":
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 100
+                          page:
+                            type: integer
+                            example: 1
+                          limit:
+                            type: integer
+                            example: 20
+                          total_pages:
+                            type: integer
+                            example: 5
+                          customers:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Customer"
+                          filters:
+                            type: object
+                            properties:
+                              status:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    name:
+                                      type: string
+                              type:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    name:
+                                      type: string
+  
+  /customers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    get:
+      tags:
+        - Clientes
+      summary: Detalhes do cliente
+      description: Retorna detalhes de um cliente específico
+      responses:
+        "200":
+          description: Detalhes do cliente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Customer"
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /customer/document:
+    get:
+      tags:
+        - Clientes
+      summary: Busca cliente por documento
+      description: Retorna cliente pelo documento (CPF/CNPJ)
+      parameters:
+        - name: document
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Customer"
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /customer/email:
+    get:
+      tags:
+        - Clientes
+      summary: Busca cliente por email
+      description: Retorna cliente pelo email
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Customer"
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /customer/addresses/{customer_id}:
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    get:
+      tags:
+        - Clientes
+      summary: Lista endereços
+      description: Retorna endereços de um cliente
+      responses:
+        "200":
+          description: Lista de endereços
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          addresses:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Address"
+  
+  /customer/contacts/{customer_id}:
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    
+    get:
+      tags:
+        - Clientes
+      summary: Lista contatos
+      description: Retorna contatos de um cliente
+      responses:
+        "200":
+          description: Lista de contatos
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Success"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          contacts:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Contact"
+
+

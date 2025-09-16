@@ -20,4 +20,4 @@ docker service create \
     --label  traefik.http.middlewares.leads8-stripprefix.stripprefix.prefixes=/leads8 \
     --mount type=bind,source=/home/ubuntu/environment/Office/Apps/inProduction/leads/leads8,destination=/var/www/html \
     --mount type=bind,source=/home/ubuntu/environment/Office/Configs/dev/config.env,destination=/data/config.env \
-koseven-php8:latest
+leads8:latest

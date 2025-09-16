@@ -35,19 +35,22 @@ resource "null_resource" "create_docker_service" {
         --label traefik.http.middlewares.${replace(var.service_name, "-", "")}-stripprefix.stripprefix.prefixes=${var.path_prefix} \
         --label traefik.http.routers.${replace(var.service_name, "-", "")}-insecure.middlewares=${replace(var.service_name, "-", "")}-insecure-stripprefix \
         --label traefik.http.middlewares.${replace(var.service_name, "-", "")}-insecure-stripprefix.stripprefix.prefixes=${var.path_prefix} \
+        %{if var.use_bind_mounts}--mount type=bind,source=${var.source_path},target=/var/www/html \%{endif}\
         ${var.image_name}:${var.image_tag}
     EOT
   }
   
   triggers = {
-    service_name   = var.service_name
-    image_name     = var.image_name
-    image_tag      = var.image_tag
-    network_name   = var.network_name
-    replicas       = var.replicas
-    host_domain    = var.host_domain
-    path_prefix    = var.path_prefix
-    container_port = var.container_port
+    service_name     = var.service_name
+    image_name       = var.image_name
+    image_tag        = var.image_tag
+    network_name     = var.network_name
+    replicas         = var.replicas
+    host_domain      = var.host_domain
+    path_prefix      = var.path_prefix
+    container_port   = var.container_port
+    use_bind_mounts  = var.use_bind_mounts
+    source_path      = var.source_path
   }
   
   depends_on = [null_resource.remove_existing_services]

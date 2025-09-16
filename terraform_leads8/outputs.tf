@@ -1,21 +1,21 @@
 output "service_name" {
   description = "Nome do serviço Docker criado"
-  value       = module.docker_service.service_name
+  value       = var.use_bind_mounts ? module.docker_service_bind_mount[0].service_name : module.docker_service_with_build[0].service_name
 }
 
 output "service_id" {
   description = "ID do serviço Docker"
-  value       = module.docker_service.service_id
+  value       = var.use_bind_mounts ? module.docker_service_bind_mount[0].service_id : module.docker_service_with_build[0].service_id
 }
 
 output "image_full_name" {
   description = "Full Docker image name with tag"
-  value       = module.build_image.image_full_name
+  value       = var.use_bind_mounts ? "${var.image_name}:${var.image_tag}" : module.build_image[0].image_full_name
 }
 
 output "build_id" {
   description = "Build resource ID"
-  value       = module.build_image.build_id
+  value       = var.use_bind_mounts ? "N/A (bind mount mode)" : module.build_image[0].build_id
 }
 
 output "traefik_router_name" {

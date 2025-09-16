@@ -43,3 +43,15 @@ variable "conflicting_services" {
   type        = list(string)
   default     = []
 }
+
+variable "use_bind_mounts" {
+  description = "Whether to use bind mounts for development (like leads8.sh)"
+  type        = bool
+  default     = false
+}
+
+variable "source_path" {
+  description = "Source path for bind mount (when use_bind_mounts is true)"
+  type        = string
+  default     = ""
+}
