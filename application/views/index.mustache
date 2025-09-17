@@ -480,23 +480,23 @@
                 {{/Cliente.clienteDifal}}
                 
                 <!-- Cart Section -->
-                <section class="cart-section mt-4">
-                    <div class="modern-card config-section cart-section">
-                        <div class="config-header bg-primary bg-opacity-10">
+                <section class="cart-section mt-2">
+                    <div class="modern-card config-section cart-section" style="box-shadow: 0 12px 40px rgba(0,0,0,0.5); border: 1px solid #404040; background: #1a1a1a; border-radius: 12px; overflow: hidden;">
+                        <div class="config-header" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; border-radius: 12px 12px 0 0; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #404040;">
                             <div class="d-flex align-items-center justify-content-between flex-wrap">
                                 <div class="d-flex align-items-center">
                                     <div class="config-icon-wrapper me-3">
-                                        <i class="bi bi-cart"></i>
+                                        <i class="fas fa-shopping-cart" style="color: white;"></i>
                                     </div>
                                     <div>
-                                        <h4 class="config-title mb-1">Carrinho de Compras</h4>
-                                        <p class="config-subtitle mb-0">Produtos selecionados para cotação</p>
+                                        <h4 class="config-title mb-1" style="color: white; font-size: 1.4rem; font-weight: 400;">Carrinho de Compras</h4>
+                                        <p class="config-subtitle mb-0" style="color: white; font-weight: 300; opacity: 0.8;">Produtos selecionados para cotação</p>
                                     </div>
                                 </div>
                                 
                                 <!-- Toggle Button for Lead Information Sections -->
                                 <div class="lead-sections-toggle">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" id="toggleLeadSections" title="Mostrar/Ocultar informações do lead">
+                                    <button type="button" class="btn btn-sm btn-outline-light" id="toggleLeadSections" title="Mostrar/Ocultar informações do lead" style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                                         <i class="bi bi-eye-slash me-1"></i>
                                         <span class="toggle-text">Mostrar Informações</span>
                                     </button>
@@ -506,26 +506,26 @@
                                 <div class="lead-info-compact d-flex flex-wrap align-items-center gap-3">
                                     <!-- Lead Navigation -->
                                     <div class="lead-navigation d-flex align-items-center gap-2">
-                                        <a href="/leads8/lead/index/{{previd}}/1" class="btn btn-sm btn-outline-primary" title="Lead Anterior">
+                                        <a href="/leads8/lead/index/{{previd}}/1" class="btn btn-sm" style="color: #87CEEB; border: 1px solid #87CEEB;" title="Lead Anterior">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                         <div class="lead-number">
-                                            <span class="text-muted small">Lead:</span>
-                                            <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="fw-bold text-primary">#{{id}}</a>
+                                            <span class="small" style="color: #B0B0B0;">Lead:</span>
+                                            <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="fw-bold" style="color: #87CEEB;">#{{id}}</a>
                                         </div>
-                                        <a href="/leads8/lead/index/{{nextid}}/1" class="btn btn-sm btn-outline-primary" title="Próximo Lead">
+                                        <a href="/leads8/lead/index/{{nextid}}/1" class="btn btn-sm" style="color: #87CEEB; border: 1px solid #87CEEB;" title="Próximo Lead">
                                             <i class="bi bi-arrow-right"></i>
                                         </a>
                                     </div>
                                     
                                     <!-- Client Info -->
                                     <div class="client-info-compact">
-                                        <span class="text-muted small">Cliente:</span>
-                                        <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="text-decoration-none fw-medium">
+                                        <span class="small" style="color: #B0B0B0;">Cliente:</span>
+                                        <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="text-decoration-none fw-medium" style="color: #87CEEB;">
                                             {{Cliente.clienteNome}}
-                                            {{#Cliente.clienteCidade}}<span class="text-muted"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="text-muted">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}
+                                            {{#Cliente.clienteCidade}}<span style="color: #B0B0B0;"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span style="color: #B0B0B0;">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-outline-info ms-1" 
+                                        <a href="#" class="btn btn-sm ms-1" style="color: #87CEEB; border: 1px solid #87CEEB;" 
                                            onclick="new WinBox('Cliente Info', { url: '/K3/tip/vcustomer/{{Cliente.clienteID}}/', width: 1800, height: 1200, x: 'center', y: 'center' }); return false;"
                                            title="Ver informações do cliente">
                                             <i class="bi bi-info-circle"></i>
@@ -534,14 +534,14 @@
                                     
                                     {{#Vendedor.UsuarioNomeCurto}}
                                     <div class="seller-info-compact">
-                                        <span class="text-muted small">Vendedor:</span>
+                                        <span class="small" style="color: #B0B0B0;">Vendedor:</span>
                                         <span class="fw-medium">{{Vendedor.UsuarioNomeCurto}}</span>
                                     </div>
                                     {{/Vendedor.UsuarioNomeCurto}}
                                     
                                     <!-- Segment Selector -->
                                     <div class="segment-selector-compact">
-                                        <select class="form-select form-select-sm" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">
+                                        <select class="form-select form-select-sm" style="background-color: #2d2d2d; color: #ffffff; border: 1px solid #404040;" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">
                                             <option value="1" {{#segment_1}}selected{{/segment_1}}>Rolamentos</option>
                                             <option value="2" {{#segment_2}}selected{{/segment_2}}>Automotivo</option>
                                             <option value="3" {{#segment_3}}selected{{/segment_3}}>Máquinas</option>
@@ -556,50 +556,50 @@
                             
                             <!-- Financial Information -->
                             {{#Financeiro}}
-                            <div class="financial-info-compact mt-3 p-3 bg-light rounded">
-                                <div class="row g-2">
-                                    <div class="col-auto">
-                                        <small class="text-muted">Limite:</small>
-                                        <span class="fw-bold text-success">{{#limite}}R$ {{.}}{{/limite}}{{^limite}}R$ 0,00{{/limite}}</span>
+                            <div class="financial-info-compact mt-3 p-4 rounded" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border: 1px solid #404040; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); margin: 1rem 0;">
+                                <div class="row g-3">
+                                    <div class="col-auto" style="background: rgba(30, 58, 138, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #3B82F6;">
+                                        <small style="color: #93C5FD; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Limite:</small>
+                                        <span class="fw-bold" style="color: #DBEAFE; font-size: 1.3em;">{{#limite}}R$ {{.}}{{/limite}}{{^limite}}R$ 0,00{{/limite}}</span>
                                     </div>
-                                    <div class="col-auto">
-                                        <small class="text-muted">Disponível:</small>
-                                        <span class="fw-bold text-success">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
+                                    <div class="col-auto" style="background: rgba(21, 128, 61, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #10B981;">
+                                        <small style="color: #6EE7B7; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Disponível:</small>
+                                        <span class="fw-bold" style="color: #D1FAE5; font-size: 1.3em;">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
                                     </div>
-                                    <div class="col-auto">
-                                        <small class="text-muted">Montante 90d:</small>
-                                        <span class="fw-bold text-success">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+                                    <div class="col-auto" style="background: rgba(109, 40, 217, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #8B5CF6;">
+                                        <small style="color: #C4B5FD; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Montante 90d:</small>
+                                        <span class="fw-bold" style="color: #EDE9FE; font-size: 1.3em;">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
                                     </div>
                                     {{#atrasados}}
                                     {{#atrasados_gt_100}}
-                                    <div class="col-auto">
-                                        <small class="text-muted">Atrasados:</small>
-                                        <span class="fw-bold text-danger">R$ {{.}}</span>
+                                    <div class="col-auto" style="background: rgba(185, 28, 28, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #EF4444;">
+                                        <small style="color: #FCA5A5; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Atrasados:</small>
+                                        <span class="fw-bold" style="color: #FEE2E2; font-size: 1.3em;">R$ {{.}}</span>
                                     </div>
                                     {{/atrasados_gt_100}}
                                     {{/atrasados}}
                                     {{#pendentes}}
-                                    <div class="col-auto">
-                                        <small class="text-muted">Pendentes:</small>
-                                        <span class="fw-bold text-warning">R$ {{.}}</span>
+                                    <div class="col-auto" style="background: rgba(194, 65, 12, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #F97316;">
+                                        <small style="color: #FED7AA; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Pendentes:</small>
+                                        <span class="fw-bold" style="color: #FFF7ED; font-size: 1.3em;">R$ {{.}}</span>
                                     </div>
                                     {{/pendentes}}
                                     {{#vale}}
-                                    <div class="col-auto">
-                                        <small class="text-muted">Vale:</small>
-                                        <span class="fw-bold text-danger">R$ {{.}}</span>
+                                    <div class="col-auto" style="background: rgba(8, 145, 178, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #06B6D4;">
+                                        <small style="color: #67E8F9; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Vale:</small>
+                                        <span class="fw-bold" style="color: #CFFAFE; font-size: 1.3em;">R$ {{.}}</span>
                                     </div>
                                     {{/vale}}
                                     {{#Recencia}}
-                                    <div class="col-auto">
-                                        <small class="text-muted">Recência:</small>
-                                        <span class="fw-bold text-warning">{{.}} dias</span>
+                                    <div class="col-auto" style="background: rgba(190, 24, 93, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #EC4899;">
+                                        <small style="color: #F9A8D4; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Recência:</small>
+                                        <span class="fw-bold" style="color: #FDF2F8; font-size: 1.3em;">{{.}} dias</span>
                                     </div>
                                     {{/Recencia}}
                                     {{#Frequencia}}
-                                    <div class="col-auto">
-                                        <small class="text-muted">Frequência 90d:</small>
-                                        <span class="fw-bold text-warning">{{.}} pedidos</span>
+                                    <div class="col-auto" style="background: rgba(161, 98, 7, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #EAB308;">
+                                        <small style="color: #FDE047; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Frequência 90d:</small>
+                                        <span class="fw-bold" style="color: #FEFCE8; font-size: 1.3em;">{{.}} pedidos</span>
                                     </div>
                                     {{/Frequencia}}
                                 </div>
