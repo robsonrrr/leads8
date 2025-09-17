@@ -485,15 +485,120 @@
                 <section class="cart-section mt-4">
                     <div class="modern-card config-section cart-section">
                         <div class="config-header bg-primary bg-opacity-10">
-                            <div class="d-flex align-items-center">
-                                <div class="config-icon-wrapper me-3">
-                                    <i class="bi bi-cart"></i>
+                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                <div class="d-flex align-items-center">
+                                    <div class="config-icon-wrapper me-3">
+                                        <i class="bi bi-cart"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="config-title mb-1">Carrinho de Compras</h4>
+                                        <p class="config-subtitle mb-0">Produtos selecionados para cotação</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="config-title mb-1">Carrinho de Compras</h4>
-                                    <p class="config-subtitle mb-0">Produtos selecionados para cotação</p>
+                                
+                                <!-- Lead Information from fixtop -->
+                                <div class="lead-info-compact d-flex flex-wrap align-items-center gap-3">
+                                    <!-- Lead Navigation -->
+                                    <div class="lead-navigation d-flex align-items-center gap-2">
+                                        <a href="/leads8/lead/index/{{previd}}/1" class="btn btn-sm btn-outline-primary" title="Lead Anterior">
+                                            <i class="bi bi-arrow-left"></i>
+                                        </a>
+                                        <div class="lead-number">
+                                            <span class="text-muted small">Lead:</span>
+                                            <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="fw-bold text-primary">#{{id}}</a>
+                                        </div>
+                                        <a href="/leads8/lead/index/{{nextid}}/1" class="btn btn-sm btn-outline-primary" title="Próximo Lead">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    <!-- Client Info -->
+                                    <div class="client-info-compact">
+                                        <span class="text-muted small">Cliente:</span>
+                                        <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="text-decoration-none fw-medium">
+                                            {{Cliente.clienteNome}}
+                                            {{#Cliente.clienteCidade}}<span class="text-muted"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="text-muted">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-info ms-1" 
+                                           onclick="new WinBox('Cliente Info', { url: '/K3/tip/vcustomer/{{Cliente.clienteID}}/', width: 1800, height: 1200, x: 'center', y: 'center' }); return false;"
+                                           title="Ver informações do cliente">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    {{#Vendedor.UsuarioNomeCurto}}
+                                    <div class="seller-info-compact">
+                                        <span class="text-muted small">Vendedor:</span>
+                                        <span class="fw-medium">{{Vendedor.UsuarioNomeCurto}}</span>
+                                    </div>
+                                    {{/Vendedor.UsuarioNomeCurto}}
+                                    
+                                    <!-- Segment Selector -->
+                                    <div class="segment-selector-compact">
+                                        <select class="form-select form-select-sm" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">
+                                            <option value="1" {{#segment_1}}selected{{/segment_1}}>Rolamentos</option>
+                                            <option value="2" {{#segment_2}}selected{{/segment_2}}>Automotivo</option>
+                                            <option value="3" {{#segment_3}}selected{{/segment_3}}>Máquinas</option>
+                                            <option value="4" {{#segment_4}}selected{{/segment_4}}>Torneiras</option>
+                                            <option value="5" {{#segment_5}}selected{{/segment_5}}>Peças</option>
+                                            <option value="6" {{#segment_6}}selected{{/segment_6}}>Moto</option>
+                                            <option value="7" {{#segment_7}}selected{{/segment_7}}>Geral</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <!-- Financial Information -->
+                            {{#Financeiro}}
+                            <div class="financial-info-compact mt-3 p-3 bg-light rounded">
+                                <div class="row g-2">
+                                    <div class="col-auto">
+                                        <small class="text-muted">Limite:</small>
+                                        <span class="fw-bold text-success">{{#limite}}R$ {{.}}{{/limite}}{{^limite}}R$ 0,00{{/limite}}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <small class="text-muted">Disponível:</small>
+                                        <span class="fw-bold text-success">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <small class="text-muted">Montante 90d:</small>
+                                        <span class="fw-bold text-success">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+                                    </div>
+                                    {{#atrasados}}
+                                    {{#atrasados_gt_100}}
+                                    <div class="col-auto">
+                                        <small class="text-muted">Atrasados:</small>
+                                        <span class="fw-bold text-danger">R$ {{.}}</span>
+                                    </div>
+                                    {{/atrasados_gt_100}}
+                                    {{/atrasados}}
+                                    {{#pendentes}}
+                                    <div class="col-auto">
+                                        <small class="text-muted">Pendentes:</small>
+                                        <span class="fw-bold text-warning">R$ {{.}}</span>
+                                    </div>
+                                    {{/pendentes}}
+                                    {{#vale}}
+                                    <div class="col-auto">
+                                        <small class="text-muted">Vale:</small>
+                                        <span class="fw-bold text-danger">R$ {{.}}</span>
+                                    </div>
+                                    {{/vale}}
+                                    {{#Recencia}}
+                                    <div class="col-auto">
+                                        <small class="text-muted">Recência:</small>
+                                        <span class="fw-bold text-warning">{{.}} dias</span>
+                                    </div>
+                                    {{/Recencia}}
+                                    {{#Frequencia}}
+                                    <div class="col-auto">
+                                        <small class="text-muted">Frequência 90d:</small>
+                                        <span class="fw-bold text-warning">{{.}} pedidos</span>
+                                    </div>
+                                    {{/Frequencia}}
+                                </div>
+                            </div>
+                            {{/Financeiro}}
                         </div>
                         <div class="config-body">
                     <div class="cart-container">

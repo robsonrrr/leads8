@@ -122,16 +122,17 @@ function initializeCartInteractions() {
         });
     });
     
-    // Update discount buttons - set value to base price * 10
+    // Update discount buttons - set value to base price * multiplier
     const updateDiscountButtons = document.querySelectorAll('.update-discount-btn');
     updateDiscountButtons.forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
             const basePrice = parseFloat(this.getAttribute('data-base-price'));
+            const multiplier = parseFloat(this.getAttribute('data-multiplier')) || 10; // Default to 10 if not specified
             const targetInput = document.getElementById(targetId);
             
             if (targetInput && !isNaN(basePrice)) {
-                const newValue = (basePrice * 10).toFixed(2);
+                const newValue = (basePrice * multiplier).toFixed(2);
                 targetInput.value = newValue;
                 
                 // Trigger change event to update the discount

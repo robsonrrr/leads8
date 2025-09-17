@@ -406,7 +406,6 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="discount-control">
                                         <label class="form-label small">Desconto %:</label>
-                                        {{#SESSION.acessoGerencial}}
                                         <div class="input-group input-group-sm" style="width: 200px;">
                                             <input type="text" class="form-control text-center product-discount mask-discount" 
                                                    data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 
@@ -435,7 +434,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{/SESSION.acessoGerencial}}
                                         {{^SESSION.acessoGerencial}}
                                         <input type="text" class="form-control form-control-sm text-center product-discount mask-discount" 
                                                data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 

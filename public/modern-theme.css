@@ -2428,14 +2428,93 @@ tr.fading-out {
 }
 
 .cart-section .config-header.bg-primary {
-    background: rgba(255, 99, 132, 0.15) !important;
-    background-color: rgba(255, 99, 132, 0.15) !important;
-    border-bottom: 2px solid rgba(255, 99, 132, 0.3);
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%) !important;
+    background-color: #1f2937 !important;
+    border-bottom: 2px solid #4b5563;
+    color: #ffffff;
 }
 
 .cart-section .config-icon-wrapper {
-    background: rgba(255, 99, 132, 0.1);
-    border: 2px solid rgba(255, 99, 132, 0.3);
+    background: rgba(96, 165, 250, 0.2);
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    color: #ffffff;
+}
+
+.cart-section .config-title {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.cart-section .config-subtitle {
+    color: #e5e7eb !important;
+    font-weight: 500;
+}
+
+/* Lead information styling within cart section */
+.cart-section .lead-info-compact .label {
+    color: #e5e7eb !important;
+    font-weight: 600;
+}
+
+.cart-section .lead-info-compact .lead-link {
+    color: #93c5fd !important;
+    font-weight: 700;
+}
+
+.cart-section .lead-info-compact .client-link {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+.cart-section .lead-info-compact .client-location {
+    color: #d1d5db !important;
+}
+
+.cart-section .lead-info-compact .seller-name {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+.cart-section .lead-info-compact .prev-lead-link,
+.cart-section .lead-info-compact .next-lead-link,
+.cart-section .lead-info-compact .action-btn {
+    color: #60a5fa !important;
+    background: rgba(96, 165, 250, 0.1) !important;
+    border: 1px solid rgba(96, 165, 250, 0.3) !important;
+}
+
+.cart-section .lead-info-compact .btn-outline-info {
+    color: #60a5fa !important;
+    border-color: #60a5fa !important;
+    background: rgba(96, 165, 250, 0.1) !important;
+}
+
+.cart-section .financial-info-compact {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.cart-section .financial-info-compact .label {
+    color: #f3f4f6 !important;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.cart-section .financial-info-compact .financial-value.positive {
+    color: #34d399 !important;
+    font-weight: 700;
+}
+
+.cart-section .financial-info-compact .financial-value.negative {
+    color: #f87171 !important;
+    font-weight: 700;
+}
+
+.cart-section .financial-info-compact .financial-value.neutral {
+    color: #fbbf24 !important;
+    font-weight: 700;
 }
 
 /* Alert card variant */
@@ -2657,10 +2736,16 @@ tr {
   .mobile-cards .discount-control .input-group-append {
     width: 100%;
     margin-top: 0.5rem;
+    display: flex !important;
   }
   
   .mobile-cards .discount-control .input-group {
     flex-direction: column;
+  }
+  
+  .mobile-cards .discount-control .btn-group {
+    display: flex !important;
+    width: 100%;
   }
   
   .mobile-cards .discount-control .form-control {
@@ -2839,4 +2924,75 @@ tr {
   border-color: #157347 !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+}
+
+/* Lead Info Compact Styles in Cart Section */
+.lead-info-compact {
+    font-size: 0.875rem;
+}
+
+.lead-info-compact .lead-navigation {
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.lead-info-compact .client-info-compact,
+.lead-info-compact .seller-info-compact {
+    background: rgba(108, 117, 125, 0.1);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    white-space: nowrap;
+}
+
+.lead-info-compact .segment-selector-compact select {
+    min-width: 120px;
+    font-size: 0.8rem;
+}
+
+.financial-info-compact {
+    border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+.financial-info-compact .col-auto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 100px;
+}
+
+.financial-info-compact small {
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Responsive adjustments for lead info in cart */
+@media (max-width: 1200px) {
+    .lead-info-compact {
+        flex-direction: column;
+        gap: 1rem !important;
+        align-items: flex-start !important;
+    }
+    
+    .lead-info-compact > div {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .lead-info-compact .client-info-compact,
+    .lead-info-compact .seller-info-compact {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .financial-info-compact .col-auto {
+        min-width: 80px;
+        font-size: 0.8rem;
+    }
+    
+    .financial-info-compact small {
+        font-size: 0.65rem;
+    }
 }

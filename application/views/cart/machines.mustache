@@ -357,10 +357,38 @@
                         {{/produtoPrecoAjustado}}
                         {{#SESSION.acessoDiretoria}}
                         <div class="input-group-append">
-                            <button class="btn btn-outline-info btn-sm update-discount-btn" type="button" 
-                                    data-target="qty_cart_discount_{{produtoPOID}}" 
-                                    data-base-price="{{Detalhe.produtoFob}}"
-                                    title="Atualizar com preço base × 10">×10</button>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="9.05"
+                                        title="Atualizar com preço base × 9.05">×9.05</button>
+                                <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="9.50"
+                                        title="Atualizar com preço base × 9.50">×9.50</button>
+                                <button class="btn btn-outline-info btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="10"
+                                        title="Atualizar com preço base × 10">×10</button>
+                                <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="10.50"
+                                        title="Atualizar com preço base × 10.50">×10.50</button>
+                                <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="11"
+                                        title="Atualizar com preço base × 11">×11</button>
+                                <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoFob}}"
+                                        data-multiplier="12"
+                                        title="Atualizar com preço base × 12">×12</button>
+                            </div>
                         </div>
                         {{/SESSION.acessoDiretoria}}
                     </div>
