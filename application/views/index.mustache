@@ -33,7 +33,7 @@
             <div class="container">
                 <!-- Collapsible Sections Row -->
                 <div class="row g-3 mb-4">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-4 col-md-6 lead-info-section d-none">
                         <section class="lead-info-section h-100">
                             <div class="modern-card config-section info-section h-100">
                                 <div class="config-header bg-info bg-opacity-10">
@@ -97,7 +97,7 @@
                         </section>
                     </div>
                     
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-4 col-md-6 lead-config-section d-none">
                         <section class="config-section-h h-100">
                             <div class="modern-card config-section h-100">
                         <div class="config-header bg-primary bg-opacity-10">
@@ -313,7 +313,7 @@
                         </section>
                     </div>
                     
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-4 col-md-12 product-search-section d-none">
                         <section class="search-section h-100">
                             <div class="modern-card config-section search-section h-100">
                         <div class="config-header bg-success bg-opacity-10">
@@ -494,6 +494,14 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Toggle Button for Lead Information Sections -->
+                                <div class="lead-sections-toggle">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" id="toggleLeadSections" title="Mostrar/Ocultar informações do lead">
+                                        <i class="bi bi-eye-slash me-1"></i>
+                                        <span class="toggle-text">Mostrar Informações</span>
+                                    </button>
+                                </div>
+                                
                                 <!-- Lead Information from fixtop -->
                                 <div class="lead-info-compact d-flex flex-wrap align-items-center gap-3">
                                     <!-- Lead Navigation -->
@@ -638,5 +646,42 @@
         {{/Lead}}
 
         {{> partials/footer}}
+        
+        <!-- Lead Sections Toggle Script -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('toggleLeadSections');
+            const leadSections = document.querySelectorAll('.lead-info-section, .lead-config-section, .product-search-section');
+            const toggleIcon = toggleButton.querySelector('i');
+            const toggleText = toggleButton.querySelector('.toggle-text');
+            
+            let sectionsVisible = false;
+            
+            toggleButton.addEventListener('click', function() {
+                sectionsVisible = !sectionsVisible;
+                
+                leadSections.forEach(section => {
+                    if (sectionsVisible) {
+                        section.classList.remove('d-none');
+                    } else {
+                        section.classList.add('d-none');
+                    }
+                });
+                
+                // Update button appearance
+                if (sectionsVisible) {
+                    toggleIcon.className = 'bi bi-eye me-1';
+                    toggleText.textContent = 'Ocultar Informações';
+                    toggleButton.classList.remove('btn-outline-primary');
+                    toggleButton.classList.add('btn-primary');
+                } else {
+                    toggleIcon.className = 'bi bi-eye-slash me-1';
+                    toggleText.textContent = 'Mostrar Informações';
+                    toggleButton.classList.remove('btn-primary');
+                    toggleButton.classList.add('btn-outline-primary');
+                }
+            });
+        });
+        </script>
     </body>
 </html>
