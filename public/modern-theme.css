@@ -2635,3 +2635,208 @@ tr {
   background-color: white !important;
   border-radius: 0 0 8px 8px !important;
 }
+
+/* Mobile multiplier buttons styling */
+@media (max-width: 575.98px) {
+  .mobile-cards .discount-control .input-group {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .mobile-cards .discount-control .btn-group {
+    flex-wrap: wrap;
+  }
+  
+  .mobile-cards .discount-control .btn-group .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    min-width: auto;
+    flex: 1 1 auto;
+  }
+  
+  .mobile-cards .discount-control .input-group-append {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  .mobile-cards .discount-control .input-group {
+    flex-direction: column;
+  }
+  
+  .mobile-cards .discount-control .form-control {
+    margin-bottom: 0.5rem;
+    border-radius: 0.375rem !important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .mobile-cards .discount-control .btn-group .btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* Custom colors for multiplier buttons - Red to Blue to Green gradient */
+.discount-multiplier[data-multiplier="9.05"] {
+  background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="9.05"]:hover {
+  background: linear-gradient(135deg, #c82333, #dc3545) !important;
+  border-color: #c82333 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.discount-multiplier[data-multiplier="9.50"] {
+  background: linear-gradient(135deg, #fd7e14, #ff6b35) !important;
+  border-color: #fd7e14 !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="9.50"]:hover {
+  background: linear-gradient(135deg, #e8690b, #fd7e14) !important;
+  border-color: #e8690b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(253, 126, 20, 0.3);
+}
+
+.discount-multiplier[data-multiplier="10"] {
+  background: linear-gradient(135deg, #0d6efd, #0056b3) !important;
+  border-color: #0d6efd !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="10"]:hover {
+  background: linear-gradient(135deg, #0b5ed7, #0d6efd) !important;
+  border-color: #0b5ed7 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.discount-multiplier[data-multiplier="10.50"] {
+  background: linear-gradient(135deg, #6f42c1, #5a32a3) !important;
+  border-color: #6f42c1 !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="10.50"]:hover {
+  background: linear-gradient(135deg, #5d39a5, #6f42c1) !important;
+  border-color: #5d39a5 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);
+}
+
+.discount-multiplier[data-multiplier="11"] {
+  background: linear-gradient(135deg, #20c997, #17a2b8) !important;
+  border-color: #20c997 !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="11"]:hover {
+  background: linear-gradient(135deg, #1aa179, #20c997) !important;
+  border-color: #1aa179 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(32, 201, 151, 0.3);
+}
+
+.discount-multiplier[data-multiplier="12"] {
+  background: linear-gradient(135deg, #198754, #146c43) !important;
+  border-color: #198754 !important;
+  color: white !important;
+}
+
+.discount-multiplier[data-multiplier="12"]:hover {
+  background: linear-gradient(135deg, #157347, #198754) !important;
+  border-color: #157347 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+}
+
+/* Ensure all multiplier buttons have smooth transitions */
+.discount-multiplier, .update-discount-btn {
+  transition: all 0.3s ease !important;
+  font-weight: 600 !important;
+  border-width: 2px !important;
+}
+
+/* Apply same colors to update-discount-btn class */
+.update-discount-btn[data-multiplier="9.05"] {
+  background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="9.05"]:hover {
+  background: linear-gradient(135deg, #c82333, #dc3545) !important;
+  border-color: #c82333 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.update-discount-btn[data-multiplier="9.50"] {
+  background: linear-gradient(135deg, #fd7e14, #ff6b35) !important;
+  border-color: #fd7e14 !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="9.50"]:hover {
+  background: linear-gradient(135deg, #e8690b, #fd7e14) !important;
+  border-color: #e8690b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(253, 126, 20, 0.3);
+}
+
+.update-discount-btn[data-multiplier="10"] {
+  background: linear-gradient(135deg, #0d6efd, #0056b3) !important;
+  border-color: #0d6efd !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="10"]:hover {
+  background: linear-gradient(135deg, #0b5ed7, #0d6efd) !important;
+  border-color: #0b5ed7 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.update-discount-btn[data-multiplier="10.50"] {
+  background: linear-gradient(135deg, #6f42c1, #5a32a3) !important;
+  border-color: #6f42c1 !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="10.50"]:hover {
+  background: linear-gradient(135deg, #5d39a5, #6f42c1) !important;
+  border-color: #5d39a5 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);
+}
+
+.update-discount-btn[data-multiplier="11"] {
+  background: linear-gradient(135deg, #20c997, #17a2b8) !important;
+  border-color: #20c997 !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="11"]:hover {
+  background: linear-gradient(135deg, #1aa179, #20c997) !important;
+  border-color: #1aa179 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(32, 201, 151, 0.3);
+}
+
+.update-discount-btn[data-multiplier="12"] {
+  background: linear-gradient(135deg, #198754, #146c43) !important;
+  border-color: #198754 !important;
+  color: white !important;
+}
+
+.update-discount-btn[data-multiplier="12"]:hover {
+  background: linear-gradient(135deg, #157347, #198754) !important;
+  border-color: #157347 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+}

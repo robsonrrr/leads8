@@ -158,10 +158,38 @@
                         {{/produtoPrecoAjustado}}
                         {{#SESSION.acessoGerencial}}
                         <div class="input-group-append">
-                            <button class="btn btn-outline-info btn-sm update-discount-btn" type="button" 
-                                    data-target="qty_cart_discount_{{produtoPOID}}" 
-                                    data-base-price="{{Detalhe.produtoRevenda}}"
-                                    title="Atualizar com preço base × 10">×10</button>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="9.05"
+                                        title="Atualizar com preço base × 9.05">×9.05</button>
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="9.50"
+                                        title="Atualizar com preço base × 9.50">×9.50</button>
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="10"
+                                        title="Atualizar com preço base × 10">×10</button>
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="10.50"
+                                        title="Atualizar com preço base × 10.50">×10.50</button>
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="11"
+                                        title="Atualizar com preço base × 11">×11</button>
+                                <button class="btn btn-sm update-discount-btn" type="button" 
+                                        data-target="qty_cart_discount_{{produtoPOID}}" 
+                                        data-base-price="{{Detalhe.produtoRevenda}}"
+                                        data-multiplier="12"
+                                        title="Atualizar com preço base × 12">×12</button>
+                            </div>
                         </div>
                         {{/SESSION.acessoGerencial}}
                     </div>
@@ -378,10 +406,42 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="discount-control">
                                         <label class="form-label small">Desconto %:</label>
+                                        {{#SESSION.acessoGerencial}}
+                                        <div class="input-group input-group-sm" style="width: 200px;">
+                                            <input type="text" class="form-control text-center product-discount mask-discount" 
+                                                   data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 
+                                                   data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" 
+                                                   value="{{produtoDescontoPorcentagem}}">
+                                            <div class="input-group-append">
+                                                <div class="btn-group" role="group" aria-label="Multiplicadores de desconto">
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="9.05" 
+                                                            title="Aplicar 9.05x do preço base">9.05x</button>
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="9.50" 
+                                                            title="Aplicar 9.50x do preço base">9.50x</button>
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="10" 
+                                                            title="Aplicar 10x do preço base">×10</button>
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="10.50" 
+                                                            title="Aplicar 10.50x do preço base">10.50x</button>
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="11" 
+                                                            title="Aplicar 11x do preço base">11x</button>
+                                                    <button class="btn btn-sm discount-multiplier" type="button" 
+                                                            data-target="discount" data-base-price="{{produtoRevenda}}" data-multiplier="12" 
+                                                            title="Aplicar 12x do preço base">12x</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{/SESSION.acessoGerencial}}
+                                        {{^SESSION.acessoGerencial}}
                                         <input type="text" class="form-control form-control-sm text-center product-discount mask-discount" 
                                                data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 
                                                data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" 
                                                value="{{produtoDescontoPorcentagem}}" style="width: 80px;">
+                                        {{/SESSION.acessoGerencial}}
                                     </div>
                                     <button class="btn btn-danger btn-sm cart-remove-item" 
                                             data-lead-id="{{leadPOID}}" data-name="{{Detalhe.produtoModelo}}" 
