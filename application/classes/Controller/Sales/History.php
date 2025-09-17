@@ -76,7 +76,7 @@ class Controller_Sales_History extends Controller_Website {
             'produtoISBN' => $produtoISBN,
             'totalRegistros' => $count,
             'totalQuantidade' => $totalQuantidade,
-            'totalValor' => number_format($totalValor, 2, ',', '.'),
+            'totalValor' => number_format($totalValor, 2, '.', ','),
             'filtros' => [
                 'data_inicio' => $dataInicio,
                 'data_fim' => $dataFim,

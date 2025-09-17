@@ -232,7 +232,7 @@ class Controller_Vars extends Controller_Website {
                           'PayExporter9', 'PayExporter10', 'PayExporter11', 'PayExporter12'];
 
         if (in_array($field, $money_fields) || in_array($field, $payment_fields)) {
-            $formatted_value = 'R$ ' . number_format($value, 2, ',', '.');
+            $formatted_value = 'R$ ' . number_format($value, 2, '.', ',');
             $badge_class = $this->getBadgeClassForField($field);
             return '<div style="cursor: pointer; padding: 8px; border-radius: 4px;" class="editable-field" onmouseover="this.style.backgroundColor=\'#f8f9fa\'" onmouseout="this.style.backgroundColor=\'transparent\'" ><span class="badge ' . $badge_class . ' fs-6">' . $formatted_value . '</span></div>';
         }
@@ -240,7 +240,7 @@ class Controller_Vars extends Controller_Website {
         // Campos numéricos simples
         $numeric_fields = ['Cash', 'FixPlus', 'FixLess', 'Buildings'];
         if (in_array($field, $numeric_fields)) {
-            $formatted_value = number_format($value, 0, ',', '.');
+            $formatted_value = number_format($value, 0, '.', ',');
             $badge_class = $this->getBadgeClassForField($field);
             return '<div style="cursor: pointer; padding: 8px; border-radius: 4px;" class="editable-field" onmouseover="this.style.backgroundColor=\'#f8f9fa\'" onmouseout="this.style.backgroundColor=\'transparent\'" ><span class="badge ' . $badge_class . ' fs-6">' . $formatted_value . '</span></div>';
         }

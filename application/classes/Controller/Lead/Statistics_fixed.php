@@ -40,10 +40,10 @@ class Controller_Lead_Statistics_fixed extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         
         // Calcular percentual de leads autorizados

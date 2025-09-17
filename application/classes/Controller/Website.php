@@ -390,7 +390,7 @@ class Controller_Website extends Controller_Session  {
 
     public function formatPrice( $number, $precision='2')
     {
-        return number_format( $number, $precision, ',', '.');
+        return number_format( $number, $precision, '.', ',');
     }
 
     function api_login()

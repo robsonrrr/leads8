@@ -1,97 +1,97 @@
-<header class="modern-header fixed-top{{#pedidoPOID}} pedido-approved{{/pedidoPOID}}"{{#pedidoPOID}} style="background-color: #28a745 !important;"{{/pedidoPOID}}>
+<header class="modern-header{{#pedidoPOID}} pedido-approved{{/pedidoPOID}}" style="background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: #ffffff; border-bottom: 2px solid #4b5563;{{#pedidoPOID}} background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;{{/pedidoPOID}}">
   <div class="container">
     <div class="header-content">
       <div class="lead-info">
         <div class="lead-number">
-          <a href="/leads8/lead/index/{{previd}}/1" class="prev-lead-link" title="Lead Anterior">
+          <a href="/leads8/lead/index/{{previd}}/1" class="prev-lead-link" title="Lead Anterior" style="color: #60a5fa; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.3);">
             <i class="bi bi-arrow-left"></i>
           </a>
-          <span class="label">Lead:</span>
-          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="lead-link">#{{id}}</a>
-          <a href="/leads8/lead/index/{{nextid}}/1" class="next-lead-link" title="Próximo Lead">
+          <span class="label" style="color: #e5e7eb; font-weight: 600;">Lead:</span>
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" class="lead-link" style="color: #93c5fd; font-weight: 700;">#{{id}}</a>
+          <a href="/leads8/lead/index/{{nextid}}/1" class="next-lead-link" title="Próximo Lead" style="color: #60a5fa; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.3);">
             <i class="bi bi-arrow-right"></i>
           </a>
         </div>
         
         <div class="lead-actions">
-          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_self" class="action-btn" title="Atualizar">
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_self" class="action-btn" title="Atualizar" style="background: rgba(96, 165, 250, 0.2); color: #ffffff; border: 1px solid rgba(96, 165, 250, 0.4);">
             <i class="bi bi-arrow-clockwise"></i>
           </a>
-          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_blank" class="action-btn" title="Abrir em nova aba">
+          <a href="{{CONTAINER}}{{id}}/{{segmentoPOID}}" target="_blank" class="action-btn" title="Abrir em nova aba" style="background: rgba(96, 165, 250, 0.2); color: #ffffff; border: 1px solid rgba(96, 165, 250, 0.4);">
             <i class="bi bi-box-arrow-up-right"></i>
           </a>
         </div>
         
         <div class="client-info">
-          <span class="label">Cliente:</span>
-          <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link">{{Cliente.clienteNome}}
-          {{#Cliente.clienteCidade}}<span class="client-location"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="client-location">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}</a>
+          <span class="label" style="color: #e5e7eb; font-weight: 600;">Cliente:</span>
+          <a href="/agendor/?q={{Cliente.clienteID}}" target="_blank" class="client-link" style="color: #ffffff; font-weight: 500;">{{Cliente.clienteNome}}
+          {{#Cliente.clienteCidade}}<span class="client-location" style="color: #d1d5db;"> - {{Cliente.clienteCidade}}</span>{{/Cliente.clienteCidade}}{{#Cliente.clienteEstado}}<span class="client-location" style="color: #d1d5db;">, {{Cliente.clienteEstado}}</span>{{/Cliente.clienteEstado}}</a>
           <a href="#" class="btn btn-sm btn-outline-info ms-2" 
              onclick="new WinBox('Cliente Info', { url: '/K3/tip/vcustomer/{{Cliente.clienteID}}/', width: 1800, height: 1200, x: 'center', y: 'center' }); return false;"
-             title="Ver informações do cliente">
+             title="Ver informações do cliente" style="color: #60a5fa; border-color: #60a5fa; background: rgba(96, 165, 250, 0.1);">
             <i class="bi bi-info-circle"></i>
           </a>
         </div>
         
         {{#Vendedor.UsuarioNomeCurto}}
-         <div class="seller-info" style="color: #888;">
-           <span class="label">Vendedor:</span>
-           <span class="seller-name">{{Vendedor.UsuarioNomeCurto}}</span>
+         <div class="seller-info" style="color: #d1d5db;">
+           <span class="label" style="color: #e5e7eb; font-weight: 600;">Vendedor:</span>
+           <span class="seller-name" style="color: #ffffff; font-weight: 500;">{{Vendedor.UsuarioNomeCurto}}</span>
          </div>
          {{/Vendedor.UsuarioNomeCurto}}       
       </div>
       
       {{#Financeiro}}
-      <div class="financial-info">
+      <div class="financial-info" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; backdrop-filter: blur(10px);">
         <div class="financial-item">
-          <span class="label">Limite</span>
-          <span class="financial-value positive">{{#limite}}R$ {{.}}{{/limite}}{{^limite}}R$ 0,00{{/limite}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Limite</span>
+          <span class="financial-value positive" style="color: #34d399; font-weight: 700;">{{#limite}}R$ {{.}}{{/limite}}{{^limite}}R$ 0,00{{/limite}}</span>
         </div>
         <div class="financial-item">
-          <span class="label">Disponível</span>
-          <span class="financial-value positive">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Disponível</span>
+          <span class="financial-value positive" style="color: #34d399; font-weight: 700;">{{#disponivel}}R$ {{.}}{{/disponivel}}{{^disponivel}}R$ 0,00{{/disponivel}}</span>
         </div>
         <div class="financial-item">
-          <span class="label">Montante 90d</span>
-          <span class="financial-value positive">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Montante 90d</span>
+          <span class="financial-value positive" style="color: #34d399; font-weight: 700;">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
         </div>
         {{#atrasados}}
         {{#atrasados_gt_100}}
         <div class="financial-item warning">
-          <span class="label">Atrasados</span>
-          <span class="financial-value negative">R$ {{.}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Atrasados</span>
+          <span class="financial-value negative" style="color: #f87171; font-weight: 700;">R$ {{.}}</span>
         </div>
         {{/atrasados_gt_100}}
         {{/atrasados}}
         {{#pendentes}}
         <div class="financial-item">
-          <span class="label">Pendentes</span>
-          <span class="financial-value neutral">R$ {{.}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Pendentes</span>
+          <span class="financial-value neutral" style="color: #fbbf24; font-weight: 700;">R$ {{.}}</span>
         </div>
         {{/pendentes}}
         {{#vale}}
         <div class="financial-item">
-          <span class="label">Vale</span>
-          <span class="financial-value negative">R$ {{.}}</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Vale</span>
+          <span class="financial-value negative" style="color: #f87171; font-weight: 700;">R$ {{.}}</span>
         </div>
         {{/vale}}
         {{#Recencia}}
         <div class="financial-item">
-          <span class="label">Recência</span>
-          <span class="financial-value neutral">{{.}} dias</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Recência</span>
+          <span class="financial-value neutral" style="color: #fbbf24; font-weight: 700;">{{.}} dias</span>
         </div>
         {{/Recencia}}
         {{#Frequencia}}
         <div class="financial-item">
-          <span class="label">Frequência 90d</span>
-          <span class="financial-value neutral">{{.}} pedidos</span>
+          <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Frequência 90d</span>
+          <span class="financial-value neutral" style="color: #fbbf24; font-weight: 700;">{{.}} pedidos</span>
         </div>
         {{/Frequencia}}
       </div>
       {{/Financeiro}}
       
       <div class="segment-selector">
-        <select class="btn-segment" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value">
+        <select class="btn-segment" onchange="window.location.href='{{CONTAINER}}{{id}}/' + this.value" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: #ffffff; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
           <option value="1" {{#segment_1}}selected{{/segment_1}}>Rolamentos</option>
           <option value="2" {{#segment_2}}selected{{/segment_2}}>Automotivo</option>
           <option value="3" {{#segment_3}}selected{{/segment_3}}>Máquinas</option>

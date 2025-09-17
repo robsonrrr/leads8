@@ -105,10 +105,10 @@ class Controller_Lead_Statistics extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         
         // Calcular percentual de leads autorizados
@@ -120,10 +120,10 @@ class Controller_Lead_Statistics extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         
         // Calcular percentual de leads autorizados
@@ -336,13 +336,13 @@ class Controller_Lead_Statistics extends Controller_Website {
         // Formatar valores monetários e quantidade
         foreach ($result as &$row) {
             if (isset($row['valor_medio'])) {
-                $row['valor_medio_formatado'] = number_format($row['valor_medio'], 2, ',', '.');
+                $row['valor_medio_formatado'] = number_format($row['valor_medio'], 2, '.', ',');
             }
             if (isset($row['total_valor'])) {
-                $row['total_valor_formatado'] = number_format($row['total_valor'], 2, ',', '.');
+                $row['total_valor_formatado'] = number_format($row['total_valor'], 2, '.', ',');
             }
             if (isset($row['total_quantidade'])) {
-                $row['total_quantidade_formatado'] = number_format($row['total_quantidade'], 0, ',', '.');
+                $row['total_quantidade_formatado'] = number_format($row['total_quantidade'], 0, '.', ',');
             }
         }
         
@@ -531,10 +531,10 @@ class Controller_Lead_Statistics extends Controller_Website {
         // Formatar valores monetários
         foreach ($result as &$row) {
             if (isset($row['valor_total_lead'])) {
-                $row['valor_total_lead_formatado'] = number_format($row['valor_total_lead'], 2, ',', '.');
+                $row['valor_total_lead_formatado'] = number_format($row['valor_total_lead'], 2, '.', ',');
             }
             if (isset($row['quantidade_total'])) {
-                $row['quantidade_total_formatado'] = number_format($row['quantidade_total'], 0, ',', '.');
+                $row['quantidade_total_formatado'] = number_format($row['quantidade_total'], 0, '.', ',');
             }
         }
         
@@ -641,25 +641,25 @@ class Controller_Lead_Statistics extends Controller_Website {
         // Formatar valores monetários e quantidade
         foreach ($result as &$row) {
             if (isset($row['valor_medio_vendedor'])) {
-                $row['valor_medio_vendedor_formatado'] = number_format($row['valor_medio_vendedor'], 2, ',', '.');
+                $row['valor_medio_vendedor_formatado'] = number_format($row['valor_medio_vendedor'], 2, '.', ',');
             }
             if (isset($row['valor_total_vendedor'])) {
-                $row['valor_total_vendedor_formatado'] = number_format($row['valor_total_vendedor'], 2, ',', '.');
+                $row['valor_total_vendedor_formatado'] = number_format($row['valor_total_vendedor'], 2, '.', ',');
             }
             if (isset($row['valor_total_consultas'])) {
-                $row['valor_total_consultas_formatado'] = number_format($row['valor_total_consultas'], 2, ',', '.');
+                $row['valor_total_consultas_formatado'] = number_format($row['valor_total_consultas'], 2, '.', ',');
             }
             if (isset($row['valor_total_pedidos'])) {
-                $row['valor_total_pedidos_formatado'] = number_format($row['valor_total_pedidos'], 2, ',', '.');
+                $row['valor_total_pedidos_formatado'] = number_format($row['valor_total_pedidos'], 2, '.', ',');
             }
             if (isset($row['quantidade_total'])) {
-                $row['quantidade_total_formatado'] = number_format($row['quantidade_total'], 0, ',', '.');
+                $row['quantidade_total_formatado'] = number_format($row['quantidade_total'], 0, '.', ',');
             }
             if (isset($row['quantidade_consultas'])) {
-                $row['quantidade_consultas_formatado'] = number_format($row['quantidade_consultas'], 0, ',', '.');
+                $row['quantidade_consultas_formatado'] = number_format($row['quantidade_consultas'], 0, '.', ',');
             }
             if (isset($row['quantidade_pedidos'])) {
-                $row['quantidade_pedidos_formatado'] = number_format($row['quantidade_pedidos'], 0, ',', '.');
+                $row['quantidade_pedidos_formatado'] = number_format($row['quantidade_pedidos'], 0, '.', ',');
             }
             // Limitar lista de clientes para exibição
             if (isset($row['clientes_atendidos']) && strlen($row['clientes_atendidos']) > 100) {
@@ -851,13 +851,13 @@ class Controller_Lead_Statistics extends Controller_Website {
         // Formatar valores monetários e quantidade
         foreach ($result as &$row) {
             if (isset($row['valor_total_lead'])) {
-                $row['valor_total_lead_formatado'] = number_format($row['valor_total_lead'], 2, ',', '.');
+                $row['valor_total_lead_formatado'] = number_format($row['valor_total_lead'], 2, '.', ',');
             }
             if (isset($row['valor_medio_lead'])) {
-                $row['valor_medio_lead_formatado'] = number_format($row['valor_medio_lead'], 2, ',', '.');
+                $row['valor_medio_lead_formatado'] = number_format($row['valor_medio_lead'], 2, '.', ',');
             }
             if (isset($row['total_quantidade'])) {
-                $row['total_quantidade_formatado'] = number_format($row['total_quantidade'], 0, ',', '.');
+                $row['total_quantidade_formatado'] = number_format($row['total_quantidade'], 0, '.', ',');
             }
         }
         
@@ -1023,7 +1023,7 @@ class Controller_Lead_Statistics extends Controller_Website {
         // Formatar quantidade nos dados forçados
         foreach ($topProdutos['data'] as &$produto) {
             if (isset($produto['total_quantidade'])) {
-                $produto['total_quantidade_formatado'] = number_format($produto['total_quantidade'], 0, ',', '.');
+                $produto['total_quantidade_formatado'] = number_format($produto['total_quantidade'], 0, '.', ',');
             }
         }
         
@@ -1343,10 +1343,10 @@ class Controller_Lead_Statistics extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         
         // Top produtos
@@ -1431,16 +1431,16 @@ class Controller_Lead_Statistics extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         if (isset($stats['valor_consultas'])) {
-            $stats['valor_consultas_formatado'] = number_format($stats['valor_consultas'], 2, ',', '.');
+            $stats['valor_consultas_formatado'] = number_format($stats['valor_consultas'], 2, '.', ',');
         }
         if (isset($stats['valor_pedidos'])) {
-            $stats['valor_pedidos_formatado'] = number_format($stats['valor_pedidos'], 2, ',', '.');
+            $stats['valor_pedidos_formatado'] = number_format($stats['valor_pedidos'], 2, '.', ',');
         }
         
         // Top vendedores
@@ -1523,16 +1523,16 @@ class Controller_Lead_Statistics extends Controller_Website {
         
         // Formatar valores monetários
         if (isset($stats['total_valor'])) {
-            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, ',', '.');
+            $stats['total_valor_formatado'] = number_format($stats['total_valor'], 2, '.', ',');
         }
         if (isset($stats['valor_medio'])) {
-            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, ',', '.');
+            $stats['valor_medio_formatado'] = number_format($stats['valor_medio'], 2, '.', ',');
         }
         if (isset($stats['valor_consultas'])) {
-            $stats['valor_consultas_formatado'] = number_format($stats['valor_consultas'], 2, ',', '.');
+            $stats['valor_consultas_formatado'] = number_format($stats['valor_consultas'], 2, '.', ',');
         }
         if (isset($stats['valor_pedidos'])) {
-            $stats['valor_pedidos_formatado'] = number_format($stats['valor_pedidos'], 2, ',', '.');
+            $stats['valor_pedidos_formatado'] = number_format($stats['valor_pedidos'], 2, '.', ',');
         }
         
         // Top leads

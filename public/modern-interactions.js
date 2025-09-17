@@ -114,6 +114,14 @@ function initializeCartInteractions() {
         });
     });
     
+    // Product discount inputs - select all content on click
+    const productDiscountInputs = document.querySelectorAll('.product-discount');
+    productDiscountInputs.forEach(input => {
+        input.addEventListener('click', function() {
+            this.select();
+        });
+    });
+    
     // Remove item confirmation
     const removeButtons = document.querySelectorAll('.remove-btn');
     removeButtons.forEach(button => {

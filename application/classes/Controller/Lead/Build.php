@@ -291,7 +291,7 @@ class Controller_Lead_Build extends Controller_Lead_Base{
 
                 if ($detalhe['produtoFob'] > 0) {
                     $productIndex = $v['produtoValor'] / $detalhe['produtoFob'];
-                    $array['Lead']['Produtos'][$k]['produtoIndex'] = number_format($productIndex, 2, ',', '.');
+                    $array['Lead']['Produtos'][$k]['produtoIndex'] = number_format($productIndex, 2, '.', ',');
                     $totalIndex += $productIndex;
                     $indexCount++;
                 } else {
@@ -453,7 +453,7 @@ class Controller_Lead_Build extends Controller_Lead_Base{
 
         if ($indexCount > 0) {
             $averageIndex = $totalIndex / $indexCount;
-            $array['Lead']['Total']['indexAvg'] = number_format($averageIndex, 2, ',', '.');
+            $array['Lead']['Total']['indexAvg'] = number_format($averageIndex, 2, '.', ',');
         } else {
             $array['Lead']['Total']['indexAvg'] = 'N/A';
         }

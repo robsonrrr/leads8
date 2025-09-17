@@ -178,13 +178,13 @@ class Controller_VarsSimple extends Controller_Website {
                           'PayExporter9', 'PayExporter10', 'PayExporter11', 'PayExporter12'];
 
         if (in_array($field, $money_fields) || in_array($field, $payment_fields)) {
-            return 'R$ ' . number_format($value, 2, ',', '.');
+            return 'R$ ' . number_format($value, 2, '.', ',');
         }
 
         // Campos numéricos simples
         $numeric_fields = ['Cash', 'FixPlus', 'FixLess', 'Buildings'];
         if (in_array($field, $numeric_fields)) {
-            return number_format($value, 0, ',', '.');
+            return number_format($value, 0, '.', ',');
         }
 
         return $value;

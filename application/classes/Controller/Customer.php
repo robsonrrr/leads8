@@ -1066,10 +1066,10 @@ class Controller_Customer extends Controller_Website {
                     '<span class="text-xs">' . ucwords($nick) . '</span>',
                     '<span class="text-xs">' . ucwords($segmento) . '</span>',
                     '<span class="text-xs">' . ucwords($rfm) . '</span>',
-                    '<span class="text-xs">' . number_format($mes, 0, ',', '.') . '</span>',
-                    '<span class="text-xs">' . number_format($ano_corrente, 0, ',', '.') . '</span>',
-                    '<span class="text-xs">' . number_format($ano_anterior, 0, ',', '.') . '</span>',
-                    '<span class="text-xs">' . number_format($total, 0, ',', '.') . '</span>',
+                    '<span class="text-xs">' . number_format($mes, 0, '.', ',') . '</span>',
+                    '<span class="text-xs">' . number_format($ano_corrente, 0, '.', ',') . '</span>',
+                    '<span class="text-xs">' . number_format($ano_anterior, 0, '.', ',') . '</span>',
+                    '<span class="text-xs">' . number_format($total, 0, '.', ',') . '</span>',
                     '<span class="text-xs">' . $dias_ultima_compra . ' dias</span>'
                 ];
             }
