@@ -149,12 +149,22 @@
                 {{/produtoIndisponivel}}
                 {{^produtoIndisponivel}}
                 <td class="align-middle text-center" width="7%">
-                    {{#produtoPrecoAjustado}}
-                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-info font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
-                    {{/produtoPrecoAjustado}}
-                    {{^produtoPrecoAjustado}}
-                    <input type="text" class="form-control form-control-sm rounded-0 text-center product-discount text-dark font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
-                    {{/produtoPrecoAjustado}}
+                    <div class="input-group input-group-sm">
+                        {{#produtoPrecoAjustado}}
+                        <input type="text" class="form-control rounded-0 text-center product-discount text-info font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
+                        {{/produtoPrecoAjustado}}
+                        {{^produtoPrecoAjustado}}
+                        <input type="text" class="form-control rounded-0 text-center product-discount text-dark font-weight-bolder" id="qty_cart_discount_{{produtoPOID}}" data-type="price" min="0" max="" maxlength="" data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" value="{{produtoValorArredondado}}">
+                        {{/produtoPrecoAjustado}}
+                        {{#SESSION.acessoGerencial}}
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-info btn-sm update-discount-btn" type="button" 
+                                    data-target="qty_cart_discount_{{produtoPOID}}" 
+                                    data-base-price="{{Detalhe.produtoRevenda}}"
+                                    title="Atualizar com preço base × 10">×10</button>
+                        </div>
+                        {{/SESSION.acessoGerencial}}
+                    </div>
 
                     <small title="Preço Cliente">{{produtoValorOriginal}}</small>
                     {{#SESSION.acessoGerencial}}

@@ -122,6 +122,29 @@ function initializeCartInteractions() {
         });
     });
     
+    // Update discount buttons - set value to base price * 10
+    const updateDiscountButtons = document.querySelectorAll('.update-discount-btn');
+    updateDiscountButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const basePrice = parseFloat(this.getAttribute('data-base-price'));
+            const targetInput = document.getElementById(targetId);
+            
+            if (targetInput && !isNaN(basePrice)) {
+                const newValue = (basePrice * 10).toFixed(2);
+                targetInput.value = newValue;
+                
+                // Trigger change event to update the discount
+                const changeEvent = new Event('change', { bubbles: true });
+                targetInput.dispatchEvent(changeEvent);
+                
+                // Visual feedback
+                targetInput.focus();
+                targetInput.select();
+            }
+        });
+    });
+    
     // Remove item confirmation
     const removeButtons = document.querySelectorAll('.remove-btn');
     removeButtons.forEach(button => {
