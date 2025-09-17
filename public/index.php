@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http' ) {
-    $url = "https://".$_SERVER['HTTP_HOST']."/leads/leads6". $_SERVER['REQUEST_URI'];
+ echo   $url = "https://".$_SERVER['HTTP_HOST']."/leads8". $_SERVER['REQUEST_URI'];
     header('Location: ' . $url, true, 301);
     exit();
 }

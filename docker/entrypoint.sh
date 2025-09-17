@@ -15,15 +15,15 @@ fi
 
 # Configura o ambiente
 if [ ! -f "application/config/config.php" ]; then
-    cp application/config/config.example.php application/config/config.php
+    # cp application/config/config.example.php application/config/config.php
 fi
 
 if [ ! -f "application/config/database.php" ]; then
-    cp application/config/database.example.php application/config/database.php
+    # cp application/config/database.example.php application/config/database.php
 fi
 
 if [ ! -f "application/config/mobile.php" ]; then
-    cp application/config/mobile.example.php application/config/mobile.php
+    # cp application/config/mobile.example.php application/config/mobile.php
 fi
 
 # Configura permissões
@@ -33,10 +33,10 @@ chmod -R 777 /var/www/html/application/logs
 chmod -R 777 /var/www/html/application/cache
 
 # Executa migrações se necessário
-php index.php migrate
+cd /var/www/html/public && php index.php migrate
 
 # Limpa cache
-php index.php cache clear
+cd /var/www/html/public && php index.php cache clear
 
 # Inicia Apache
 exec "$@"
