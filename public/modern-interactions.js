@@ -481,9 +481,12 @@ function applyDiscountVisibilityStage(stage) {
     
     discountInputs.forEach(input => {
         const value = parseFloat(input.value) || 0;
+        // Check for both desktop table row and mobile card container
         const row = input.closest('tr');
+        const mobileCard = input.closest('.cart-product-card');
+        const container = row || mobileCard;
         
-        if (row) {
+        if (container) {
             let shouldHide = false;
             
             switch(stage) {
@@ -499,13 +502,13 @@ function applyDiscountVisibilityStage(stage) {
             }
             
             if (shouldHide) {
-                row.classList.add('fading-out');
+                container.classList.add('fading-out');
                 setTimeout(() => {
-                    row.style.display = 'none';
+                    container.style.display = 'none';
                 }, 300);
             } else {
-                row.classList.remove('fading-out');
-                row.style.display = '';
+                container.classList.remove('fading-out');
+                container.style.display = '';
             }
         }
     });
