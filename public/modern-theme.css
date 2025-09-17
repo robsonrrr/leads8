@@ -2262,12 +2262,13 @@ tr.fading-out {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--gray-800, #1f2937);
 }
 
 .config-subtitle {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: var(--gray-600, #6b7280);
+  opacity: 1;
   margin-top: 0.25rem;
 }
 
