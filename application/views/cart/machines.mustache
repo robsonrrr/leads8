@@ -208,7 +208,7 @@
                                                value="{{produtoValorFormatado}}">
                                         {{/produtoPrecoAjustado}}
                                     </div>
-                                    <small class="text-muted">Original: {{produtoValorOriginal}}</small>
+                                    <small class="text-muted">Original: R$ {{produtoValorOriginal}}</small>
                                 </div>
                                 
                                 <!-- Botões Multiplicadores Mobile -->
@@ -254,9 +254,9 @@
                             <div class="col-12">
                                 <div class="d-flex justify-content-between align-items-center bg-light rounded p-2">
                                     <div>
-                                        <strong class="text-success">Subtotal: {{produtoValorSubtotal}}</strong>
+                                        <strong class="text-success">Subtotal: R$ {{produtoValorSubtotal}}</strong>
                                         {{#SESSION.acessoWebmaster}}
-                                        <small class="d-block text-muted">({{produtoValor}} unit.)</small>
+                                        <small class="d-block text-muted">(R$ {{produtoValor}} unit.)</small>
                                         {{/SESSION.acessoWebmaster}}
                                     </div>
                                     <a class="cart-remove-item btn btn-sm btn-outline-danger" href="#card_{{POID}}" 
@@ -437,12 +437,12 @@
                         {{/SESSION.acessoDiretoria}}
                     </div>
 
-                    <small title="Preço Cliente">{{produtoValorOriginal}}</small>
+                    <small title="Preço Cliente">R$ {{produtoValorOriginal}}</small>
                     {{#SESSION.acessoGerencial}}
-                    / <small title="Preço base do Produto" class="text-danger"> {{Detalhe.produtoRevenda}}</small>
+                    / <small title="Preço base do Produto" class="text-danger"> R$ {{Detalhe.produtoRevenda}}</small>
                     {{/SESSION.acessoGerencial}}
                     {{#SESSION.acessoDiretoria}}
-                    /<small title="Preço base do Produto" class="text-info">{{Detalhe.produtoFob}}</small>
+                    /<small title="Preço base do Produto" class="text-info">R$ {{Detalhe.produtoFob}}</small>
                     {{/SESSION.acessoDiretoria}}
                 </td>
                 <td class="align-middle text-center">
@@ -450,9 +450,9 @@
                 </td>
 
                 <td class="align-middle text-right" width="10%">
-                    <p class="p-0 m-0">{{produtoValorSubtotal}}</p>
+                    <p class="p-0 m-0">R$ {{produtoValorSubtotal}}</p>
                     {{#SESSION.acessoWebmaster}}
-                    <p class="p-0 m-0 font11 text-muted">({{produtoValor}} unit.)</p>
+                    <p class="p-0 m-0 font11 text-muted">(R$ {{produtoValor}} unit.)</p>
                     {{/SESSION.acessoWebmaster}}
                 </td>
                  {{#clienteDoClientePOID}}
