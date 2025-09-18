@@ -515,7 +515,7 @@ function applyDiscountVisibilityStage(stage) {
         const value = parseFloat(input.value) || 0;
         // Check for both desktop table row and mobile card container
         const row = input.closest('tr');
-        const mobileCard = input.closest('.cart-product-card');
+        const mobileCard = input.closest('.cart-product-card') || input.closest('.card');
         const container = row || mobileCard;
         
         if (container) {

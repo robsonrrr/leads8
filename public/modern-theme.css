@@ -2654,6 +2654,17 @@ tr {
   transition: opacity 0.3s ease-out;
 }
 
+/* Mobile card transitions */
+.card {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Fade-out animation for mobile cards */
+.card.fading-out {
+  opacity: 0 !important;
+  transition: opacity 0.3s ease-out !important;
+}
+
 /* Ensure smooth visibility transitions */
 .table tbody tr {
   opacity: 1;
