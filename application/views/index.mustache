@@ -568,7 +568,7 @@
                                     </div>
                                     <div class="col-auto" style="background: rgba(109, 40, 217, 0.2); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #8B5CF6;">
                                         <small style="color: #C4B5FD; font-weight: 400; text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">Montante 90d:</small>
-                                        <span class="fw-bold" style="color: #EDE9FE; font-size: 1.3em;">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+                                        <span class="fw-bold" style="color: #EDE9FE; font-size: 1.3em;">{{#montante}}R$ {{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
                                     </div>
                                     {{#atrasados}}
                                     {{#atrasados_gt_100}}

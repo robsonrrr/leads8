@@ -26,10 +26,10 @@
             <div class="label">Financeiro</div>
             <div class="value">
                 {{#Financeiro}}
-                <span title="limite total">{{limite}}</span> /
-                <span title="limite disponível">{{disponivel}}</span> /
-                {{#atrasados}}<span class="text-danger">{{atrasados}}</span>{{/atrasados}}
-                {{^atrasados}}<span class="text-success">0</span>{{/atrasados}}
+                <span title="limite total">R$ {{limite}}</span> /
+                <span title="limite disponível">R$ {{disponivel}}</span> /
+                {{#atrasados}}<span class="text-danger">R$ {{atrasados}}</span>{{/atrasados}}
+                {{^atrasados}}<span class="text-success">R$ 0,00</span>{{/atrasados}}
                 {{/Financeiro}}
                 {{^Financeiro}}—{{/Financeiro}}
             </div>

@@ -53,7 +53,7 @@
         </div>
         <div class="financial-item">
           <span class="label" style="color: #f3f4f6; font-weight: 600; font-size: 11px;">Montante 90d</span>
-          <span class="financial-value positive" style="color: #34d399; font-weight: 700;">{{#montante}}{{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
+          <span class="financial-value positive" style="color: #34d399; font-weight: 700;">{{#montante}}R$ {{.}}{{/montante}}{{^montante}}R$ 0,00{{/montante}}</span>
         </div>
         {{#atrasados}}
         {{#atrasados_gt_100}}
