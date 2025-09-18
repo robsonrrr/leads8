@@ -2728,70 +2728,84 @@ tr {
 
 /* Mobile multiplier buttons styling */
 @media (max-width: 575.98px) {
-  .mobile-cards .discount-control .input-group {
+  .mobile-cards .discount-control .input-group,
+  .d-block.d-lg-none .discount-control .input-group {
     width: 100% !important;
     max-width: 100% !important;
   }
   
-  .mobile-cards .discount-control .btn-group {
+  .mobile-cards .discount-control .btn-group,
+  .d-block.d-lg-none .discount-control .btn-group {
     flex-wrap: wrap;
   }
   
-  .mobile-cards .discount-control .btn-group .btn {
+  .mobile-cards .discount-control .btn-group .btn,
+  .d-block.d-lg-none .discount-control .btn-group .btn {
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
     min-width: auto;
     flex: 1 1 auto;
   }
   
-  .mobile-cards .discount-control .input-group-append {
+  .mobile-cards .discount-control .input-group-append,
+  .d-block.d-lg-none .discount-control .input-group-append {
     width: 100%;
     margin-top: 0.5rem;
     display: flex !important;
   }
   
-  .mobile-cards .discount-control .input-group {
+  .mobile-cards .discount-control .input-group,
+  .d-block.d-lg-none .discount-control .input-group {
     flex-direction: column;
   }
   
-  .mobile-cards .discount-control .btn-group {
+  .mobile-cards .discount-control .btn-group,
+  .d-block.d-lg-none .discount-control .btn-group {
     display: flex !important;
     width: 100%;
   }
   
-  .mobile-cards .discount-control .form-control {
+  .mobile-cards .discount-control .form-control,
+  .d-block.d-lg-none .discount-control .form-control {
     margin-bottom: 0.5rem;
     border-radius: 0.375rem !important;
   }
   
   /* Mobile multiplier buttons specific styling */
-  .mobile-cards .btn-group.w-100 .btn {
+  .mobile-cards .btn-group.w-100 .btn,
+  .d-block.d-lg-none .btn-group.w-100 .btn {
     font-size: 0.7rem;
     padding: 0.2rem 0.3rem;
     min-width: auto;
     flex: 1 1 auto;
     border-radius: 0.25rem;
+    color: white !important;
+    font-weight: 600 !important;
   }
   
-  .mobile-cards .btn-group.w-100 {
+  .mobile-cards .btn-group.w-100,
+  .d-block.d-lg-none .btn-group.w-100 {
     display: flex !important;
     flex-wrap: wrap;
     gap: 0.1rem;
   }
   
-  .mobile-cards .btn-group.w-100 .btn:first-child {
+  .mobile-cards .btn-group.w-100 .btn:first-child,
+  .d-block.d-lg-none .btn-group.w-100 .btn:first-child {
     border-top-left-radius: 0.375rem;
     border-bottom-left-radius: 0.375rem;
   }
   
-  .mobile-cards .btn-group.w-100 .btn:last-child {
+  .mobile-cards .btn-group.w-100 .btn:last-child,
+  .d-block.d-lg-none .btn-group.w-100 .btn:last-child {
     border-top-right-radius: 0.375rem;
     border-bottom-right-radius: 0.375rem;
   }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-  .mobile-cards .discount-control .btn-group .btn {
+  .mobile-cards .discount-control .btn-group .btn,
+  .d-block.d-lg-none .discount-control .btn-group .btn {
     font-size: 0.8rem;
     padding: 0.3rem 0.6rem;
   }
