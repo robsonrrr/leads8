@@ -20,6 +20,11 @@
 
         <div class="col-12 col-md-7">
             <div class="d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
+                <!-- Toggle Peso Column Button -->
+                <button id="togglePesoColumn" type="button" class="btn btn-outline-secondary btn-sm" title="Mostrar/Ocultar Coluna Peso">
+                    <i class="bi bi-eye-slash" id="pesoIcon"></i> Peso
+                </button>
+                
                  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                         <div class="btn-group btn-sm mt-1 p-2" role="group">
                             <button id="btnGroupDrop4" type="button" class="btn btn-outline-primary btn-sm rounded-0 dropdown-toggle p-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -150,7 +155,7 @@
                                 <span>s/m</span>
                                 {{/Detalhe.produtoMarcaFormatado}}
                             </div>
-                            <div>
+                            <div class="peso-mobile" style="display: none;">
                                 <strong>Peso:</strong> <span>{{Detalhe.produtoPeso}}</span>
                                 {{#SESSION.acessoFinanceiro}}
                                 <br><small class="text-danger">Frete: {{produtoFrete}}/{{produtoFreteTotal}}</small>
@@ -205,6 +210,45 @@
                                     </div>
                                     <small class="text-muted">Original: {{produtoValorOriginal}}</small>
                                 </div>
+                                
+                                <!-- Botões Multiplicadores Mobile -->
+                                {{#SESSION.acessoDiretoria}}
+                                <div class="mt-2">
+                                    <label class="small d-block mb-1 text-muted">Multiplicadores:</label>
+                                    <div class="btn-group w-100" role="group">
+                                        <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="9.05"
+                                                title="Atualizar com preço base × 9.05">×9.05</button>
+                                        <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="9.50"
+                                                title="Atualizar com preço base × 9.50">×9.50</button>
+                                        <button class="btn btn-outline-info btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="10"
+                                                title="Atualizar com preço base × 10">×10</button>
+                                        <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="10.50"
+                                                title="Atualizar com preço base × 10.50">×10.50</button>
+                                        <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="11"
+                                                title="Atualizar com preço base × 11">×11</button>
+                                        <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
+                                                data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
+                                                data-base-price="{{Detalhe.produtoFob}}"
+                                                data-multiplier="12"
+                                                title="Atualizar com preço base × 12">×12</button>
+                                    </div>
+                                </div>
+                                {{/SESSION.acessoDiretoria}}
                             </div>
                             
                             <div class="col-12">
@@ -254,7 +298,7 @@
                 <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
                 <th class="align-middle" scope="col">Produto</th>
                 <th class="align-middle text-center" scope="col">Marca</th>
-                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center peso-column" scope="col" style="display: none;">Peso</th>
                 <th class="align-middle text-center" scope="col">Qtd.</th>
                 <th class="align-middle text-center" scope="col">Vezes</th>
                 <th class="align-middle text-center" scope="col">Valor de Venda</th>
@@ -306,7 +350,7 @@
                     s/m
                     {{/Detalhe.produtoMarcaFormatado}}
                 </td>
-                <td class="align-middle text-center">
+                <td class="align-middle text-center peso-column" style="display: none;">
                     <span>{{Detalhe.produtoPeso}}</span>
                     {{#SESSION.acessoFinanceiro}}
                     <p class="p-0 pt-2 m-0 font11 text-danger">Frete: {{produtoFrete}} / {{produtoFreteTotal}}</p>
@@ -478,7 +522,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="align-middle text-center">{{peso}}</td>
+                <td class="align-middle text-center peso-column" style="display: none;">{{peso}}</td>
                 <td class="align-middle text-center">{{quantidade}}</td>
                 <td class="align-middle text-center"></td>               
                                 <td></td>
@@ -495,7 +539,7 @@
                 <th class="align-middle sorter-false filter-false" scope="col">IMG</th>
                 <th class="align-middle" scope="col">Produto</th>
                 <th class="align-middle" scope="col">Marca</th>
-                <th class="align-middle text-center" scope="col">Peso</th>
+                <th class="align-middle text-center peso-column" scope="col" style="display: none;">Peso</th>
                 <th class="align-middle text-center" scope="col">Qtd.</th>
                 <th class="align-middle text-center" scope="col">Vezes</th>
                 <th class="align-middle text-center" scope="col">Valor Venda</th>
@@ -808,17 +852,56 @@
         });
     }
     
+    // Toggle Peso Column functionality
+    function initPesoToggle() {
+        const toggleButton = document.getElementById('togglePesoColumn');
+        const pesoIcon = document.getElementById('pesoIcon');
+        let isPesoVisible = false;
+        
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function() {
+                const pesoColumns = document.querySelectorAll('.peso-column');
+                const pesoMobile = document.querySelectorAll('.peso-mobile');
+                
+                isPesoVisible = !isPesoVisible;
+                
+                // Toggle desktop columns
+                pesoColumns.forEach(function(column) {
+                    column.style.display = isPesoVisible ? '' : 'none';
+                });
+                
+                // Toggle mobile peso info
+                pesoMobile.forEach(function(element) {
+                    element.style.display = isPesoVisible ? '' : 'none';
+                });
+                
+                // Update button icon and text
+                if (isPesoVisible) {
+                    pesoIcon.className = 'bi bi-eye';
+                    toggleButton.classList.remove('btn-outline-secondary');
+                    toggleButton.classList.add('btn-outline-primary');
+                } else {
+                    pesoIcon.className = 'bi bi-eye-slash';
+                    toggleButton.classList.remove('btn-outline-primary');
+                    toggleButton.classList.add('btn-outline-secondary');
+                }
+            });
+        }
+    }
+    
     // Start initialization when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
             initDataTable();
             syncCheckboxes();
             handleResize();
+            initPesoToggle();
         });
     } else {
         initDataTable();
         syncCheckboxes();
         handleResize();
+        initPesoToggle();
     }
 })();
 </script>

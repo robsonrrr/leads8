@@ -2752,6 +2752,31 @@ tr {
     margin-bottom: 0.5rem;
     border-radius: 0.375rem !important;
   }
+  
+  /* Mobile multiplier buttons specific styling */
+  .mobile-cards .btn-group.w-100 .btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.3rem;
+    min-width: auto;
+    flex: 1 1 auto;
+    border-radius: 0.25rem;
+  }
+  
+  .mobile-cards .btn-group.w-100 {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0.1rem;
+  }
+  
+  .mobile-cards .btn-group.w-100 .btn:first-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+  }
+  
+  .mobile-cards .btn-group.w-100 .btn:last-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+  }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
