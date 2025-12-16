@@ -166,8 +166,8 @@
                         {{^produtoIndisponivel}}
                         <div class="row g-3">
                             <div class="col-12">
-                                <div class="d-flex flex-wrap gap-3">
-                                    <div class="flex-grow-1" style="max-width: 120px;">
+                                <div class="row g-2">
+                                    <div class="col-6 col-sm-4">
                                         <label class="small d-block mb-1"><strong>Quantidade:</strong></label>
                                         <input type="text" class="form-control form-control-sm qty-cart text-center mask-qty" 
                                                data-update="/services/cart/update/{{POID}}" data-lead="{{id}}"
@@ -178,44 +178,49 @@
                                         <small class="text-muted d-block mt-1">Est: {{stock.estoqueEcommerce}}/{{stock.estoqueComercial}}</small>
                                         {{/SESSION.check}}
                                     </div>
-                                    <div>
+                                    <div class="col-6 col-sm-4">
                                         <label class="small d-block mb-1"><strong>Vezes:</strong></label>
-                                        <div class="bg-light rounded px-3 py-2">{{produtoVezes}}</div>
+                                        <div class="bg-light rounded px-3 py-2 h-100 d-flex align-items-center justify-content-center">{{produtoVezes}}</div>
                                     </div>
-                                    <div>
+                                    <div class="col-6 col-sm-4">
                                         <label class="small d-block mb-1"><strong>Index:</strong></label>
-                                        <div class="bg-light rounded px-3 py-2">{{produtoIndex}}</div>
+                                        <div class="bg-light rounded px-3 py-2 h-100 d-flex align-items-center justify-content-center">{{produtoIndex}}</div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="col-12">
                                 <label class="small d-block mb-1"><strong>Valor de Venda:</strong></label>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="flex-grow-1">
+                                <div class="d-flex flex-column gap-1">
+                                    <div>
                                         {{#produtoPrecoAjustado}}
-                                        <input type="text" class="form-control form-control-sm text-center product-discount color-primary font-weight-bolder"
+                                        <input type="text" class="form-control form-control-sm text-center product-discount color-primary font-weight-bolder w-100"
                                                id="qty_cart_discount_mobile_{{produtoPOID}}" data-type="price" 
                                                data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" 
                                                data-url="{{CONTAINER}}lead/discount" data-segment="{{segmentoPOID}}" 
-                                               value="{{produtoValorFormatado}}">
+                                               value="{{produtoValorFormatado}}" style="min-width: 150px;">
                                         {{/produtoPrecoAjustado}}
                                         {{^produtoPrecoAjustado}}
-                                        <input type="text" class="form-control form-control-sm text-center product-discount text-dark font-weight-bolder"
+                                        <input type="text" class="form-control form-control-sm text-center product-discount text-dark font-weight-bolder w-100"
                                                id="qty_cart_discount_mobile_{{produtoPOID}}" data-type="price" 
                                                data-product="{{produtoPOID}}" data-lead-product="{{POID}}" data-lead="{{id}}" 
                                                data-url="{{CONTAINER}}lead/discount" data-segment="{{segmentoPOID}}" 
-                                               value="{{produtoValorFormatado}}">
+                                               value="{{produtoValorFormatado}}" style="min-width: 150px;">
                                         {{/produtoPrecoAjustado}}
                                     </div>
-                                    <small class="text-muted">Original: R$ {{produtoValorOriginal}}</small>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 small">
+                                        <span class="text-muted">Original: R$ {{produtoValorOriginal}}</span>
+                                        {{#SESSION.acessoDiretoria}}
+                                        <span class="text-info product-fob-display" data-fob="{{Detalhe.produtoFob}}">FOB: US$ {{Detalhe.produtoFob}}</span>
+                                        {{/SESSION.acessoDiretoria}}
+                                    </div>
                                 </div>
                                 
                                 <!-- Botões Multiplicadores Mobile -->
                                 {{#SESSION.acessoDiretoria}}
                                 <div class="mt-2">
                                     <label class="small d-block mb-1 text-muted">Multiplicadores:</label>
-                                    <div class="btn-group w-100" role="group">
+                                    <div class="btn-group w-100 flex-wrap" role="group">
                                         <button class="btn btn-outline-secondary btn-sm update-discount-btn" type="button" 
                                                 data-target="qty_cart_discount_mobile_{{produtoPOID}}" 
                                                 data-base-price="{{Detalhe.produtoFob}}"
@@ -442,7 +447,7 @@
                     / <small title="Preço base do Produto" class="text-danger"> R$ {{Detalhe.produtoRevenda}}</small>
                     {{/SESSION.acessoGerencial}}
                     {{#SESSION.acessoDiretoria}}
-                    /<small title="Preço base do Produto" class="text-info">R$ {{Detalhe.produtoFob}}</small>
+                    /<small title="Preço base do Produto" class="text-info product-fob-display" data-fob="{{Detalhe.produtoFob}}">US$ {{Detalhe.produtoFob}}</small>
                     {{/SESSION.acessoDiretoria}}
                 </td>
                 <td class="align-middle text-center">

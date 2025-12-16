@@ -249,6 +249,7 @@ class Controller_Lead_Discountall extends Controller_Lead_Base {
         $source  = array('.', ',');
         $replace = array('', '.');
         $produtoValorOriginal   = str_replace($source, $replace, $product['produtoValorOriginal'] );
+        $old_price = isset($product['produtoValor']) ? $product['produtoValor'] : null;
 
         $price = round ( $produtoValorOriginal * ( 1 - ( $discount/100 ) ) , 2 );
 
@@ -264,7 +265,31 @@ class Controller_Lead_Discountall extends Controller_Lead_Base {
             ->execute()
             ->body();
 
-        return json_decode($json,true);
+        $result = json_decode($json,true);
+
+        // Log price change to price history if update was successful
+        if ($result && isset($product['produtoPOID'])) {
+            try {
+                Service_PriceHistory::auto_log_price_change(
+                    $product['produtoPOID'], 
+                    $price, 
+                    array(
+                        'old_price' => $old_price,
+                        'price_type' => 'discount',
+                        'change_reason' => "Bulk discount applied: {$discount}%",
+                        'change_source' => 'bulk_discount',
+                        'changed_by' => isset($_SESSION['MM_UserId']) ? $_SESSION['MM_UserId'] : null,
+                        'lead_id' => $product['POID'],
+                        'customer_id' => isset($product['clientePOID']) ? $product['clientePOID'] : null
+                    )
+                );
+            } catch (Exception $e) {
+                // Log error but don't fail the price update
+                Kohana::$log->add(Log::ERROR, 'Price history logging failed: ' . $e->getMessage());
+            }
+        }
+
+        return $result;
     }
 
     private function update_lead_price( $update, $product)

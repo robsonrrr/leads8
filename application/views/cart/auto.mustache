@@ -195,6 +195,16 @@
                     {{#SESSION.acessoGerencial}}
                     / <small title="Preço base do Produto" class="text-danger"> {{Detalhe.produtoRevenda}}</small>
                     {{/SESSION.acessoGerencial}}
+                    {{#SESSION.acessoDiretoria}}
+                    /<small title="Preço base do Produto" class="text-info product-fob-display" data-fob="{{Detalhe.produtoFob}}">US$ {{Detalhe.produtoFob}}</small>
+                    {{/SESSION.acessoDiretoria}}
+                    <!-- Debug FOB - Sempre mostrar para diagnóstico -->
+                    {{#Detalhe.produtoFob}}
+                    <br><small class="text-warning product-fob-display" data-fob="{{Detalhe.produtoFob}}">DEBUG FOB: US$ {{Detalhe.produtoFob}} | SESSION.acessoDiretoria: {{#SESSION.acessoDiretoria}}SIM{{/SESSION.acessoDiretoria}}{{^SESSION.acessoDiretoria}}NÃO{{/SESSION.acessoDiretoria}}</small>
+                    {{/Detalhe.produtoFob}}
+                    {{^Detalhe.produtoFob}}
+                    <br><small class="text-danger">DEBUG: produtoFob não está definido</small>
+                    {{/Detalhe.produtoFob}}
                 </td>
                 <td class="align-middle text-right">
                     <p class="p-0 m-0">{{produtoValorSubtotal}}</p>

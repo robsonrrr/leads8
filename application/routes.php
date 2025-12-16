@@ -60,6 +60,64 @@ Route::set('service', 'service(/<action>(/<id>))')
         'action'     => 'index',
     ]);
 
+// API test route
+Route::set('api_test', 'api/test')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'test',
+        'action'     => 'index',
+    ]);
+
+// API routes for price history
+Route::set('api_pricehistory_test', 'api/pricehistory')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'index',
+    ]);
+
+Route::set('api_pricehistory_product', 'api/pricehistory/product(/<id>)')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'product',
+    ]);
+
+Route::set('api_pricehistory_lastprice', 'api/pricehistory/lastprice(/<id>)')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'lastprice',
+    ]);
+
+Route::set('api_pricehistory_customer', 'api/pricehistory/customer(/<id>)')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'customer',
+    ]);
+
+Route::set('api_pricehistory_compare', 'api/pricehistory/compare(/<id>)')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'compare',
+    ]);
+
+Route::set('api_pricehistory_trends', 'api/pricehistory/trends(/<id>)')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'trends',
+    ]);
+
+Route::set('api_pricehistory_bulk', 'api/pricehistory/bulk-import')
+    ->defaults([
+        'directory'  => 'api',
+        'controller' => 'pricehistory',
+        'action'     => 'bulk_import',
+    ]);
+
 Route::set('bootcomplete', 'search/bootcomplete(/<id>)')
     ->defaults([
         'directory'  => 'lead',

@@ -411,6 +411,7 @@
                                                    data-type="discount" data-product="{{produtoPOID}}" data-classe="{{Detalhe.produtoClassificacao}}" 
                                                    data-lead-product="{{POID}}" data-lead="{{id}}" data-url="{{CONTAINER}}lead/discount" 
                                                    value="{{produtoDescontoPorcentagem}}">
+                                            {{#SESSION.acessoGerencial}}
                                             <div class="input-group-append">
                                                 <div class="btn-group" role="group" aria-label="Multiplicadores de desconto">
                                                     <button class="btn btn-sm discount-multiplier" type="button" 
@@ -433,6 +434,7 @@
                                                             title="Aplicar 12x do preço base">12x</button>
                                                 </div>
                                             </div>
+                                            {{/SESSION.acessoGerencial}}
                                         </div>
                                         {{^SESSION.acessoGerencial}}
                                         <input type="text" class="form-control form-control-sm text-center product-discount mask-discount" 

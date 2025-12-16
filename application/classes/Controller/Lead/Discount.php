@@ -119,17 +119,17 @@ class Controller_Lead_Discount extends Controller_Lead_Base {
             return true;
         }
 
+        // Get current product data for price history logging
+        $url = $_ENV["api_vallery_v1"].'/LeadProdutos/'.$leadProduct;
+        $json = Request::factory( $url )
+            ->method('GET')
+            ->execute()
+            ->body();
+        $product = json_decode($json,true);
+        $old_price = isset($product['produtoValor']) ? $product['produtoValor'] : null;
+
         if  ( $_SESSION['MM_Depto'] == 'VENDAS' and 1 == $_SESSION['MM_Nivel'] )
         {
-            $url = $_ENV["api_vallery_v1"].'/LeadProdutos/'.$leadProduct;
-
-            $json = Request::factory( $url )
-                ->method('GET')
-                ->execute()
-                ->body();
-
-            $product = json_decode($json,true);
-
             if ( $price < $product['produtoValor'] )
             {
                 exit;
@@ -144,15 +144,37 @@ class Controller_Lead_Discount extends Controller_Lead_Base {
             'produtoValor' => $price,
         );
 
-        $url = $_ENV["api_vallery_v1"].'/LeadProdutos/'.$leadProduct;
-
         $json = Request::factory( $url )
             ->method('PUT')
             ->post($data)
             ->execute()
             ->body();
 
-        return json_decode($json,true);
+        $result = json_decode($json,true);
+
+        // Log price change to price history if update was successful
+        if ($result && isset($product['produtoPOID'])) {
+            try {
+                Service_PriceHistory::auto_log_price_change(
+                    $product['produtoPOID'], 
+                    $price, 
+                    array(
+                        'old_price' => $old_price,
+                        'price_type' => 'discount',
+                        'change_reason' => 'Manual price update via discount controller',
+                        'change_source' => 'lead_discount',
+                        'changed_by' => isset($_SESSION['MM_UserId']) ? $_SESSION['MM_UserId'] : null,
+                        'lead_id' => $leadProduct,
+                        'customer_id' => isset($product['clientePOID']) ? $product['clientePOID'] : null
+                    )
+                );
+            } catch (Exception $e) {
+                // Log error but don't fail the price update
+                Kohana::$log->add(Log::ERROR, 'Price history logging failed: ' . $e->getMessage());
+            }
+        }
+
+        return $result;
     }
 
     private function update_product_pricecc( $leadProduct, $price)
@@ -184,6 +206,7 @@ class Controller_Lead_Discount extends Controller_Lead_Base {
     private function update_lead_discount( $product, $discount)
     {
         $produtoValorOriginal = str_replace(',', '', $product['produtoValorOriginal']);
+        $old_price = isset($product['produtoValor']) ? $product['produtoValor'] : null;
 
         $price = round ( $produtoValorOriginal * ( 1 - ( $discount/100 ) ) , 2 );
 
@@ -199,7 +222,31 @@ class Controller_Lead_Discount extends Controller_Lead_Base {
             ->execute()
             ->body();
 
-        return json_decode($json,true);
+        $result = json_decode($json,true);
+
+        // Log price change to price history if update was successful
+        if ($result && isset($product['produtoPOID'])) {
+            try {
+                Service_PriceHistory::auto_log_price_change(
+                    $product['produtoPOID'], 
+                    $price, 
+                    array(
+                        'old_price' => $old_price,
+                        'price_type' => 'discount',
+                        'change_reason' => "Discount applied: {$discount}%",
+                        'change_source' => 'lead_discount',
+                        'changed_by' => isset($_SESSION['MM_UserId']) ? $_SESSION['MM_UserId'] : null,
+                        'lead_id' => $product['POID'],
+                        'customer_id' => isset($product['clientePOID']) ? $product['clientePOID'] : null
+                    )
+                );
+            } catch (Exception $e) {
+                // Log error but don't fail the price update
+                Kohana::$log->add(Log::ERROR, 'Price history logging failed: ' . $e->getMessage());
+            }
+        }
+
+        return $result;
     }
 
     private function update_product_tax( $update, $product)

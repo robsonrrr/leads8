@@ -113,6 +113,16 @@ function initializeCartInteractions() {
             validateDiscountInput(this);
         });
     });
+
+    // Normalize FOB displays (USD) without thousand separators
+    const fobDisplays = document.querySelectorAll('.fob-usd-display');
+    fobDisplays.forEach(span => {
+        const raw = span.getAttribute('data-fob') || span.textContent;
+        const value = parseLocaleNumber(raw);
+        if (!isNaN(value)) {
+            span.textContent = `US$ ${value.toFixed(2)}`;
+        }
+    });
     
     // Product discount inputs - select all content on click
     const productDiscountInputs = document.querySelectorAll('.product-discount');
@@ -127,7 +137,7 @@ function initializeCartInteractions() {
     updateDiscountButtons.forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
-            const basePrice = parseFloat(this.getAttribute('data-base-price'));
+            const basePrice = parseLocaleNumber(this.getAttribute('data-base-price'));
             const multiplier = parseFloat(this.getAttribute('data-multiplier')) || 10; // Default to 10 if not specified
             const targetInput = document.getElementById(targetId);
             
@@ -157,6 +167,9 @@ function initializeCartInteractions() {
     
     // Hide empty discount functionality
     initializeHideEmptyDiscountButtons();
+
+    // Normalize FOB display (remove thousand commas for USD)
+    normalizeFobDisplay();
 }
 
 /**
@@ -383,6 +396,66 @@ function hideButtonLoading(button) {
         button.innerHTML = button.dataset.originalText;
         button.disabled = false;
     }
+}
+
+function parseLocaleNumber(value) {
+    if (typeof value === 'number') {
+        return value;
+    }
+
+    if (!value) {
+        return NaN;
+    }
+
+    const stringValue = value.toString().trim();
+    if (!stringValue) {
+        return NaN;
+    }
+
+    // Remove currency symbols and spaces, keep digits, dot, comma, minus
+    const cleaned = stringValue.replace(/[^\d,.\-]/g, '');
+
+    // Pattern 1: US style with comma thousands and dot decimal (e.g., 1,566.00)
+    const usPattern = /^\d{1,3}(,\d{3})+(\.\d+)?$/;
+    if (usPattern.test(cleaned)) {
+        return parseFloat(cleaned.replace(/,/g, ''));
+    }
+
+    // Pattern 2: BR style with dot thousands and comma decimal (e.g., 1.566,00)
+    const brPattern = /^\d{1,3}(\.\d{3})+(,\d+)?$/;
+    if (brPattern.test(cleaned)) {
+        return parseFloat(cleaned.replace(/\./g, '').replace(',', '.'));
+    }
+
+    // Fallback: decide decimal separator by last occurrence
+    const hasComma = cleaned.includes(',');
+    const hasDot = cleaned.includes('.');
+    let normalized = cleaned;
+    if (hasComma && hasDot) {
+        const lastComma = cleaned.lastIndexOf(',');
+        const lastDot = cleaned.lastIndexOf('.');
+        if (lastComma > lastDot) {
+            normalized = cleaned.replace(/\./g, '').replace(/,/g, '.');
+        } else {
+            normalized = cleaned.replace(/,/g, '');
+        }
+    } else if (hasComma) {
+        normalized = cleaned.replace(/\./g, '').replace(/,/g, '.');
+    } else if (hasDot) {
+        normalized = cleaned.replace(/,/g, '');
+    }
+
+    return parseFloat(normalized);
+}
+
+function normalizeFobDisplay() {
+    const fobDisplays = document.querySelectorAll('.product-fob-display');
+    fobDisplays.forEach(el => {
+        const original = el.textContent || '';
+        // Remove thousand commas (US style) but keep decimals
+        const cleaned = original.replace(/,(?=\d{3}(\D|$))/g, '');
+        el.textContent = cleaned;
+    });
 }
 
 function showGlobalLoading() {
