@@ -807,27 +807,194 @@
 (function() {
     function initDataTable() {
         if (typeof $ !== 'undefined' && $.fn.DataTable) {
+            // Check if table exists and is not already initialized
+            const $table = $('#cartTable');
+            if ($table.length === 0) {
+                return; // Table doesn't exist, skip initialization
+            }
+            
+            // Destroy existing DataTable if it exists - with better error handling
+            if ($.fn.DataTable.isDataTable('#cartTable')) {
+                try {
+                    const dtInstance = $table.DataTable();
+                    // Check if instance is valid before destroying
+                    if (dtInstance && typeof dtInstance.destroy === 'function') {
+                        // Clear any pending operations
+                        if (typeof dtInstance.clear === 'function') {
+                            try {
+                                dtInstance.clear();
+                            } catch (clearError) {
+                                // Ignore clear errors
+                            }
+                        }
+                        // Destroy with remove option to clean up DOM
+                        dtInstance.destroy(true);
+                    }
+                } catch (e) {
+                    console.warn('Error destroying DataTable:', e);
+                    // Force cleanup by removing DataTable data
+                    try {
+                        // Remove all DataTable-related data
+                        $table.removeData();
+                        $table.off();
+                        // Remove DataTable classes
+                        $table.removeClass('dataTable');
+                        $table.find('*').removeClass('sorting sorting_asc sorting_desc');
+                    } catch (cleanupError) {
+                        // Ignore cleanup errors
+                    }
+                }
+            }
+            
             // Only initialize DataTable on desktop
             if (window.innerWidth >= 992) {
-                $('#cartTable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "responsive": true,
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
-                    },
-                    "columnDefs": [
-                        { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
-                    ],
-                    "pageLength": 25,
-                    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
-                });
+                try {
+                    // Ensure table is visible and has proper structure before initializing
+                    if ($table.is(':visible')) {
+                        // Validate table structure
+                        const thead = $table.find('thead');
+                        const tbody = $table.find('tbody');
+                        const rows = tbody.find('tr');
+                        
+                        // Only initialize if table has proper structure
+                        if (thead.length > 0 && tbody.length > 0 && rows.length > 0) {
+                            // Validate that all header cells exist
+                            const headerCells = thead.find('th');
+                            if (headerCells.length === 0) {
+                                console.warn('DataTable: No header cells found, skipping initialization');
+                                return;
+                            }
+                            
+                            // Wait a bit to ensure DOM is fully ready and no AJAX requests are pending
+                            setTimeout(function() {
+                                try {
+                                    // Double-check table is still valid and not already initialized
+                                    if ($table.length > 0 && 
+                                        $table.is(':visible') && 
+                                        !$.fn.DataTable.isDataTable('#cartTable')) {
+                                        
+                                        // Verify table structure is still intact
+                                        const currentThead = $table.find('thead');
+                                        const currentTbody = $table.find('tbody');
+                                        
+                                        if (currentThead.length > 0 && currentTbody.length > 0) {
+                                            // Initialize with error handling
+                                            const dtOptions = {
+                                                "paging": true,
+                                                "searching": true,
+                                                "ordering": true,
+                                                "info": true,
+                                                "responsive": true,
+                                                "deferRender": true,
+                                                "processing": false,
+                                                "language": {
+                                                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json",
+                                                    "loadingRecords": "Carregando...",
+                                                    "processing": "Processando...",
+                                                    "emptyTable": "Nenhum registro encontrado",
+                                                    "zeroRecords": "Nenhum registro encontrado",
+                                                    "lengthMenu": "Mostrar _MENU_ registros",
+                                                    "info": "Mostrando _START_ até _END_ de _TOTAL_ registros",
+                                                    "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+                                                    "infoFiltered": "(filtrado de _MAX_ registros)",
+                                                    "search": "Buscar:",
+                                                    "paginate": {
+                                                        "first": "Primeiro",
+                                                        "last": "Último",
+                                                        "next": "Próximo",
+                                                        "previous": "Anterior"
+                                                    }
+                                                },
+                                                "columnDefs": [
+                                                    { "orderable": false, "targets": [0, 1, -1] } // # and IMG columns, and last column (Action)
+                                                ],
+                                                "pageLength": 25,
+                                                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+                                                "drawCallback": function(settings) {
+                                                    // Called after each table redraw
+                                                },
+                                                "error": function(xhr, error, thrown) {
+                                                    console.warn('DataTable AJAX error (if applicable):', error);
+                                                    // Don't break the table if language file fails to load
+                                                }
+                                            };
+                                            
+                                            // Wrap in try-catch for extra safety
+                                            try {
+                                                $table.DataTable(dtOptions);
+                                            } catch (dtError) {
+                                                console.error('DataTable initialization error:', dtError);
+                                                // Try to initialize without language file as fallback
+                                                try {
+                                                    dtOptions.language = {
+                                                        "loadingRecords": "Carregando...",
+                                                        "processing": "Processando...",
+                                                        "emptyTable": "Nenhum registro encontrado",
+                                                        "zeroRecords": "Nenhum registro encontrado"
+                                                    };
+                                                    delete dtOptions.language.url;
+                                                    $table.DataTable(dtOptions);
+                                                } catch (fallbackError) {
+                                                    console.error('DataTable fallback initialization also failed:', fallbackError);
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (initError) {
+                                    console.error('Error preparing DataTable initialization:', initError);
+                                }
+                            }, 100);
+                        } else {
+                            console.warn('DataTable: Table structure incomplete, skipping initialization');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error preparing DataTable initialization:', e);
+                }
             }
         } else {
             // Retry after a short delay if jQuery/DataTables not ready
             setTimeout(initDataTable, 100);
+        }
+    }
+    
+    // Function to safely destroy DataTable before page reload
+    function destroyDataTable() {
+        if (typeof $ === 'undefined' || !$.fn.DataTable) {
+            return;
+        }
+        
+        try {
+            const $table = $('#cartTable');
+            if ($table.length === 0) {
+                return;
+            }
+            
+            if ($.fn.DataTable.isDataTable('#cartTable')) {
+                try {
+                    const dtInstance = $table.DataTable();
+                    // Validate instance before destroying
+                    if (dtInstance && typeof dtInstance.destroy === 'function') {
+                        // Clear operations first
+                        if (typeof dtInstance.clear === 'function') {
+                            dtInstance.clear();
+                        }
+                        // Destroy with remove option
+                        dtInstance.destroy(true);
+                    }
+                } catch (e) {
+                    // If destroy fails, try to clean up manually
+                    try {
+                        $table.removeData();
+                        $table.off();
+                        $table.find('*').off();
+                    } catch (cleanupError) {
+                        // Ignore cleanup errors
+                    }
+                }
+            }
+        } catch (e) {
+            // Silently ignore all errors - page reload will clean up
         }
     }
     
@@ -845,14 +1012,20 @@
     // Handle window resize to reinitialize DataTable if needed
     function handleResize() {
         let resizeTimer;
+        let lastWidth = window.innerWidth;
         $(window).on('resize', function() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
-                // Destroy and reinitialize DataTable on significant size changes
-                if ($.fn.DataTable.isDataTable('#cartTable')) {
-                    $('#cartTable').DataTable().destroy();
+                const currentWidth = window.innerWidth;
+                // Only reinitialize if crossing the desktop/mobile threshold (992px)
+                const wasDesktop = lastWidth >= 992;
+                const isDesktop = currentWidth >= 992;
+                
+                if (wasDesktop !== isDesktop) {
+                    // Crossing threshold - reinitialize
+                    initDataTable();
                 }
-                initDataTable();
+                lastWidth = currentWidth;
             }, 250);
         });
     }
@@ -908,6 +1081,9 @@
         handleResize();
         initPesoToggle();
     }
+    
+    // Expose destroyDataTable globally for use in other scripts
+    window.destroyDataTable = destroyDataTable;
 })();
 </script>
 
