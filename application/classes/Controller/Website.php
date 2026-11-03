@@ -52,7 +52,7 @@ class Controller_Website extends Controller_Session  {
 
     public function get_date_new()
     {
-        return date('Y-m-d G:i:s');
+        return (new DateTime('now', new DateTimeZone('America/Sao_Paulo')))->format('Y-m-d G:i:s');
     }
 
 
@@ -250,7 +250,7 @@ class Controller_Website extends Controller_Session  {
 
     public function log( $TableName, $RecordName, $PrimaryRecordName, $PrimaryRecordId, $PreviousContent, $NewContent)
     {
-        $date = date('Y-m-d H:i:s', strtotime('-1 hour'));
+        $date = (new DateTime('now', new DateTimeZone('America/Sao_Paulo')))->format('Y-m-d H:i:s');
 
         $sql = sprintf("INSERT INTO `history`.`jeditable`
                                            ( `TableName`, `RecordName`, `PrimaryRecordName`, `PrimaryRecordId`, `PreviousContent`, `NewContent`, UserId, Datetime)
